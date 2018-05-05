@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
   <a class="navbar-brand" href="#">
-      <img alt="Universal Desktop Services" src="/assets/udsicon.png" class="navbar-img pull-left">
+      <img alt="Universal Desktop Services" src="/img/udsicon.png" class="navbar-img pull-left">
       Universal Desktop Services
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+  <div [ngbCollapse]="isNavbarCollapsed" class="navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">UDS Plugin</a>
+        <a class="nav-link" href="#"><i class="fa fa-download"></i> UDS Plugin</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#"><uds-translate>About</uds-translate></a>
       </li>
       <li class="nav-item dropdown" ngbDropdown>
         <a class="nav-link dropdown-toggle" id="dropdown01" ngbDropdownToggle>{{ lang }}</a>

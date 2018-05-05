@@ -1,7 +1,7 @@
 {
   "name": "uds",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "3.0.0",
+  "license": "BSD-3-Clause",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 172.27.0.1 --port 9000",

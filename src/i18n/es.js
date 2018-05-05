@@ -22,6 +22,7 @@
   var newcatalog = {
     "(filtered from _MAX_ total records)": "(registros filtrados de un total de _MAX_)", 
     "(no days)": "(sin d\u00edas)", 
+    "About": "Acerca",
     "Accept": "Aceptar", 
     "Access calendar removal error": "Error en el borrado del calendario de acceso", 
     "Active": "Activo", 

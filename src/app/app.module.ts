@@ -9,6 +9,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TranslateDirective } from './translate.directive';
 
+// Service providers
+import { UdsApiService } from './uds-api.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import { TranslateDirective } from './translate.directive';
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [UdsApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
