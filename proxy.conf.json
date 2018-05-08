@@ -1,0 +1,22 @@
+{
+    "/rest": {
+       "target":  {
+         "host": "172.27.0.1",
+         "protocol": "http:",
+         "port": 8000
+       },
+       "secure": false,
+       "changeOrigin": true,
+       "logLevel": "info"
+    },
+    "/info": {
+        "target":  {
+          "host": "172.27.0.1",
+          "protocol": "http:",
+          "port": 8000
+        },
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "info"
+     }
+   }
