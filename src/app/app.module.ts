@@ -12,6 +12,7 @@ import { TranslateDirective } from './translate.directive';
 // Service providers
 import { UdsApiService } from './uds-api.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,

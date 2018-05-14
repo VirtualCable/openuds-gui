@@ -18,5 +18,25 @@
         "secure": false,
         "changeOrigin": true,
         "logLevel": "info"
-     }
+     },
+    "/login": {
+      "target":  {
+        "host": "172.27.0.1",
+        "protocol": "http:",
+        "port": 8000
+      },
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "info"
+    },
+    "/static": {
+      "target":  {
+        "host": "172.27.0.1",
+        "protocol": "http:",
+        "port": 8000
+      },
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "info"
+    }
    }
