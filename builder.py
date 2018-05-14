@@ -45,7 +45,7 @@ def mkPath(path):
         folder = os.path.join(folder, p)
         try:
             os.mkdir(folder)
-        except OSError as e:
+        except OSError:
             pass  # Already exits, ignore
 
 
@@ -73,7 +73,7 @@ def fixIndex():
     with open(os.path.join(DIST, 'index.html'), 'r', encoding='utf8') as f:
         html = f.read()
     # include django headers
-    html = '{% load uds %}{% get_current_language as LANGUAGE_CODE %}' + html
+    html = '{% load uds i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
         f.write(translatePattern.sub(translations + jsdata, html))
 
@@ -122,8 +122,13 @@ def createDirs():
     mkPath(os.path.join(UDS, STATIC))
     mkPath(os.path.join(UDS, TEMPLATE))
 
+#
+# def buildSource():
+#    os.system('ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /static/modern')
 
 def main():
+    print('Use "yarn build" to correctly build for UDS')
+    # buildSource()
     createDirs()
     extractTranslations()
     fixIndex()

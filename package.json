@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --host 172.27.0.1 --port 9000 --proxy-config proxy.conf.json",
     "build": "ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /static/modern",
-    "postbuild": "echo 'Hola'",
+    "postbuild": "python3 builder.py",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
