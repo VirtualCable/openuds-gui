@@ -1,31 +1,59 @@
-var udsConfig = {
-    "language": "en",
+var udsData = {
+  "config": {
     "available_languages": [{
-      "name": "Spanish",
-      "id": "es"
+      "id": "es",
+      "name": "Spanish"
     }, {
-      "name": "English",
-      "id": "en"
+      "id": "en",
+      "name": "English"
     }, {
-      "name": "French",
-      "id": "fr"
+      "id": "fr",
+      "name": "French"
     }, {
-      "name": "German",
-      "id": "de"
+      "id": "de",
+      "name": "German"
     }, {
-      "name": "Portuguese",
-      "id": "pt"
+      "id": "pt",
+      "name": "Portuguese"
     }, {
-      "name": "Italian",
-      "id": "it"
+      "id": "it",
+      "name": "Italian"
     }, {
-      "name": "Basque",
-      "id": "eu"
+      "id": "eu",
+      "name": "Basque"
     }, {
-      "name": "Arabian",
-      "id": "ar"
+      "id": "ar",
+      "name": "Arabian"
     }, {
-      "name": "Catalan",
-      "id": "ca"
-    }]
-  };
+      "id": "ca",
+      "name": "Catalan"
+    }],
+    "language": "en",
+    "os": "Windows"
+  },
+  "plugins": [{
+    "description": "Windows plugin",
+    "url": "/static/clients/UDSClientSetup-3.x.x-DEVEL.exe",
+    "os": "Windows"
+  }, {
+    "description": "Mac OS X plugin",
+    "url": "/static/clients/UDSClient-3.x.x-DEVEL.pkg",
+    "os": "MacOS"
+  }, {
+    "description": "Debian based Linux (requires Python-2.7)",
+    "url": "/static/udsclient_3.x.x-DEVEL_all.deb",
+    "os": "Linux"
+  }, {
+    "description": "Red Hat based Linux (RH, Fedora, Centos, ...) (requires Python-2.7)",
+    "url": "/static/udsclient-3.x.x-DEVEL-1.noarch.rpm",
+    "os": "Linux"
+  }, {
+    "description": "Suse based Linux (requires Python-2.7)",
+    "url": "/static/udsclient-opensuse-3.x.x-DEVEL-1.noarch.rpm",
+    "os": "Linux"
+  }, {
+    "description": "Generic .tar.gz Linux (requires Python-2.7)",
+    "url": "/static/udsclient-3.x.x-DEVEL.tar.gz",
+    "os": "Linux"
+  }]
+};

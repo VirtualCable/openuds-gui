@@ -6,20 +6,26 @@ export interface Lang {
   name: string;
 }
 
+export interface Plugin {
+  url: string;
+  description: string;
+  os: string;
+}
+
 @Injectable()
 export class UdsApiService {
 
   constructor(private http: HttpClient) { }
 
   getCurrentLanguage(): string {
-    return udsConfig.language;
+    return udsData.config.language;
   }
 
   getAvailableLanguages(): Lang[] {
-    const res: Lang[] = [];
-    for (const entry of udsConfig.available_languages) {
-      res.push(entry);
-    }
-    return res;
+    return udsData.config.available_languages;
+  }
+
+  getPlugins(): Plugin[] {
+    return udsData.plugins;
   }
 }

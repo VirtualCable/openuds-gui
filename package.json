@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 172.27.0.1 --port 9000 --proxy-config proxy.conf.json",
-    "build": "ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /static/modern",
+    "build": "ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /static/modern --base-href /modern",
     "postbuild": "python3 toUDS.py",
     "test": "ng test",
     "lint": "ng lint",

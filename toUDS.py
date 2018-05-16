@@ -66,7 +66,7 @@ def locateHtmlFiles():
 def fixIndex():
     print('Fixing index.html...')
     translations = '<script type="text/javascript" src="{% url \'uds.web.views.jsCatalog\' LANGUAGE_CODE %}"></script>'
-    jsdata = '<script type="text/javascript" src="{% url \'modern.js\' %}"></script>'
+    jsdata = '<script type="text/javascript" src="{% url \'uds.js\' %}"></script>'
     # Change index.html, to include django required staff
     translatePattern = re.compile(
         '<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)

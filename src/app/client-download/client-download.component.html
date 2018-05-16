@@ -1,0 +1,16 @@
+    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4"><uds-translate>UDS Plugin</uds-translate></h1>
+      <p class="lead"><uds-translate>Download uds plugin for your platform</uds-translate></p>
+    </div>
+
+    <div class="container">
+      <div class="card-deck mb-3">
+        <div class="card mb-4" *ngFor="let p of plugins">
+            <img class="card-img-top" src="/img/{{ p.os }}.png">
+          <div class="card-body d-flex flex-column">
+            <h4 class="card-title">{{ p.os }}</h4>
+            <p class="card-text">{{ p.description }}</p>
+            <a class="btn btn-lg btn-block btn-outline-primary mt-auto" href="{{ p.url }}">Download</a>
+          </div>
+        </div>
+      </div>

@@ -5,4 +5,5 @@ interface NodeModule {
 }
 /* UDS injected modules */
 declare var django:any;
-declare var udsConfig:any;
+declare var udsData:any;
+
