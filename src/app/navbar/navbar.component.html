@@ -14,12 +14,12 @@
       <li class="nav-item">
         <a class="nav-link" href="#"><uds-translate>About</uds-translate></a>
       </li>
-      <li class="nav-item dropdown" ngbDropdown>
+      <li class="nav-item dropdown dropdown-menu-right" ngbDropdown>
         <a class="nav-link dropdown-toggle" id="dropdown01" ngbDropdownToggle>{{ lang }}</a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01" ngbDropdownMenu>
           <a class="dropdown-item" href="#" *ngFor="let l of langs">{{ l.name }}</a>
         </div>
-      </li>      
+      </li>
     </ul>
   </div>
 </nav>

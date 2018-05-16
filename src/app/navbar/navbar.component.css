@@ -6,3 +6,9 @@ a.dropdown-toggle {
     width: 2em;
     margin-top: -8px;
 }
+
+/* Fix dropdown menu */
+.dropdown-menu-right {
+    right: 0 !important;
+    left: auto !important;
+}

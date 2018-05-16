@@ -65,8 +65,8 @@ def locateHtmlFiles():
 
 def fixIndex():
     print('Fixing index.html...')
-    translations = '<script src="{% url \'uds.web.views.jsCatalog\' LANGUAGE_CODE %}"></script>'
-    jsdata = '{% jsdata %}'
+    translations = '<script type="text/javascript" src="{% url \'uds.web.views.jsCatalog\' LANGUAGE_CODE %}"></script>'
+    jsdata = '<script type="text/javascript" src="{% url \'modern.js\' %}"></script>'
     # Change index.html, to include django required staff
     translatePattern = re.compile(
         '<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)
@@ -74,6 +74,8 @@ def fixIndex():
         html = f.read()
     # include django headers
     html = '{% load uds i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
+    # Change <html lang="en"> with {{ LANGUAGE_CODE }}
+    html = re.sub('<html lang="en">', '<html lang="{{ LANGUAGE_CODE }}">', html)
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
         f.write(translatePattern.sub(translations + jsdata, html))
 
@@ -102,16 +104,15 @@ def organize():
             continue    # Also skip html
         shutil.copy(f, os.path.join(UDS, STATIC))
 
-
 def cleanUp():
-    print('Cleaning up unneeded content')
+    print('Cleaning unneeded content')
     folder = os.path.join(UDS, STATIC)
     os.unlink(os.path.join(folder, 'favicon.ico'))
 
 
 def createDirs():
     try:
-        print('Crating output uds dir...')
+        print('Creating output uds dir...')
         os.mkdir(UDS)
     except OSError:
         print('Already exists, cleaning content')

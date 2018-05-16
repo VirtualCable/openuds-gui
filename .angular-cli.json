@@ -9,7 +9,7 @@
       "outDir": "dist",
       "assets": [
         "img",
-        "jsi18n",
+        "server",
         "favicon.ico"
       ],
       "index": "index.html",
