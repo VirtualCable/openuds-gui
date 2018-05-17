@@ -3,9 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { ClientDownloadComponent } from './client-download/client-download.component';
+import { ServicesComponent } from './services/services.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: 'services', pathMatch: 'full' },
+  { path: 'services', component: ServicesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'client-download', component: ClientDownloadComponent },
 ];

@@ -13,6 +13,7 @@ import { TranslateDirective } from './translate.directive';
 import { UdsApiService } from './uds-api.service';
 import { LoginComponent } from './login/login.component';
 import { ClientDownloadComponent } from './client-download/client-download.component';
+import { ServicesComponent } from './services/services.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ClientDownloadComponent } from './client-download/client-download.compo
     NavbarComponent,
     TranslateDirective,
     LoginComponent,
-    ClientDownloadComponent
+    ClientDownloadComponent,
+    ServicesComponent,
   ],
   imports: [
     BrowserModule,

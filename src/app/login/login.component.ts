@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UdsApiService, Plugin } from '../uds-api.service';
 
 @Component({
   selector: 'uds-login',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private api: UdsApiService) { }
 
   ngOnInit() {
   }

@@ -10,7 +10,7 @@ export class ClientDownloadComponent implements OnInit {
 
   plugins: Plugin[];
 
-  constructor(api: UdsApiService) {
+  constructor(private api: UdsApiService) {
     this.plugins = api.getPlugins();
   }
 

@@ -28,4 +28,8 @@ export class UdsApiService {
   getPlugins(): Plugin[] {
     return udsData.plugins;
   }
+
+  userLoggedIn(): boolean {
+    return udsData.profile.user != null;
+  }
 }
