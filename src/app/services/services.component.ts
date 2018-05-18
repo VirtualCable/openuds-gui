@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService, Plugin } from '../uds-api.service';
+import { UdsApiService, Downloadable } from '../uds-api.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,8 @@ export class ServicesComponent implements OnInit {
    }
 
   ngOnInit() {
-    if (this.api.userLoggedIn() === false) {
+    // Redirect, if not logged in, to login screen
+    if (!this.api.user.isLogged) {
       this.router.navigate(['login']);
     }
   }

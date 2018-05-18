@@ -19,7 +19,7 @@
         "changeOrigin": true,
         "logLevel": "info"
      },
-    "/login": {
+    "/log.*": {
       "target":  {
         "host": "172.27.0.1",
         "protocol": "http:",

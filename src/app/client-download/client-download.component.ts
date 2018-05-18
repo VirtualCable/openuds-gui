@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService, Plugin } from '../uds-api.service';
+import { UdsApiService, Downloadable } from '../uds-api.service';
 
 @Component({
   selector: 'uds-client-download',
@@ -8,10 +8,9 @@ import { UdsApiService, Plugin } from '../uds-api.service';
 })
 export class ClientDownloadComponent implements OnInit {
 
-  plugins: Plugin[];
+  plugins: Downloadable[];
 
-  constructor(private api: UdsApiService) {
-    this.plugins = api.getPlugins();
+  constructor(public api: UdsApiService) {
   }
 
   ngOnInit() {

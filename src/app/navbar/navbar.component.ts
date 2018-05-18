@@ -12,10 +12,11 @@ export class NavbarComponent implements OnInit {
   langs: Lang[]; // Available languages
   isNavbarCollapsed = true;
 
-  constructor(api: UdsApiService) {
-    const lang = api.getCurrentLanguage();
+  constructor(public api: UdsApiService) {
+    const lang = api.currentLanguage;
+    // Add "non current lang" to list
     this.langs = [];
-    for (const l of api.getAvailableLanguages()) {
+    for (const l of api.availableLanguages) {
       if (l.id === lang) {
         this.lang = l.name;
       } else {
