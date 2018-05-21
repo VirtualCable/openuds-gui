@@ -17,6 +17,14 @@ export interface Profile {
   readonly role: string;
 }
 
+export interface Authenticator {
+  id: string;
+  name: string;
+  label: string;
+  priority: number;
+  is_custom: string;
+}
+
 // User related
 export class User {
   readonly user: string;
@@ -38,7 +46,8 @@ export class User {
 
 // URLs related
 export interface UDSUrls {
-  readonly lang: string;
+  readonly changeLang: string;
+  readonly login: string;
   readonly logout: string;
 }
 
@@ -65,4 +74,5 @@ export class UdsApiService {
   get urls(): UDSUrls {
     return udsData.config.urls;
   }
+
 }

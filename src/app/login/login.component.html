@@ -1,3 +1,44 @@
-<p>
-  login works!
-</p>
+<div class="row justify-content-md-center h-100">
+  <div class="card-wrapper">
+    <div class="brand">
+      <img src="/static/modern/img/login-img.png">
+    </div>
+    <div class="card fat">
+      <div class="card-body">
+        <h4 class="card-title">UDS Enterprise</h4>
+        <form>
+          <div class="form-group">
+            <label for="user"><uds-translate>Username</uds-translate></label>
+
+            <input id="user" type="user" class="form-control" name="user" value="" required autofocus>
+          </div>
+
+          <div class="form-group">
+            <label for="password"><uds-translate>Password</uds-translate></label>
+            <input id="password" type="password" class="form-control" name="password" data-eye>
+          </div>
+
+          <div class="form-group" [hidden]="false">
+            <label>
+              <uds-translate>Authenticator</uds-translate>
+            </label>
+            <select class="custom-select">
+              <option selected>Selected AUTH</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            </div>
+
+          <div class="form-group no-margin">
+            <button type="submit" class="btn btn-primary btn-block">
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="footer">
+      Copyright &copy; 2012-2018 <a href="https://www.udsenterprise.com">Virtual Cable S.L.U.</a>
+    </div>
+  </div>
