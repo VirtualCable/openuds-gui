@@ -48,20 +48,24 @@ def mkPath(path):
         except OSError:
             pass  # Already exits, ignore
 
+def locateFiles(files, folder, extension):
+    for f in glob.glob(folder+"/*"):
+        if os.path.isdir(f):
+            # Recurse
+            locateFiles(files, os.path.join(f), extension)
+        else:
+            if os.path.splitext(f)[1][1:].lower() == extension:
+                files.append(f)
 
 def locateHtmlFiles():
-    def locator(files, folder):
-        for f in glob.glob(folder+"/*"):
-            if os.path.isdir(f):
-                # Recurse
-                locator(files, os.path.join(f))
-            else:
-                if os.path.splitext(f)[1] == '.html':
-                    files.append(f)
     files = []
-    locator(files, SRC)
+    locateFiles(files, SRC, 'html')
     return files
 
+def locateTypeScriptFiles():
+    files = []
+    locateFiles(files, SRC, 'ts')
+    return files
 
 def fixIndex():
     print('Fixing index.html...')
@@ -81,19 +85,30 @@ def fixIndex():
 
 
 def extractTranslations():
-    print('Extracting translations...')
+    print('Extracting translations from HTML')
     # Generate "fake" translations file (just to use django translator)
-    translatePattern = re.compile(
-        '<uds-translate>(.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
-    with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
-        print('// "Fake" javascript file for translations', file=output)
-        for htmlFile in locateHtmlFiles():
-            with open(htmlFile, 'r', encoding='utf8') as f:
-                html = f.read()
-                # Locate <uds-translate>...</uds-translate> patterns and extract strings
-                for v in translatePattern.finditer(html):
+
+    def getTranslations(locator, pattern):
+        for fileName in locator():
+            with open(fileName, 'r', encoding='utf8') as f:
+                data = f.read()
+                # Locate pattern
+                for v in pattern.finditer(data):
+                    print('Found string {}'.format(v.groups()[0]))
                     print('gettext("{}");'.format(v.groups()[0]), file=output)
 
+    with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
+        print('// "Fake" javascript file for translations', file=output)
+
+        # First, extract translations from typescript
+        typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*[\'"]([^\'"]+)')
+        print('// Typescript', file=output)
+        getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern)
+
+        # Now extract translations from html
+        htmlTranslationPattern = re.compile('<uds-translate>(.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
+        print('// HTML', file=output)
+        getTranslations(locateHtmlFiles, htmlTranslationPattern)
 
 def organize():
     print('Organizing content')

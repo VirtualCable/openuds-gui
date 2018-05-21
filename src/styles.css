@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+/* Font awasome */
 @import "~font-awesome/css/font-awesome.css";
+/* Cookie consent */
+@import "~cookieconsent/build/cookieconsent.min.css";
 
 body {
     margin-top: 4rem;

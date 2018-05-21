@@ -75,4 +75,7 @@ export class UdsApiService {
     return udsData.config.urls;
   }
 
+  get authenticators(): Authenticator {
+    return udsData.authenticators;
+  }
 }
