@@ -23,15 +23,12 @@
               <input id="password" type="password" class="form-control" name="password" data-eye>
             </div>
 
-            <div class="form-group" *ngIf="false">
+            <div class="form-group" *ngIf="auths.length > 1">
               <label>
                 <uds-translate>Authenticator</uds-translate>
               </label>
-              <select class="custom-select">
-                <option selected>Selected AUTH</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select class="custom-select" (change)="changeAuth($event.target.value)">
+                <option *ngFor="let a of auths" value="{{ a.id }}">{{ a.name }}</option>
               </select>
             </div>
 

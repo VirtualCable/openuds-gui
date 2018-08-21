@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ServicesComponent implements OnInit {
 
   constructor(private api: UdsApiService, private router: Router) {
-   }
+  }
 
   ngOnInit() {
     // Redirect, if not logged in, to login screen

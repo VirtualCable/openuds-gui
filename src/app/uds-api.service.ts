@@ -6,6 +6,32 @@ export interface Lang {
   readonly name: string;
 }
 
+export interface Authenticator {
+  id: string;
+  name: string;
+  label: string;
+  priority: number;
+  is_custom: string;
+}
+
+// URLs related
+export interface UDSUrls {
+  readonly changeLang: string;
+  readonly login: string;
+  readonly logout: string;
+  readonly customAuth: string;
+}
+
+export interface UDSConfig {
+  language: string;
+  available_languages: Lang[];
+  authenticators: Authenticator[];
+  os: string;
+  csrf_field: string;
+  csrf: string;
+  urls: UDSUrls;
+}
+
 export interface Downloadable {
   readonly url: string;
   readonly description: string;
@@ -15,14 +41,6 @@ export interface Downloadable {
 export interface Profile {
   readonly user: string;
   readonly role: string;
-}
-
-export interface Authenticator {
-  id: string;
-  name: string;
-  label: string;
-  priority: number;
-  is_custom: string;
 }
 
 // User related
@@ -44,13 +62,6 @@ export class User {
   }
 }
 
-// URLs related
-export interface UDSUrls {
-  readonly changeLang: string;
-  readonly login: string;
-  readonly logout: string;
-}
-
 @Injectable()
 export class UdsApiService {
   readonly user: User;
@@ -59,23 +70,15 @@ export class UdsApiService {
     this.user = new User(udsData.profile);
    }
 
-  get currentLanguage(): string {
-    return udsData.config.language;
-  }
-
-  get availableLanguages(): Lang[] {
-    return udsData.config.available_languages;
+  get config(): UDSConfig {
+    return udsData.config;
   }
 
   get plugins(): Downloadable[] {
     return udsData.plugins;
   }
 
-  get urls(): UDSUrls {
-    return udsData.config.urls;
-  }
-
-  get authenticators(): Authenticator {
-    return udsData.authenticators;
+  getAuthCustomHtml(authId) {
+    return this.http.get(this.config.urls.customAuth + authId, {responseType: 'text'});
   }
 }

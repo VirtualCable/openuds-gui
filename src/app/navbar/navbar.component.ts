@@ -7,18 +7,17 @@ import { UdsApiService, Lang } from '../uds-api.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
-  lang: string; // Current language
+  lang: Lang; // Current language
   langs: Lang[]; // Available languages
   isNavbarCollapsed = true;
 
   constructor(public api: UdsApiService) {
-    const lang = api.currentLanguage;
+    const lang = api.config.language;
     // Add "non current lang" to list
     this.langs = [];
-    for (const l of api.availableLanguages) {
+    for (const l of api.config.available_languages) {
       if (l.id === lang) {
-        this.lang = l.name;
+        this.lang = l;
       } else {
         this.langs.push(l);
       }
@@ -26,6 +25,15 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  changeLang(to: Lang): boolean {
+    // alert(document.getElementById('form_language'));
+    this.lang = to;
+    document.getElementById('id_language').attributes['value'].value = to.id;
+    // alert(document.getElementById('id_language').attributes['value'].value);
+    (<any>document.getElementById('form_language')).submit();
+    return false;
   }
 
 }
