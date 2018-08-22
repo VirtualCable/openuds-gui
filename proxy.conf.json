@@ -29,7 +29,17 @@
     "changeOrigin": true,
     "logLevel": "info"
   },
-  "/log.*": {
+  "/login/": {
+    "target": {
+      "host": "172.27.0.1",
+      "protocol": "http:",
+      "port": 8000
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/logout": {
     "target": {
       "host": "172.27.0.1",
       "protocol": "http:",

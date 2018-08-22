@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService, Authenticator } from '../uds-api.service';
+import { Authenticator, UdsApiService } from '../uds-api.service';
 
 @Component({
   selector: 'uds-login',
@@ -16,11 +16,23 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    // We want to keep compatibility right now with previous UDS templates, so we
+    // adapt form to post the correct values the correct way
+    const form = <HTMLFormElement>document.getElementById('loginform');
+    if (form.action.slice(-1) !== '/') {
+      form.action += '/';
+    }
+    const input = (<HTMLInputElement>document.getElementById('token'));
+    input.name = this.api.config.csrf_field;
+    input.value = this.api.config.csrf;
   }
 
   changeAuth(auth) {
-    function doChangeAuth(result: string) {
-      alert(result);
+
+    // Ejecuted when custom auth selected
+    function doCustomAuth(data: string) {
+      // tslint:disable-next-line:no-eval
+      eval(data);
     }
 
     for (const l of this.auths) {
@@ -28,7 +40,7 @@ export class LoginComponent implements OnInit {
         if (l.is_custom) { // If is custom, we should get the code from server to authentication
 
           this.api.getAuthCustomHtml(l.id)
-            .subscribe(result => doChangeAuth(result));
+            .subscribe(result => doCustomAuth(result));
         }
       }
     }
