@@ -22,7 +22,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0",
     "bootstrap": "^4.1.1",
     "cookieconsent": "^3.0.6",
     "core-js": "^2.4.1",
