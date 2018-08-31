@@ -21,9 +21,12 @@ export interface UDSUrls {
     readonly customAuth: string;
     readonly services: string;
     readonly admin: string;
+    readonly enabler: string;
 }
 
 export interface UDSConfig {
+    version: string;
+    version_stamp: string;
     language: string;
     available_languages: Lang[];
     authenticators: Authenticator[];
@@ -31,6 +34,7 @@ export interface UDSConfig {
     csrf_field: string;
     csrf: string;
     urls: UDSUrls;
+    bypassPluginDetection: boolean;
 }
 
 export interface Downloadable {

@@ -22,9 +22,7 @@ export class LoginComponent implements OnInit {
     // adapt form to post the correct values the correct way
     this.visible = true;
     const form = <HTMLFormElement>document.getElementById('loginform');
-    if (form.action.slice(-1) !== '/') {
-      form.action += '/';
-    }
+    form.action = this.api.config.urls.login;
     const input = (<HTMLInputElement>document.getElementById('token'));
     input.name = this.api.config.csrf_field;
     input.value = this.api.config.csrf;

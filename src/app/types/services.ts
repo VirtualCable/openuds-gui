@@ -41,3 +41,8 @@ export interface JSONServicesInformation {
     services: JSONService[];
     transports: string;
 }
+
+export interface JSONEnabledService {
+    url: string;
+    error: string;
+}
