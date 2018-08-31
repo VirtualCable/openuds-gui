@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row justify-content-md-center h-100">
-    <div class="card-wrapper">
+    <div class="card-wrapper" [hidden]="!visible">
       <div class="brand">
         <img src="/static/modern/img/login-img.png">
       </div>
-      <div class="card fat">
+      <div class="card fat" >
         <div class="card-body">
           <h4 class="card-title text-center">UDS Enterprise</h4>
           <form id="loginform" method="post">

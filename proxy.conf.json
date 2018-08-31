@@ -9,7 +9,7 @@
     "changeOrigin": true,
     "logLevel": "info"
   },
-  "/info": {
+  "/modern/services/": {
     "target": {
       "host": "172.27.0.1",
       "protocol": "http:",
@@ -29,7 +29,7 @@
     "changeOrigin": true,
     "logLevel": "info"
   },
-  "/login/": {
+  "/modern/login/": {
     "target": {
       "host": "172.27.0.1",
       "protocol": "http:",
@@ -39,7 +39,7 @@
     "changeOrigin": true,
     "logLevel": "info"
   },
-  "/logout": {
+  "/modern/logout": {
     "target": {
       "host": "172.27.0.1",
       "protocol": "http:",

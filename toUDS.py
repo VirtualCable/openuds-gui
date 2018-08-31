@@ -48,6 +48,7 @@ def mkPath(path):
         except OSError:
             pass  # Already exits, ignore
 
+
 def locateFiles(files, folder, extension):
     for f in glob.glob(folder+"/*"):
         if os.path.isdir(f):
@@ -57,15 +58,18 @@ def locateFiles(files, folder, extension):
             if os.path.splitext(f)[1][1:].lower() == extension:
                 files.append(f)
 
+
 def locateHtmlFiles():
     files = []
     locateFiles(files, SRC, 'html')
     return files
 
+
 def locateTypeScriptFiles():
     files = []
     locateFiles(files, SRC, 'ts')
     return files
+
 
 def fixIndex():
     print('Fixing index.html...')
@@ -79,7 +83,8 @@ def fixIndex():
     # include django headers
     html = '{% load uds i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
     # Change <html lang="en"> with {{ LANGUAGE_CODE }}
-    html = re.sub('<html lang="en">', '<html lang="{{ LANGUAGE_CODE }}">', html)
+    html = re.sub('<html lang="en">',
+                  '<html lang="{{ LANGUAGE_CODE }}">', html)
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
         f.write(translatePattern.sub(translations + jsdata, html))
 
@@ -101,14 +106,25 @@ def extractTranslations():
         print('// "Fake" javascript file for translations', file=output)
 
         # First, extract translations from typescript
-        typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*[\'"]([^\'"]+)')
+        typeScriptTranslationPattern = re.compile(
+            r'django\.gettext\(\s*[\'"]([^\'"]+)')
         print('// Typescript', file=output)
         getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern)
 
         # Now extract translations from html
-        htmlTranslationPattern = re.compile('<uds-translate>(.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
+        htmlTranslationPattern = re.compile(
+            '<uds-translate>(.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
         print('// HTML', file=output)
         getTranslations(locateHtmlFiles, htmlTranslationPattern)
+
+
+def copyImages():
+    print('Copying images')
+    outputPath = os.path.join(UDS, STATIC, 'img')
+    mkPath(outputPath)
+    for f in glob.glob(DIST + '/static/modern/img/*'):
+        shutil.copy(f, outputPath)
+
 
 def organize():
     print('Organizing content')
@@ -118,6 +134,7 @@ def organize():
         if os.path.splitext(f)[1] == '.html':
             continue    # Also skip html
         shutil.copy(f, os.path.join(UDS, STATIC))
+
 
 def cleanUp():
     print('Cleaning unneeded content')
@@ -142,12 +159,14 @@ def createDirs():
 # def buildSource():
 #    os.system('ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /static/modern')
 
+
 def main():
     print('Use "yarn build" to correctly build for UDS')
     # buildSource()
     createDirs()
     extractTranslations()
     fixIndex()
+    copyImages()
     organize()
     cleanUp()
 

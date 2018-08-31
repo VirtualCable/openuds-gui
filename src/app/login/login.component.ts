@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Authenticator, UdsApiService } from '../uds-api.service';
+import { UdsApiService } from '../uds-api.service';
+import { Authenticator } from '../types/config';
 
 @Component({
   selector: 'uds-login',
@@ -8,6 +9,7 @@ import { Authenticator, UdsApiService } from '../uds-api.service';
 })
 export class LoginComponent implements OnInit {
   auths: Authenticator[];
+  visible: boolean;
 
   constructor(public api: UdsApiService) {
     this.auths = api.config.authenticators.slice(0);
@@ -18,6 +20,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // We want to keep compatibility right now with previous UDS templates, so we
     // adapt form to post the correct values the correct way
+    this.visible = true;
     const form = <HTMLFormElement>document.getElementById('loginform');
     if (form.action.slice(-1) !== '/') {
       form.action += '/';
@@ -30,10 +33,11 @@ export class LoginComponent implements OnInit {
   changeAuth(auth) {
 
     // Ejecuted when custom auth selected
-    function doCustomAuth(data: string) {
+    const doCustomAuth = (data: string) => {
+      this.visible = false;
       // tslint:disable-next-line:no-eval
       eval(data);
-    }
+    };
 
     for (const l of this.auths) {
       if (l.id === auth) {

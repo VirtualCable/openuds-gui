@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService, Lang } from '../uds-api.service';
+import { UdsApiService } from '../uds-api.service';
+import { Lang } from '../types/config';
 
 @Component({
   selector: 'uds-navbar',
