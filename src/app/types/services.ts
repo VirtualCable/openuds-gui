@@ -1,6 +1,7 @@
 // Types definition for services json
 
 export interface JSONGroup {
+    id: string;
     name: string;
     comments: string;
     imageUuid: string;
@@ -35,7 +36,6 @@ export interface JSONService {
 
 export interface JSONServicesInformation {
     autorun: boolean;
-    groups: JSONGroup[];
     ip: string;
     nets: string;
     services: JSONService[];

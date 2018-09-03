@@ -38,20 +38,26 @@ export class Plugin {
         }
 
         elem.focus();
+        this.api.gui.alert(
+            django.gettext('Launching service'),
+            '<p>UDS is trying to launch your service.</p><p>UDS Plugin is required</p>',
+            5000
+        );
 
-        let launched = false;
+        /*let launched = false;
+        launched = true;
         window.onblur = () => {
             console.log('Plugin seems to be installed');
             window.onblur = null;
             launched = true;
         };
-        (<any>elem).contentWindow.location.href = url;
         window.setTimeout(() => {
             window.onblur = null;
             if (launched === false && this.api.config.bypassPluginDetection === false) {
                 this.api.router.navigate(['client-download']);
             }
-        }, 2800);
+        }, 2800);*/
+        (<any>elem).contentWindow.location.href = url;
     }
 
     launchURL(url: string): void {

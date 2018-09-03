@@ -10,7 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ModalComponent implements OnInit {
 
   @Input() title = 'Information';
-  @Input() body = 'UDS Modal';
+  @Input() body = '';
 
   constructor(public activeModal: NgbActiveModal) {
   }
