@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TranslateDirective } from './translate.directive';
 
@@ -14,6 +14,9 @@ import { UdsApiService } from './uds-api.service';
 import { LoginComponent } from './login/login.component';
 import { ClientDownloadComponent } from './client-download/client-download.component';
 import { ServicesComponent } from './services/services.component';
+import { ModalComponent } from './gui/modal/modal.component';
+import { SafeHtmlPipe } from './gui/safe-html.pipe';
+import { GuiService } from './gui/gui.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { ServicesComponent } from './services/services.component';
     LoginComponent,
     ClientDownloadComponent,
     ServicesComponent,
+    ModalComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,14 @@ import { ServicesComponent } from './services/services.component';
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [UdsApiService],
-  bootstrap: [AppComponent]
+  providers: [
+    UdsApiService,
+    GuiService,
+    NgbActiveModal
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ModalComponent
+  ]
 })
 export class AppModule { }

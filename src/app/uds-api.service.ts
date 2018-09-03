@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable } from './types/config';
 import { Observable } from 'rxjs';
 import { JSONServicesInformation, JSONEnabledService } from './types/services';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { GuiService } from './gui/gui.service';
 
 @Injectable()
 export class UdsApiService {
   readonly user: User;
   transportsWindow: Window;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public gui: GuiService, public router: Router) {
     this.user = new User(udsData.profile);
     this.transportsWindow = null;
   }

@@ -43,7 +43,7 @@ export interface Downloadable {
     readonly name: string;
 }
 
-export interface Profile {
+export interface UserProfile {
     readonly user: string;
     readonly role: string;
 }
@@ -53,7 +53,7 @@ export class User {
     readonly user: string;
     readonly role: string;
 
-    constructor(profile: Profile) {
+    constructor(profile: UserProfile) {
         this.user = profile.user;
         this.role = profile.role;
     }

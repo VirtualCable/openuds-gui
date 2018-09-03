@@ -14,7 +14,7 @@ enum BrowserType {
 export class Plugin {
     static transportsWindow: Window = null;
 
-    constructor(private api: UdsApiService, private router: Router) {
+    constructor(private api: UdsApiService) {
     }
 
     private launchChrome(url: string) {
@@ -49,7 +49,7 @@ export class Plugin {
         window.setTimeout(() => {
             window.onblur = null;
             if (launched === false && this.api.config.bypassPluginDetection === false) {
-                this.router.navigate(['client-download']);
+                this.api.router.navigate(['client-download']);
             }
         }, 2800);
     }
