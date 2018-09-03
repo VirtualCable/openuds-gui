@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable } from './types/config';
 import { Observable } from 'rxjs';
 import { JSONServicesInformation, JSONEnabledService } from './types/services';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class UdsApiService {

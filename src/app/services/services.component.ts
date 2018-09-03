@@ -14,7 +14,7 @@ export class ServicesComponent implements OnInit {
   plugin: Plugin;
 
   constructor(private api: UdsApiService, private router: Router) {
-    this.plugin = new Plugin(api);
+    this.plugin = new Plugin(api, router);
   }
 
   ngOnInit() {

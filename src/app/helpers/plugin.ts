@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UdsApiService } from '../uds-api.service';
 
 /**
@@ -12,27 +13,21 @@ enum BrowserType {
 
 export class Plugin {
     static transportsWindow: Window = null;
-    browser: BrowserType;
 
-    constructor(private api: UdsApiService) {
-        const ua = navigator.userAgent.toLowerCase();
-        if (ua.indexOf('safari') !== -1) {
-            if (ua.indexOf('chrome') !== -1) {
-                this.browser = BrowserType.chrome;
-            } else {
-                this.browser = BrowserType.safari;
-            }
-        } else if (ua.indexOf('msie ') !== -1 || ua.indexOf('trident/') !== -1) {
-            this.browser = BrowserType.ie;
-        } else {
-            this.browser = BrowserType.firefox;
-        }
+    constructor(private api: UdsApiService, private router: Router) {
     }
 
     private launchChrome(url: string) {
     }
 
-    private launchFirefox(url: string): boolean {
+    /**
+     * Launches an UDS related url
+     * @param url uds url to be lauhcned
+     *
+     * If the plugin cannon detect the correct launch of the UDS plugin, will redirect to plugin page
+     * unless bypassPluginDetection is FALSE
+     */
+    private doLaunch(url: string) {
         let elem = document.getElementById('hiddenUdsLauncherIFrame');
         if (elem === null) {
             const i = document.createElement('div');
@@ -41,43 +36,22 @@ export class Plugin {
             document.body.appendChild(i);
             elem = document.getElementById('hiddenUdsLauncherIFrame');
         }
-        console.log('Launching ', url);
-        try {
-            (<any>elem).contentWindow.location.href = url;
-        } catch (e) {
-            if (e.name === 'NS_ERROR_UNKNOWN_PROTOCOL') {
-                return false;
+
+        elem.focus();
+
+        let launched = false;
+        window.onblur = () => {
+            console.log('Plugin seems to be installed');
+            window.onblur = null;
+            launched = true;
+        };
+        (<any>elem).contentWindow.location.href = url;
+        window.setTimeout(() => {
+            window.onblur = null;
+            if (launched === false && this.api.config.bypassPluginDetection === false) {
+                this.router.navigate(['client-download']);
             }
-        }
-        return true;
-    }
-
-    private launchSafari(url: string): boolean {
-        return false;
-    }
-
-    private launchIe(url: string): boolean {
-        return false;
-    }
-
-    private doLaunch(url: string) {
-        switch (this.browser) {
-            case BrowserType.chrome:
-                this.launchChrome(url);
-                break;
-            case BrowserType.firefox:
-                this.launchFirefox(url);
-                break;
-            case BrowserType.ie:
-                this.launchIe(url);
-                break;
-            case BrowserType.safari:
-                this.launchSafari(url);
-                break;
-            default:
-                window.location.href = url;
-                break;
-        }
+        }, 2800);
     }
 
     launchURL(url: string): void {
@@ -92,11 +66,7 @@ export class Plugin {
                         // Ensures that protocol is https also for plugin, fixing if needed UDS provided info
                         data.url = data.url.replace('uds://', 'udss://');
                     }
-                    if (this.api.config.bypassPluginDetection === false) {
-                        this.doLaunch(data.url);
-                    } else {
-                        window.location.href = data.url;
-                    }
+                    this.doLaunch(data.url);
                 }
             });
         } else {
