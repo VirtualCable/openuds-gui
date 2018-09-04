@@ -35,6 +35,10 @@ export class UdsApiService {
     return this.http.get<JSONEnabledService>(enabler);
   }
 
+  galeryImageURL(imageUuid: string) {
+    return this.config.urls.galeryImage.replace('param1', imageUuid);
+  }
+
   /**
    * Gets services information
    */

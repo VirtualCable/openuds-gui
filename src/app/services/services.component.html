@@ -1,14 +1,35 @@
 <div class="container">
-  <div class="card-deck mb-3">
-    <div class="card mb-4" *ngFor="let p of api.plugins">
-      <img class="card-img-top" src="/static/modern/img/{{ p.name }}.png">
-      <div class="card-body d-flex flex-column">
-        <h4 class="card-title">{{ p.name }}</h4>
-        <p class="card-text">{{ p.description }}</p>
-        <a class="btn btn-lg btn-block btn-outline-primary mt-auto" href="{{ p.url }}">
-          <uds-translate>Download</uds-translate>
-        </a>
-      </div>
-    </div>
-  </div>
+
+  <ngb-tabset justify="fill">
+    <ngb-tab *ngFor="let g of group">
+      <ng-template ngbTabTitle>
+        <div class="group-title"><img class="img-rounded group-img title" [src]="groupImage(g.group)"> {{ g.group.name }}</div>
+      </ng-template>
+      <ng-template ngbTabContent>
+              <div class="service-container" *ngFor="let s of g.services">
+                        
+                  <div class="service">
+                       <div class="service-image">
+                          <img class="se-agranda" [src]="serviceImage(s)">
+                      </div>
+                      <span>{{ s.name }}</span>
+                      
+                      <span class="gear">
+                        
+                        
+                        <span data-href="/release/Fc99ab60a-abca-5f2a-a277-93f782654231" class="release fa fa-trash"> </span>
+                        
+                        
+                        <span data-href="/reset/Fc99ab60a-abca-5f2a-a277-93f782654231" class="reseter fa fa-refresh"> </span>
+                        
+                      </span>
+                      
+                  </div>
+
+            </div>
+          
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
 </div>

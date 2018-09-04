@@ -29,6 +29,16 @@
     "changeOrigin": true,
     "logLevel": "info"
   },
+  "/galimg": {
+    "target": {
+      "host": "172.27.0.1",
+      "protocol": "http:",
+      "port": 8000
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
   "/i18n": {
     "target": {
       "host": "172.27.0.1",

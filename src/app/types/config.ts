@@ -22,6 +22,7 @@ export interface UDSUrls {
     readonly services: string;
     readonly admin: string;
     readonly enabler: string;
+    readonly galeryImage: string;
 }
 
 export interface UDSConfig {
