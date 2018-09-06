@@ -4,18 +4,25 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppMaterialModule } from './/app-material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { AppComponent } from './app.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { NavbarComponent } from './navbar/navbar.component';
+
+import { NavbarComponent } from './gui/navbar/navbar.component';
 import { TranslateDirective } from './translate.directive';
+
+import { LoginComponent } from './pages/login/login.component';
+import { ClientDownloadComponent } from './pages/client-download/client-download.component';
+import { ServicesComponent } from './pages/services/services.component';
+import { ModalComponent } from './gui/modal/modal.component';
+import { SafeHtmlPipe } from './gui/safe-html.pipe';
+
 
 // Service providers
 import { UdsApiService } from './uds-api.service';
-import { LoginComponent } from './login/login.component';
-import { ClientDownloadComponent } from './client-download/client-download.component';
-import { ServicesComponent } from './services/services.component';
-import { ModalComponent } from './gui/modal/modal.component';
-import { SafeHtmlPipe } from './gui/safe-html.pipe';
 import { GuiService } from './gui/gui.service';
 
 @NgModule({
@@ -33,7 +40,10 @@ import { GuiService } from './gui/gui.service';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    BrowserAnimationsModule,
+    AppMaterialModule,
+    FlexLayoutModule,
   ],
   providers: [
     UdsApiService,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../uds-api.service';
-import { Authenticator } from '../types/config';
+import { UdsApiService } from '../../uds-api.service';
+import { Authenticator } from '../../types/config';
 
 @Component({
   selector: 'uds-login',

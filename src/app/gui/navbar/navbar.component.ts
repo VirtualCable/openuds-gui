@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../uds-api.service';
-import { Lang } from '../types/config';
+import { UdsApiService } from '../../uds-api.service';
+import { Lang } from '../../types/config';
 
 @Component({
   selector: 'uds-navbar',
@@ -35,6 +35,10 @@ export class NavbarComponent implements OnInit {
     // alert(document.getElementById('id_language').attributes['value'].value);
     (<any>document.getElementById('form_language')).submit();
     return false;
+  }
+
+  admin() {
+    window.location.href = this.api.config.urls.admin;
   }
 
 }

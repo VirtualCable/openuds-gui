@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../uds-api.service';
-import { Downloadable } from '../types/config';
+import { UdsApiService } from '../../uds-api.service';
+import { Downloadable } from '../../types/config';
 
 @Component({
   selector: 'uds-client-download',

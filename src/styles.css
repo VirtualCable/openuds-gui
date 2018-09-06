@@ -5,6 +5,9 @@
 /* Cookie consent */
 @import "~cookieconsent/build/cookieconsent.min.css";
 
-body {
-    margin-top: 4rem;
+html, body { height: 100%; }
+
+body { 
+    margin: 4rem 0 0 0; /* leaves space for toolbar on top */
+    font-family: 'Roboto', sans-serif; 
 }

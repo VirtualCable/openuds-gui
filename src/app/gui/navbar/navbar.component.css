@@ -1,0 +1,18 @@
+.uds-nav {
+    position: fixed;
+    top: 0;
+}
+
+.fill-remaining-space {
+    /*This fills the remaining space, by using flexbox.  
+   Every toolbar row uses a flexbox row layout. */
+   flex: 1 1 auto;
+}
+
+.fa {
+    margin-right: 0.3rem;
+}
+
+.udsicon {
+    width: 2rem;
+}

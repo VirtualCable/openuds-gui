@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../uds-api.service';
-import { Router } from '@angular/router';
-import { JSONServicesInformation, JSONGroup, JSONService } from '../types/services';
-import { Plugin } from '../helpers/plugin';
+import { UdsApiService } from '../../uds-api.service';
+import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
+import { Plugin } from '../../helpers/plugin';
 
 class GroupedServices {
   services: JSONService[];
