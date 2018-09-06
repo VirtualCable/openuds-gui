@@ -11,3 +11,10 @@ body {
     margin: 4rem 0 0 0; /* leaves space for toolbar on top */
     font-family: 'Roboto', sans-serif; 
 }
+
+.content {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: aqua;
+}

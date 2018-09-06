@@ -17,4 +17,7 @@ export class ClientDownloadComponent implements OnInit {
   ngOnInit() {
   }
 
+  download(url) {
+    window.location.href = url;
+  }
 }
