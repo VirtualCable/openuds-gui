@@ -25,7 +25,6 @@
     "@angular/platform-browser": "^6.1.6",
     "@angular/platform-browser-dynamic": "^6.1.6",
     "@angular/router": "^6.1.6",
-    "@ng-bootstrap/ng-bootstrap": "^3.0.0",
     "bootstrap": "^4.1.1",
     "cookieconsent": "^3.0.6",
     "core-js": "^2.4.1",

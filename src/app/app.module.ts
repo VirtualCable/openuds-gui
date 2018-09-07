@@ -9,7 +9,6 @@ import { AppMaterialModule } from './modules/app-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { NavbarComponent } from './gui/navbar/navbar.component';
 import { TranslateDirective } from './translate.directive';
@@ -47,7 +46,6 @@ import { UDSGuiService } from './gui/uds-gui.service';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,
     FlexLayoutModule,
@@ -55,7 +53,6 @@ import { UDSGuiService } from './gui/uds-gui.service';
   providers: [
     UDSApiService,
     UDSGuiService,
-    NgbActiveModal
   ],
   bootstrap: [AppComponent],
   entryComponents: [
