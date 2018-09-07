@@ -9,3 +9,8 @@
     width: 2rem;
     margin-bottom: 0.4rem;
 }
+
+/* .mat-expansion-panel-header-description */
+.mat-expansion-panel-header-title {
+    width: 15%;
+}
