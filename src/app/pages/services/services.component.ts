@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../uds-api.service';
 import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
 import { Plugin } from '../../helpers/plugin';
 
@@ -19,10 +19,8 @@ class GroupedServices {
 export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation;
   group: GroupedServices[];
-  plugin: Plugin;
 
-  constructor(private api: UdsApiService) {
-    this.plugin = new Plugin(api);
+  constructor(private api: UDSApiService) {
   }
 
   /**
@@ -34,7 +32,7 @@ export class ServicesComponent implements OnInit {
       if (!this.servicesInformation.services[0].maintenance) {
         this.api.executeCustomJSForServiceLaunch();
         // Launch url
-        this.plugin.launchURL(this.servicesInformation.services[0].transports[0].link);
+        this.api.launchURL(this.servicesInformation.services[0].transports[0].link);
         return true;
       } else {
         this.api.gui.alert(django.gettext('Warning'), django.gettext('Service is in maintenance and cannot be executed'));

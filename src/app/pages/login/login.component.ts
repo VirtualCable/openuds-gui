@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../uds-api.service';
 import { Authenticator } from '../../types/config';
 
 @Component({
@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
   auths: Authenticator[];
   visible: boolean;
 
-  constructor(public api: UdsApiService) {
+  constructor(public api: UDSApiService) {
     this.auths = api.config.authenticators.slice(0);
     // Sort array, so we can display it correctly
     this.auths.sort((a, b) => a.priority - b.priority);

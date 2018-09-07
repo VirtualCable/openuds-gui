@@ -27,8 +27,8 @@ import { ServicesGroupComponent } from './gui/components/services-group/services
 // Pages
 
 // Service providers
-import { UdsApiService } from './uds-api.service';
-import { GuiService } from './gui/gui.service';
+import { UDSApiService } from './uds-api.service';
+import { UDSGuiService } from './gui/uds-gui.service';
 
 @NgModule({
   declarations: [
@@ -53,8 +53,8 @@ import { GuiService } from './gui/gui.service';
     FlexLayoutModule,
   ],
   providers: [
-    UdsApiService,
-    GuiService,
+    UDSApiService,
+    UDSGuiService,
     NgbActiveModal
   ],
   bootstrap: [AppComponent],

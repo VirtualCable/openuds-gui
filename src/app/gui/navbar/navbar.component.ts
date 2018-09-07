@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UdsApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../uds-api.service';
 import { Lang } from '../../types/config';
 
 @Component({
@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
   langs: Lang[]; // Available languages
   isNavbarCollapsed = true;
 
-  constructor(public api: UdsApiService) {
+  constructor(public api: UDSApiService) {
     const lang = api.config.language;
     // Add "non current lang" to list
     this.langs = [];

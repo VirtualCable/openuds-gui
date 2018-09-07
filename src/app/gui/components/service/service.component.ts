@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JSONService } from '../../../types/services';
-import { UdsApiService } from '../../../uds-api.service';
+import { UDSApiService } from '../../../uds-api.service';
 
 const MAX_NAME_LENGTH = 32;
 
@@ -11,7 +11,7 @@ const MAX_NAME_LENGTH = 32;
 })
 export class ServiceComponent implements OnInit {
 
-  constructor(private api: UdsApiService) { }
+  constructor(private api: UDSApiService) { }
 
   @Input() service: JSONService;
 
@@ -32,5 +32,9 @@ export class ServiceComponent implements OnInit {
 
   get serviceTooltip() {
     return this.service.name;
+  }
+
+  launch() {
+    this.api.launchURL(this.service.transports[0].link);
   }
 }

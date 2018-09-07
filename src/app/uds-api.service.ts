@@ -4,16 +4,19 @@ import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable } from './types/config';
 import { Observable } from 'rxjs';
 import { JSONServicesInformation, JSONEnabledService } from './types/services';
-import { GuiService } from './gui/gui.service';
+import { UDSGuiService } from './gui/uds-gui.service';
+import { Plugin } from './helpers/plugin';
 
 @Injectable()
-export class UdsApiService {
+export class UDSApiService {
   readonly user: User;
   transportsWindow: Window;
+  plugin: Plugin;
 
-  constructor(private http: HttpClient, public gui: GuiService, public router: Router) {
+  constructor(private http: HttpClient, public gui: UDSGuiService, public router: Router) {
     this.user = new User(udsData.profile);
     this.transportsWindow = null;
+    this.plugin = new Plugin(this);
   }
 
   /**
@@ -56,6 +59,10 @@ export class UdsApiService {
       // tslint:disable-next-line:no-eval
       eval(udsData.customJSForServiceLaunch);
     }
+  }
+
+  launchURL(udsURL): void {
+    this.plugin.launchURL(udsURL);
   }
 
   /**

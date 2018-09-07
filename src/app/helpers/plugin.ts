@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { UdsApiService } from '../uds-api.service';
+import { UDSApiService } from '../uds-api.service';
 
 /**
  * Plugin manipulation class
@@ -14,10 +14,7 @@ enum BrowserType {
 export class Plugin {
     static transportsWindow: Window = null;
 
-    constructor(private api: UdsApiService) {
-    }
-
-    private launchChrome(url: string) {
+    constructor(private api: UDSApiService) {
     }
 
     /**
@@ -28,6 +25,14 @@ export class Plugin {
      * unless bypassPluginDetection is FALSE
      */
     private doLaunch(url: string) {
+        this.api.gui.alert(
+            django.gettext('Launching service'),
+            '<p stype="font-size: 1.2rem;">' + django.gettext('Please wait') + '</p><p style="font-size: 0.8rem;">' +
+            django.gettext('Remember that UDS Plugin is required in order for this service to be launched') +
+            '</p>',
+            5000
+        );
+
         let elem = document.getElementById('hiddenUdsLauncherIFrame');
         if (elem === null) {
             const i = document.createElement('div');
@@ -36,27 +41,6 @@ export class Plugin {
             document.body.appendChild(i);
             elem = document.getElementById('hiddenUdsLauncherIFrame');
         }
-
-        elem.focus();
-        this.api.gui.alert(
-            django.gettext('Launching service'),
-            '<p>UDS is trying to launch your service.</p><p>UDS Plugin is required</p>',
-            5000
-        );
-
-        /*let launched = false;
-        launched = true;
-        window.onblur = () => {
-            console.log('Plugin seems to be installed');
-            window.onblur = null;
-            launched = true;
-        };
-        window.setTimeout(() => {
-            window.onblur = null;
-            if (launched === false && this.api.config.bypassPluginDetection === false) {
-                this.api.router.navigate(['client-download']);
-            }
-        }, 2800);*/
         (<any>elem).contentWindow.location.href = url;
     }
 

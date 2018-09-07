@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JSONGroup, JSONService } from '../../../types/services';
-import { UdsApiService } from '../../../uds-api.service';
+import { UDSApiService } from '../../../uds-api.service';
 
 @Component({
   selector: 'uds-services-group',
@@ -13,7 +13,7 @@ export class ServicesGroupComponent implements OnInit {
   @Input() group: JSONGroup;
   @Input() expanded = false;
 
-  constructor(private api: UdsApiService) { }
+  constructor(private api: UDSApiService) { }
 
   ngOnInit() {
   }
