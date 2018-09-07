@@ -1,0 +1,11 @@
+.services-group {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+    /* margin: 0 10%; */
+}
+
+.services-group-image {
+    width: 2rem;
+    margin-bottom: 0.4rem;
+}

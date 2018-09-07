@@ -12,7 +12,7 @@ class GroupedServices {
 }
 
 @Component({
-  selector: 'uds-services',
+  selector: 'uds-services-page',
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css']
 })
@@ -93,12 +93,4 @@ export class ServicesComponent implements OnInit {
     this.loadServices(); // Loads service related data
   }
 
-  // Utility
-  groupImage(g: JSONGroup) {
-    return this.api.galeryImageURL(g.imageUuid);
-  }
-
-  serviceImage(s: JSONService) {
-    return this.api.galeryImageURL(s.imageId);
-  }
 }

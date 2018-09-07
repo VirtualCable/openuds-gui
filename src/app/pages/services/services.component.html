@@ -1,35 +1,43 @@
+<div class="services-groups">
+  <mat-accordion>
+    <uds-services-group *ngFor="let g of group; let i = index" [services]="g.services" [group]="g.group" [expanded]="i==0"></uds-services-group>
+  </mat-accordion>
+</div>
+
+<!-- TO BE REMOVED 
 <div class="container">
 
-  <ngb-tabset justify="fill">
-    <ngb-tab *ngFor="let g of group">
-      <ng-template ngbTabTitle>
-        <div class="group-title"><img class="img-rounded group-img title" [src]="groupImage(g.group)"> {{ g.group.name }}</div>
-      </ng-template>
-      <ng-template ngbTabContent>
-              <div class="service-container" *ngFor="let s of g.services">
+    <ngb-tabset justify="fill">
+      <ngb-tab *ngFor="let g of group">
+        <ng-template ngbTabTitle>
+          <div class="group-title"><img class="img-rounded group-img title" [src]="groupImage(g.group)"> {{ g.group.name }}</div>
+        </ng-template>
+        <ng-template ngbTabContent>
+                <div class="service-container" *ngFor="let s of g.services">
+                          
+                    <div class="service">
+                         <div class="service-image">
+                            <img class="se-agranda" [src]="serviceImage(s)">
+                        </div>
+                        <span>{{ s.name }}</span>
                         
-                  <div class="service">
-                       <div class="service-image">
-                          <img class="se-agranda" [src]="serviceImage(s)">
-                      </div>
-                      <span>{{ s.name }}</span>
-                      
-                      <span class="gear">
+                        <span class="gear">
+                          
+                          
+                          <span data-href="/release/Fc99ab60a-abca-5f2a-a277-93f782654231" class="release fa fa-trash"> </span>
+                          
+                          
+                          <span data-href="/reset/Fc99ab60a-abca-5f2a-a277-93f782654231" class="reseter fa fa-refresh"> </span>
+                          
+                        </span>
                         
-                        
-                        <span data-href="/release/Fc99ab60a-abca-5f2a-a277-93f782654231" class="release fa fa-trash"> </span>
-                        
-                        
-                        <span data-href="/reset/Fc99ab60a-abca-5f2a-a277-93f782654231" class="reseter fa fa-refresh"> </span>
-                        
-                      </span>
-                      
-                  </div>
-
-            </div>
-          
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
-
-</div>
+                    </div>
+  
+              </div>
+            
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  
+  </div>
+-->

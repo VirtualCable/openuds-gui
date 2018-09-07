@@ -2,10 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './modules/app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from './/app-material.module';
+import { AppMaterialModule } from './modules/app-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
@@ -20,6 +20,11 @@ import { ServicesComponent } from './pages/services/services.component';
 import { ModalComponent } from './gui/modal/modal.component';
 import { SafeHtmlPipe } from './gui/safe-html.pipe';
 
+// Gui components
+import { ServiceComponent } from './gui/components/service/service.component';
+import { ServicesGroupComponent } from './gui/components/services-group/services-group.component';
+
+// Pages
 
 // Service providers
 import { UdsApiService } from './uds-api.service';
@@ -33,6 +38,8 @@ import { GuiService } from './gui/gui.service';
     LoginComponent,
     ClientDownloadComponent,
     ServicesComponent,
+    ServiceComponent,
+    ServicesGroupComponent,
     ModalComponent,
     SafeHtmlPipe,
   ],
