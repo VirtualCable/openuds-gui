@@ -5,9 +5,14 @@
     /* margin: 0 10%; */
 }
 
-.services-group-image {
+.services-group-title {
+    display: flex;
+    align-items: center;
+}
+.services-group-title img {
     width: 2rem;
-    margin-bottom: 0.4rem;
+    margin: 0 0 0.4rem 0.4rem;
+    flex-flow: 0 0 auto;
 }
 
 /* .mat-expansion-panel-header-description */

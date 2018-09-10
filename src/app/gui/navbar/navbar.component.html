@@ -1,3 +1,4 @@
+<!-- Lang change form -->
 <form id="form_language" action="{{ api.config.urls.changeLang }}" method="post">
     <input type="hidden" name="{{ api.config.csrf_field }}" value="{{ api.config.csrf }}" >
     <input id="id_language" type="hidden" name="language" value="{{ lang.id }}" />
@@ -10,8 +11,8 @@
 
 <!-- user menu -->
 <mat-menu #userMenu="matMenu">
-    <button mat-menu-item routerLink="/"><i class="fa fa-download"></i><uds-translate>Preferences</uds-translate></button>
-    <button mat-menu-item *ngIf="api.user.isStaff" (click)="admin()"><i class="fa fa-download"></i><uds-translate>Dashboard</uds-translate></button>
+    <button mat-menu-item routerLink="/"><i class="fa fa-gear"></i><uds-translate>Preferences</uds-translate></button>
+    <button mat-menu-item *ngIf="api.user.isStaff" (click)="admin()"><i class="fa fa-dashboard"></i><uds-translate>Dashboard</uds-translate></button>
     <button mat-menu-item routerLink="/downloads"><i class="fa fa-download"></i><uds-translate>Downloads</uds-translate></button>
 </mat-menu>
 
@@ -19,8 +20,8 @@
 <mat-menu x-position="before" #shrink="matMenu">
     <button mat-menu-item *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
     <button mat-menu-item [matMenuTriggerFor]="appMenu">{{ lang.name }}</button>
-    <button mat-menu-item routerLink="/client-download"><i class="fa fa-download"></i> UDS Plugin</button>
-    <button mat-menu-item routerLink="/about"><i class="fa fa-info"></i><uds-translate>About</uds-translate></button>
+    <button mat-menu-item routerLink="/client-download">UDS Plugin</button>
+    <button mat-menu-item routerLink="/about"><uds-translate>About</uds-translate></button>
 </mat-menu>
 
 <mat-toolbar color="primary" class="uds-nav">
@@ -36,8 +37,8 @@
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
       <button mat-button routerLink="/client-download"><i class="fa fa-download"></i>UDS Plugin</button>
       <button mat-button routerLink="/about"><i class="fa fa-info"></i><uds-translate>About</uds-translate></button>
-      <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }}</button>
-      <button mat-button *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
+      <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i class="fa fa-caret-down"></i></button>
+      <button mat-button *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}  <i class="fa fa-caret-down"></i></button>
   </div>
 
   <!-- button visible only when shrinked -->

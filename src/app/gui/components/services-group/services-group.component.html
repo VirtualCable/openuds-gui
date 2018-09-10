@@ -1,9 +1,9 @@
   <mat-expansion-panel [expanded]="expanded">
     <mat-expansion-panel-header [collapsedHeight]="'3rem'" [expandedHeight]="'5rem'">
       <mat-panel-title>
-        <div class="services-group-title"><img class="services-group-image" [src]="groupImage"> {{group.name}}</div>
+        <div class="services-group-title"><img [src]="groupImage"> {{group.name}}</div>
       </mat-panel-title>
-      <mat-panel-description>
+      <mat-panel-description fxShow="false" fxShow.gt-sm>
         {{group.comments}}
       </mat-panel-description>
     </mat-expansion-panel-header>

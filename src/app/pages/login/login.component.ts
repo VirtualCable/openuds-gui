@@ -10,6 +10,8 @@ import { Authenticator } from '../../types/config';
 export class LoginComponent implements OnInit {
   auths: Authenticator[];
   visible: boolean;
+  auth: HTMLInputElement;
+  title = 'UDS Enterprise';
 
   constructor(public api: UDSApiService) {
     this.auths = api.config.authenticators.slice(0);
@@ -26,10 +28,15 @@ export class LoginComponent implements OnInit {
     const input = (<HTMLInputElement>document.getElementById('token'));
     input.name = this.api.config.csrf_field;
     input.value = this.api.config.csrf;
+
+    this.auth = (<HTMLInputElement>document.getElementById('authenticator'));
+    if (this.auths.length > 0) {
+      this.auth.value = this.auths[0].id;
+    }
   }
 
   changeAuth(auth) {
-
+    this.auth.value = auth;
     // Ejecuted when custom auth selected
     const doCustomAuth = (data: string) => {
       this.visible = false;
@@ -40,7 +47,6 @@ export class LoginComponent implements OnInit {
     for (const l of this.auths) {
       if (l.id === auth) {
         if (l.is_custom) { // If is custom, we should get the code from server to authentication
-
           this.api.getAuthCustomHtml(l.id)
             .subscribe(result => doCustomAuth(result));
         }
