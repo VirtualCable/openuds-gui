@@ -38,8 +38,12 @@ export class UDSApiService {
     return this.http.get<JSONEnabledService>(enabler);
   }
 
-  galeryImageURL(imageUuid: string) {
-    return this.config.urls.galeryImage.replace('param1', imageUuid);
+  galleryImageURL(imageId: string) {
+    return this.config.urls.galleryImage.replace('param1', imageId);
+  }
+
+  transportIcon(transportId: string) {
+    return this.config.urls.transportIcon.replace('param1', transportId);
   }
 
   /**

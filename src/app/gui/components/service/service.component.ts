@@ -19,7 +19,7 @@ export class ServiceComponent implements OnInit {
   }
 
   get serviceImage() {
-    return this.api.galeryImageURL(this.service.imageId);
+    return this.api.galleryImageURL(this.service.imageId);
   }
 
   get serviceName() {
@@ -34,7 +34,34 @@ export class ServiceComponent implements OnInit {
     return this.service.name;
   }
 
+  getTransportIcon(transId: string) {
+    return this.api.transportIcon(transId);
+  }
+
+
+  hasActions() {
+    return this.service.allow_users_remove || this.service.allow_users_reset;
+  }
+
+  hasManyTransports() {
+    return this.service.transports.length > 1;
+  }
+
+  hasMenu() {
+    return this.hasActions() || this.hasManyTransports();
+  }
+
+  notifyNotLaunching(message: string) {
+    this.api.gui.alert(django.gettext('Launcher'), message);
+  }
+
   launch() {
+    if (this.service.maintenance ) {
+      this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
+    }
+    if (this.service.not_accesible) {
+      this.notifyNotLaunching(django.gettext('Service has been restricted and cannot be launched'));
+    }
     this.api.launchURL(this.service.transports[0].link);
   }
 }

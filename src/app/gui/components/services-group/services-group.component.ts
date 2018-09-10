@@ -19,7 +19,7 @@ export class ServicesGroupComponent implements OnInit {
   }
 
   get groupImage() {
-    return this.api.galeryImageURL(this.group.imageUuid);
+    return this.api.galleryImageURL(this.group.imageUuid);
   }
 
 }

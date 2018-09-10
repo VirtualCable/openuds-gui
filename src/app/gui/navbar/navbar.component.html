@@ -19,7 +19,7 @@
 <!-- shriked menu -->
 <mat-menu x-position="before" #shrink="matMenu">
     <button mat-menu-item *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="appMenu">{{ lang.name }}</button>
+    
     <button mat-menu-item routerLink="/client-download">UDS Plugin</button>
     <button mat-menu-item routerLink="/about"><uds-translate>About</uds-translate></button>
 </mat-menu>
