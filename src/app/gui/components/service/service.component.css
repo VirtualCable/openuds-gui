@@ -21,6 +21,7 @@
 }
 
 .icon {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
@@ -29,8 +30,7 @@
   margin: 0.5rem;
 }
 
-.service:hover .icon {
-  cursor: pointer;
+.service:not(.forbidden):not(.maintenance):hover .icon {
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
   width: 7rem;
   height: 7rem;
@@ -43,6 +43,17 @@
     /*max-height: 96px;*/
     overflow: hidden;
 }
+
+.forbidden .icon img {
+  opacity: 0.5;
+  z-index: 10;
+}
+
+.maintenance .icon img {
+  opacity: 0.5;
+  z-index: 10;
+}
+
 
 .name {
   margin-top: 0.5em;
@@ -83,4 +94,52 @@
 .transport-item img {
   width: 2em;
   margin-right: 0.4em;
+}
+
+.forbidden:before {
+  color: rgb(252, 0, 0);
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 8rem;
+  font-weight: 500;  
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  content: 'update';
+  text-shadow: 0 6px 8px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+
+.maintenance:before {
+  color: rgb(252, 185, 0);
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 8rem;
+  font-weight: 500;  
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  content: 'build';
+  text-shadow: 0 6px 8px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  z-index: 1;
 }

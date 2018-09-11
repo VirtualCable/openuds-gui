@@ -31,6 +31,7 @@ export interface UDSConfig {
     version_stamp: string;
     language: string;
     available_languages: Lang[];
+    static: string;
     authenticators: Authenticator[];
     os: string;
     csrf_field: string;

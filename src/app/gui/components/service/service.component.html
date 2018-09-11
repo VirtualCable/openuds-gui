@@ -28,7 +28,7 @@
     </button>
   </mat-menu>
 
-  <div class="service">
+  <div [ngClass]="serviceClass">
     <div class="icon" (click)="launch()">
       <img [src]="serviceImage">
     </div>

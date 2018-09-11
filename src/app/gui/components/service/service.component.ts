@@ -34,6 +34,17 @@ export class ServiceComponent implements OnInit {
     return this.service.name;
   }
 
+  get serviceClass() {
+    const klass  = ['service'];
+    if (this.service.maintenance) {
+      klass.push('maintenance');
+    } else if (this.service.not_accesible) {
+      klass.push('forbidden');
+    } 
+    
+    return klass;
+  }
+
   getTransportIcon(transId: string) {
     return this.api.transportIcon(transId);
   }
