@@ -20,7 +20,7 @@
 <mat-menu x-position="before" #shrink="matMenu">
     <button mat-menu-item *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
     
-    <button mat-menu-item routerLink="/client-download">UDS Plugin</button>
+    <button mat-menu-item routerLink="/client-download">UDS Client</button>
     <button mat-menu-item routerLink="/about"><uds-translate>About</uds-translate></button>
 </mat-menu>
 
@@ -35,7 +35,7 @@
 
   <!-- elements only visible when expanded -->
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-      <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>UDS Plugin</button>
+      <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>UDS Client</button>
       <button mat-button routerLink="/about"><i class="material-icons">info</i><uds-translate>About</uds-translate></button>
       <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i class="material-icons">arrow_drop_down</i></button>
       <button mat-button *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}  <i class="material-icons">arrow_drop_down</i></button>

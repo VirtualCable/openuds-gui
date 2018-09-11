@@ -48,19 +48,26 @@ export class ServiceComponent implements OnInit {
   }
 
   hasMenu() {
-    return this.hasActions() || this.hasManyTransports();
+    return this.service.maintenance === false && this.service.not_accesible === false && (this.hasActions() || this.hasManyTransports());
   }
 
   notifyNotLaunching(message: string) {
-    this.api.gui.alert(django.gettext('Launcher'), message);
+    this.api.gui.alert('<p align="center"><b>' + django.gettext('Launcher') + '</b></p>', message);
   }
 
   launch() {
     if (this.service.maintenance ) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
+      return;
     }
     if (this.service.not_accesible) {
-      this.notifyNotLaunching(django.gettext('Service has been restricted and cannot be launched'));
+      this.notifyNotLaunching('<p align="center">' +
+      django.gettext('This service is currently not accesible due to schedule restrictions.') +
+      '</p><p align="center"><b>' + django.gettext('Access limited by calendar') +
+      '</b></p><p align="center">' + django.gettext('Please, retry access in a while.') +
+      '</p>'
+      );
+      return;
     }
     this.api.launchURL(this.service.transports[0].link);
   }
