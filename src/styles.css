@@ -2,22 +2,17 @@
 /* Materials */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-/* Font awasome */
-@import "~font-awesome/css/font-awesome.css";
 /* Cookie consent */
 @import "~cookieconsent/build/cookieconsent.min.css";
 
-/*html, body { height: 100%; }*/
-
-body { 
-    margin: 4rem 0 0 0; /* leaves space for toolbar on top */
+html, body { 
+    margin: 0;
     font-family: 'Roboto', sans-serif; 
     height: 100%;
 }
 
-/*.content {
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-    background-color: aqua;
-}*/
+/* Fix for vertical align on material icons */
+i.material-icons {
+    vertical-align: middle !important;
+}
+

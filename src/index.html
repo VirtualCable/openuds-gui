@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <meta charset="utf-8">
   <title>Uds</title>
@@ -11,6 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
+  <!-- just in case translations cannot be loaded, provide a fallback -->
+  <script type="text/javascript">
+  django = {
+    gettext: function(s) {
+      return s;
+    }
+  }
+  </script>
   <!-- DYNAMIC_DATA -->
   <script type="text/javascript" src="server/es.js"></script>
   <script type="text/javascript" src="/js"></script>

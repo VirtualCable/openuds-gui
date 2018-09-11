@@ -1,0 +1,26 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.footer {
+    flex-shrink: 0;
+    margin: 1em 1em 1em 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.content {
+    flex: 1 0 auto;
+    width: 80%;
+    margin: 4rem auto 0 auto;
+}
+
+/* responsive part */
+@media only screen and (max-width: 744px) {
+    .content {
+        width: 100%;
+    }
+}

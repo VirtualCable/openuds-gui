@@ -5,13 +5,13 @@
 
   <div class="login-container">
 
-      <div class="login-brand">
+    <div class="login-brand">
       <img src="/static/modern/img/login-img.png">
     </div>
 
     <div class="login-info">
-        {{ title }}
-      </div>
+      {{ title }}
+    </div>
 
     <div class="login-form">
 
@@ -35,80 +35,22 @@
 
       <div class="login-field" *ngIf="auths.length > 1">
         <mat-form-field appaerance="standard">
-            <mat-label>
-                <uds-translate>Authenticator</uds-translate>
-              </mat-label>
-              <mat-select [value]="auths[0].id" (selectionChange)="changeAuth($event.value)">
-              <mat-option *ngFor="let a of auths" [value]="a.id">
-                {{ a.name }}
-              </mat-option>
+          <mat-label>
+            <uds-translate>Authenticator</uds-translate>
+          </mat-label>
+          <mat-select [value]="auths[0].id" (selectionChange)="changeAuth($event.value)">
+            <mat-option *ngFor="let a of auths" [value]="a.id">
+              {{ a.name }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
       <div class="login-button">
-        <button  mat-stroked-button color="primary" type="submit">
+        <button mat-stroked-button color="primary" type="submit">
           <uds-translate>Login</uds-translate>
         </button>
-    </div>
-  </div>
-
-    <div class="login-footer">
-      Copyright &copy; 2012-2018
-      <a href="https://www.udsenterprise.com">Virtual Cable S.L.U.</a>
+      </div>
     </div>
   </div>
 </form>
-
-
-<!--
-<div class="container">
-  <div class="row justify-content-md-center h-100">
-    <div class="card-wrapper" [hidden]="!visible">
-      <div class="brand">
-        <img src="/static/modern/img/login-img.png">
-      </div>
-      <div class="card fat" >
-        <div class="card-body">
-          <h4 class="card-title text-center">UDS Enterprise</h4>
-          <form id="loginform2" method="post">
-            <input name="" id="token" value="" type="hidden">
-            <input name="logouturl" id="id_logouturl" value="" type="hidden">
-            <div class="form-group">
-              <label for="user">
-                <uds-translate>Username</uds-translate>
-              </label>
-
-              <input id="id_user" type="user" class="form-control" name="user" value="" required autofocus>
-            </div>
-
-            <div class="form-group">
-              <label for="password">
-                <uds-translate>Password</uds-translate>
-              </label>
-              <input id="id_password" type="password" class="form-control" name="password" data-eye>
-            </div>
-
-            <div class="form-group" *ngIf="auths.length > 1">
-              <label>
-                <uds-translate>Authenticator</uds-translate>
-              </label>
-              <select name="authenticator" class="custom-select" (change)="changeAuth($event.target.value)">
-                <option *ngFor="let a of auths" value="{{ a.id }}">{{ a.name }}</option>
-              </select>
-            </div>
-
-            <div class="form-group no-margin">
-              <button type="submit" class="btn btn-primary btn-block">
-                Login
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="footer">
-      </div>
-    </div>
-  </div>
-</div>
--->

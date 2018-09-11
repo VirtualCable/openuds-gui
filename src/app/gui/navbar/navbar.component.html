@@ -11,9 +11,9 @@
 
 <!-- user menu -->
 <mat-menu #userMenu="matMenu">
-    <button mat-menu-item routerLink="/"><i class="fa fa-gear"></i><uds-translate>Preferences</uds-translate></button>
-    <button mat-menu-item *ngIf="api.user.isStaff" (click)="admin()"><i class="fa fa-dashboard"></i><uds-translate>Dashboard</uds-translate></button>
-    <button mat-menu-item routerLink="/downloads"><i class="fa fa-download"></i><uds-translate>Downloads</uds-translate></button>
+  <button mat-menu-item *ngIf="api.user.isStaff" (click)="admin()"><i class="material-icons">dashboard</i><uds-translate>Dashboard</uds-translate></button>
+  <button mat-menu-item routerLink="/"><i class="material-icons">settings</i><uds-translate>Preferences</uds-translate></button>
+    <button mat-menu-item routerLink="/downloads"><i class="material-icons">file_download</i><uds-translate>Downloads</uds-translate></button>
 </mat-menu>
 
 <!-- shriked menu -->
@@ -35,15 +35,15 @@
 
   <!-- elements only visible when expanded -->
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-      <button mat-button routerLink="/client-download"><i class="fa fa-download"></i>UDS Plugin</button>
-      <button mat-button routerLink="/about"><i class="fa fa-info"></i><uds-translate>About</uds-translate></button>
-      <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i class="fa fa-caret-down"></i></button>
-      <button mat-button *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}  <i class="fa fa-caret-down"></i></button>
+      <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>UDS Plugin</button>
+      <button mat-button routerLink="/about"><i class="material-icons">info</i><uds-translate>About</uds-translate></button>
+      <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i class="material-icons">arrow_drop_down</i></button>
+      <button mat-button *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}  <i class="material-icons">arrow_drop_down</i></button>
   </div>
 
   <!-- button visible only when shrinked -->
   <button mat-button [matMenuTriggerFor]="shrink" fxHide="false" fxHide.gt-sm>
-    <i class="fa fa-bars fa-2x"></i>
+    <i class="material-icons">menu</i>
   </button>
 
 </mat-toolbar>

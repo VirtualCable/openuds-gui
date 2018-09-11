@@ -1,33 +1,46 @@
 .service {
-  width: 8rem;
-  height: auto;
+  width: 10rem;
   margin: 0 1rem 2rem 0;
-  padding: 0.5rem 1rem 1rem 1rem;
+  padding: 0.5rem 0 1rem 0;
   /*border-radius: 1rem;*/
   box-shadow: 0 12px 18px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  border: 1px;
+  border-style: solid;
+  border-color: rgb(0, 0, 0, 0.22);
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: start;
   flex-flow: column wrap;
+  position: relative;
 }
 
 .service:hover {
-  cursor: pointer;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .icon {
   display: flex;
   justify-content: center;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
   width: 6rem;
+  height: 6rem;
+  margin: 0.5rem;
+}
+
+.service:hover .icon {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  width: 7rem;
+  height: 7rem;
+  margin: 0;
 }
 
 .icon img {
     width: 100%;
     height: 100%;
-    max-height: 96px;
+    /*max-height: 96px;*/
     overflow: hidden;
 }
 
@@ -38,12 +51,28 @@
   flex: 1 0 auto;
   flex-flow: row auto;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 2.5rem;
 }
 
-.name button {
-  justify-self: flex-end;
+.menu {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.menu .mat-icon-button {
+  cursor: pointer;
+  border-radius: 1px;
+  background-color: rgb(255, 255, 255, 0.80);
+  /*line-height: 0px;
+  width: auto;
+  height: auto;*/
+}
+
+.menu .mat-icon-button:hover {
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
 .transport-item {

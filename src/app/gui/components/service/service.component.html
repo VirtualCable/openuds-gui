@@ -1,36 +1,42 @@
 <div *ngIf="service.transports.length > 0">
-<mat-menu #transports>
-  <button mat-menu-item *ngFor="let trans of service.transports">
-    <div class="transport-item">
-      <img [src]="getTransportIcon(trans.id)">
-      {{ trans.name }}
-    </div>
-  </button>
-</mat-menu>
-
-<mat-menu #actions>
-  <button mat-menu-item *ngIf="service.allow_users_remove">
-    <i class="fa fa-trash"></i> <uds-translate> Release service</uds-translate>
-  </button>
-  <button mat-menu-item *ngIf="service.allow_users_reset">
-      <i class="fa fa-refresh"></i> <uds-translate> Reset service</uds-translate>
+  <mat-menu #transports>
+    <button mat-menu-item *ngFor="let trans of service.transports">
+      <div class="transport-item">
+        <img [src]="getTransportIcon(trans.id)">
+        {{ trans.name }}
+      </div>
     </button>
   </mat-menu>
 
-<mat-menu #menu>
-  <button mat-menu-item [matMenuTriggerFor]="transports" *ngIf="hasManyTransports()"><uds-translate>Transports</uds-translate></button>
-  <button mat-menu-item [matMenuTriggerFor]="actions" *ngIf="hasActions()"><uds-translate>Actions</uds-translate></button>
-</mat-menu>
+  <mat-menu #actions>
+    <button mat-menu-item *ngIf="service.allow_users_remove">
+      <i class="material-icons">delete</i>
+      <uds-translate> Release service</uds-translate>
+    </button>
+    <button mat-menu-item *ngIf="service.allow_users_reset">
+      <i class="material-icons">refresh</i>
+      <uds-translate> Reset service</uds-translate>
+    </button>
+  </mat-menu>
 
-<div class="service">
-  <div class="icon" (click)="launch()">
-    <img [src]="serviceImage">
+  <mat-menu #menu>
+    <button mat-menu-item [matMenuTriggerFor]="transports" *ngIf="hasManyTransports()">
+      <uds-translate>Transports</uds-translate>
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="actions" *ngIf="hasActions()">
+      <uds-translate>Actions</uds-translate>
+    </button>
+  </mat-menu>
+
+  <div class="service">
+    <div class="icon" (click)="launch()">
+      <img [src]="serviceImage">
+    </div>
+    <div class="name">
+      {{ serviceName }}
+    </div>
+    <div class="menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="hasMenu()"><i class="material-icons">menu</i></button>
+    </div>
   </div>
-  <div class="name">
-    <div>{{ serviceName }}</div>
-    <div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="hasMenu()"><i class="fa fa-gears"></i></button>
-  </div>
-  </div>
-</div>
 </div>

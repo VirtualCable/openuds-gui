@@ -9,9 +9,9 @@
    flex: 1 1 auto;
 }
 
-.fa {
+.material-icons {
     margin-right: 0.3rem;
-    margin-left: 0.3rem;
+    /*margin-left: 0.3rem;*/
 }
 
 .udsicon {
