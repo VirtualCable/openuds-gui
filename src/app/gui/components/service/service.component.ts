@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { JSONService } from '../../../types/services';
 import { UDSApiService } from '../../../uds-api.service';
 
-const MAX_NAME_LENGTH = 32;
+const MAX_NAME_LENGTH = 60;
 
 @Component({
   selector: 'uds-service',
@@ -24,7 +24,7 @@ export class ServiceComponent implements OnInit {
 
   get serviceName() {
     let v = this.service.visual_name;
-    if (v.length > MAX_NAME_LENGTH - 3) {
+    if (v.length > MAX_NAME_LENGTH) {
       v = v.substring(0, MAX_NAME_LENGTH - 3) + '...';
     }
     return v;
