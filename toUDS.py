@@ -157,7 +157,7 @@ def createDirs():
 
 #
 # def buildSource():
-#    os.system('ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /static/modern')
+#    os.system('ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page')
 
 
 def main():

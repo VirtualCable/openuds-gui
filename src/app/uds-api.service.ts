@@ -7,6 +7,8 @@ import { JSONServicesInformation, JSONEnabledService } from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
 import { Plugin } from './helpers/plugin';
 
+import { environment } from '../environments/environment';
+
 @Injectable()
 export class UDSApiService {
   readonly user: User;
@@ -33,17 +35,27 @@ export class UDSApiService {
     return udsData.plugins;
   }
 
+  /* Client enabler */
   enabler(serviceId: string, transportId: string) {
     const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);
     return this.http.get<JSONEnabledService>(enabler);
   }
 
+  /* Images & static related */
   galleryImageURL(imageId: string) {
     return this.config.urls.galleryImage.replace('param1', imageId);
   }
 
-  transportIcon(transportId: string) {
+  transportIconURL(transportId: string) {
     return this.config.urls.transportIcon.replace('param1', transportId);
+  }
+
+  staticURL(url: string) {
+    if (environment.production) {
+      return this.config.urls.static + url;
+    } else {
+      return '/static' + url;
+    }
   }
 
   /**
@@ -63,6 +75,14 @@ export class UDSApiService {
       // tslint:disable-next-line:no-eval
       eval(udsData.customJSForServiceLaunch);
     }
+  }
+
+  gotoAdmin() {
+    window.location.href = this.config.urls.admin;
+  }
+
+  logout() {
+    window.location.href = this.config.urls.logout;
   }
 
   launchURL(udsURL): void {

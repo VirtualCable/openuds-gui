@@ -38,7 +38,11 @@ export class NavbarComponent implements OnInit {
   }
 
   admin() {
-    window.location.href = this.api.config.urls.admin;
+    this.api.gotoAdmin();
+  }
+
+  logout() {
+    this.api.logout();
   }
 
 }

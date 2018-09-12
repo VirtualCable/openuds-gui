@@ -17,7 +17,11 @@ export class ClientDownloadComponent implements OnInit {
   ngOnInit() {
   }
 
-  download(url) {
+  download(url: string) {
     window.location.href = url;
+  }
+
+  img(image: string) {
+    return this.api.staticURL( 'modern/img/' + image + '.png');
   }
 }

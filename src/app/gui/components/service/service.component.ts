@@ -40,13 +40,12 @@ export class ServiceComponent implements OnInit {
       klass.push('maintenance');
     } else if (this.service.not_accesible) {
       klass.push('forbidden');
-    } 
-    
+    }
     return klass;
   }
 
   getTransportIcon(transId: string) {
-    return this.api.transportIcon(transId);
+    return this.api.transportIconURL(transId);
   }
 
 

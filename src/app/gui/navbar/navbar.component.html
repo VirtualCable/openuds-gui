@@ -13,7 +13,8 @@
 <mat-menu #userMenu="matMenu">
   <button mat-menu-item *ngIf="api.user.isStaff" (click)="admin()"><i class="material-icons">dashboard</i><uds-translate>Dashboard</uds-translate></button>
   <button mat-menu-item routerLink="/"><i class="material-icons">settings</i><uds-translate>Preferences</uds-translate></button>
-    <button mat-menu-item routerLink="/downloads"><i class="material-icons">file_download</i><uds-translate>Downloads</uds-translate></button>
+  <button mat-menu-item routerLink="/downloads"><i class="material-icons">file_download</i><uds-translate>Downloads</uds-translate></button>
+  <button mat-menu-item (click)='logout()'><i class="material-icons" style="color: red">exit_to_app</i><uds-translate>Logout</uds-translate></button>
 </mat-menu>
 
 <!-- shriked menu -->

@@ -12,7 +12,7 @@
 <div class="plugins">
   <div class="plugin" *ngFor="let p of api.plugins" (click)="download(p.url)">
     <div class="image">
-      <img src="/static/modern/img/{{ p.name }}.png">
+      <img [src]="img(p.name)">
     </div>
     <div class="platform">
       {{ p.name }}

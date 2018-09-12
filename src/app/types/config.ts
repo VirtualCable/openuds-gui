@@ -15,6 +15,7 @@ export interface Authenticator {
 
 // URLs related
 export interface UDSUrls {
+    readonly static: string;
     readonly changeLang: string;
     readonly login: string;
     readonly logout: string;
@@ -27,17 +28,16 @@ export interface UDSUrls {
 }
 
 export interface UDSConfig {
-    version: string;
-    version_stamp: string;
-    language: string;
-    available_languages: Lang[];
-    static: string;
-    authenticators: Authenticator[];
-    os: string;
-    csrf_field: string;
-    csrf: string;
-    urls: UDSUrls;
-    bypassPluginDetection: boolean;
+    readonly version: string;
+    readonly version_stamp: string;
+    readonly language: string;
+    readonly available_languages: Lang[];
+    readonly authenticators: Authenticator[];
+    readonly os: string;
+    readonly csrf_field: string;
+    readonly csrf: string;
+    readonly urls: UDSUrls;
+    readonly bypassPluginDetection: boolean;
 }
 
 export interface Downloadable {
