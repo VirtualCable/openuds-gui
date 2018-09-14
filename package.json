@@ -4,6 +4,8 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "ng": "ng",
+    "f4xstart": "ng serve --host 0.0.0.0 --port 9000 --proxy-config proxy.conf.json",
+    "f4xbuild": "ng build --prod --output-hashing=none --aot=false --deleteOutputPath --build-optimizer=false --deploy-url /uds/res/modern/ --base-href /uds/page && yarn postbuild",
     "start": "ng serve --host 0.0.0.0 --port 9000 --proxy-config proxy.conf.json",
     "build": "ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page",
     "postbuild": "python3 toUDS.py",
@@ -28,6 +30,7 @@
     "cookieconsent": "^3.0.6",
     "core-js": "^2.4.1",
     "rxjs": "^6.2.2",
+    "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
