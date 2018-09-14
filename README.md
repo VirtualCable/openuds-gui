@@ -1,27 +1,18 @@
 # Uds
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
+This project is related to the web interface of OpenUDS from version 3.0 onwards. This is not usable on previous versions of UDS, so don't try to use it!! :).
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
+
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Edit the "proxy.conf.json" file and adapt it to your needings.
+Currently, you will need to use a running UDS server backend in order to run the development environment.
 
-## Code scaffolding
+Run `yarn start` for a dev server. Navigate to `http://[YOUR_IP]:9000/`. The app will automatically reload if you change any of the source files.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Importing into OpenUDS
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Run `yarn build`. After building is finished, copy the `dist/uds` folder to your uds folder.
+Note: the `dist/uds` folder will contain two folders, that will be copied over the existing ones on the `uds` folder of OpenUDS. Do not delete the destination folder, just overwrite existing files, because the build process only build PART of the content on those folders.
