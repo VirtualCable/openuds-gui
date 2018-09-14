@@ -54,7 +54,7 @@ export class UDSApiService {
     if (environment.production) {
       return this.config.urls.static + url;
     } else {
-      return '/static' + url;
+      return '/static/' + url;
     }
   }
 

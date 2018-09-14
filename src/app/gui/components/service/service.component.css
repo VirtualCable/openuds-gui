@@ -60,10 +60,11 @@
   font-size: 1.2em;
   display: flex;
   flex: 1 0 auto;
-  flex-flow: row auto;
+  flex-flow: row;
   align-items: center;
   justify-content: center;
   height: 2.5rem;
+  width: 100%;
 }
 
 .menu {
