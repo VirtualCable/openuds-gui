@@ -18,7 +18,7 @@ export class ErrorComponent implements OnInit {
   getError(): void {
     const id = this.route.snapshot.paramMap.get('id');
     try {
-      this.error = window.atob(id + '==');
+      this.error = window.atob(id);
     } catch (e) {
       this.error = django.gettext('Invalid error string');
     }
