@@ -1,0 +1,15 @@
+.errorview {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.header {
+    background-color: blueviolet;
+}
+
+.message {
+    background-color: aqua;
+}

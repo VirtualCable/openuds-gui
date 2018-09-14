@@ -29,6 +29,7 @@ import { ServicesGroupComponent } from './gui/components/services-group/services
 import { UDSApiService } from './uds-api.service';
 import { UDSGuiService } from './gui/uds-gui.service';
 import { FooterComponent } from './gui/footer/footer.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FooterComponent } from './gui/footer/footer.component';
     ModalComponent,
     SafeHtmlPipe,
     FooterComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
