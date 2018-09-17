@@ -15,6 +15,7 @@
     flex-flow: column wrap;
     align-items: center;
     justify-content: center;
+    padding: 1em;
 }
 
 .header {
@@ -25,4 +26,6 @@
 .message {
     font-size: 1rem;
     height: 30%;
+    text-align: center;
+    min-height: 10rem;
 }

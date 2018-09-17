@@ -10,26 +10,29 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 
-import { NavbarComponent } from './gui/navbar/navbar.component';
+// api
 import { TranslateDirective } from './translate.directive';
-
-import { LoginComponent } from './pages/login/login.component';
-import { ClientDownloadComponent } from './pages/client-download/client-download.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { ModalComponent } from './gui/modal/modal.component';
-import { SafeHtmlPipe } from './gui/safe-html.pipe';
-
-// Gui components
-import { ServiceComponent } from './gui/components/service/service.component';
-import { ServicesGroupComponent } from './gui/components/services-group/services-group.component';
-
-// Pages
 
 // Service providers
 import { UDSApiService } from './uds-api.service';
 import { UDSGuiService } from './gui/uds-gui.service';
-import { FooterComponent } from './gui/footer/footer.component';
+
+// Pages
+import { LoginComponent } from './pages/login/login.component';
+import { ClientDownloadComponent } from './pages/client-download/client-download.component';
+import { ServicesComponent } from './pages/services/services.component';
 import { ErrorComponent } from './pages/error/error.component';
+
+// Gui components
+import { NavbarComponent } from './gui/navbar/navbar.component';
+import { FooterComponent } from './gui/footer/footer.component';
+
+import { ServiceComponent } from './gui/components/service/service.component';
+import { ServicesGroupComponent } from './gui/components/services-group/services-group.component';
+
+import { ModalComponent } from './gui/modal/modal.component';
+import { SafeHtmlPipe } from './gui/safe-html.pipe';
+
 
 @NgModule({
   declarations: [

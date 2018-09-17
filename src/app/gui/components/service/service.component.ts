@@ -31,12 +31,21 @@ export class ServiceComponent implements OnInit {
   }
 
   get serviceTooltip() {
-    return this.service.name;
+    if ( this.service.to_be_replaced !== null ) {
+      return this.service.to_be_replaced_text;
+    } else if (this.service.maintenance) {
+      return django.gettext('Service is in maintenance');
+    } else if (this.service.not_accesible) {
+      return django.gettext('Service access is not allowed at this time');
+    }
+    return '';
   }
 
   get serviceClass() {
     const klass  = ['service'];
-    if (this.service.maintenance) {
+    if (this.service.to_be_replaced != null) {
+      klass.push('tobereplaced');
+    } else if (this.service.maintenance) {
       klass.push('maintenance');
     } else if (this.service.not_accesible) {
       klass.push('forbidden');
@@ -48,7 +57,6 @@ export class ServiceComponent implements OnInit {
     return this.api.transportIconURL(transId);
   }
 
-
   hasActions() {
     return this.service.allow_users_remove || this.service.allow_users_reset;
   }
@@ -58,7 +66,10 @@ export class ServiceComponent implements OnInit {
   }
 
   hasMenu() {
-    return this.service.maintenance === false && this.service.not_accesible === false && (this.hasActions() || this.hasManyTransports());
+    return this.service.maintenance === false &&
+      this.service.not_accesible === false &&
+      (this.hasActions() || this.hasManyTransports())
+    ;
   }
 
   notifyNotLaunching(message: string) {
@@ -68,17 +79,15 @@ export class ServiceComponent implements OnInit {
   launch() {
     if (this.service.maintenance ) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
-      return;
-    }
-    if (this.service.not_accesible) {
+    } else if (this.service.not_accesible) {
       this.notifyNotLaunching('<p align="center">' +
       django.gettext('This service is currently not accesible due to schedule restrictions.') +
       '</p><p align="center"><b>' + django.gettext('Access limited by calendar') +
       '</b></p><p align="center">' + django.gettext('Please, retry access in a while.') +
       '</p>'
       );
-      return;
+    } else {
+      this.api.launchURL(this.service.transports[0].link);
     }
-    this.api.launchURL(this.service.transports[0].link);
   }
 }

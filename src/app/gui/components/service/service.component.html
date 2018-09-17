@@ -28,7 +28,8 @@
     </button>
   </mat-menu>
 
-  <div [ngClass]="serviceClass">
+  <div [ngClass]="serviceClass" [matTooltipDisabled]="serviceTooltip===''" 
+    [matTooltip]="serviceTooltip" matTooltipShowDelay="1000" matTooltipPosition="above">
     <div class="icon" (click)="launch()">
       <img [src]="serviceImage">
     </div>

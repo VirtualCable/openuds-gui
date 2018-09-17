@@ -4,7 +4,7 @@
       <h1 class="mat-display-1">Error</h1>
     </div>
     <div class="message">
-      <h2 class="mat-h2">{{ this.error }}</h2>
+      <h2 class="mat-h2" [innerHTML]="this.error | safeHtml"></h2>
     </div>
   </div>
 </div>
