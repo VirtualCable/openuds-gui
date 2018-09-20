@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { JSONService } from '../../../types/services';
 import { UDSApiService } from '../../../uds-api.service';
 
-const MAX_NAME_LENGTH = 60;
+const MAX_NAME_LENGTH = 56;
 
 @Component({
   selector: 'uds-service',
@@ -50,6 +50,10 @@ export class ServiceComponent implements OnInit {
     } else if (this.service.not_accesible) {
       klass.push('forbidden');
     }
+    if (klass.length > 1 ) {
+      klass.push('alert');
+    }
+
     return klass;
   }
 
