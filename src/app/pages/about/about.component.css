@@ -1,0 +1,53 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.about h3 {
+    text-align: center;
+}
+
+.about h4 {
+    text-align: center;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.about h2 {
+    text-align: center;
+}
+
+/* List part */
+
+ul {
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {}
+
+ul li a {
+  display: block;
+  text-decoration: none;
+  color: #000000;
+  background-color: #FFFFFF;
+  line-height: 30px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #CCCCCC;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+ul li a:hover {
+  color: rgb(62, 107, 45);
+}
+
+ul li a strong {
+  margin-right: 10px;
+}

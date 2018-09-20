@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { JSONService } from '../../../types/services';
+import { JSONService, JSONTransport } from '../../../types/services';
 import { UDSApiService } from '../../../uds-api.service';
 
 const MAX_NAME_LENGTH = 56;
@@ -36,7 +36,7 @@ export class ServiceComponent implements OnInit {
     } else if (this.service.maintenance) {
       return django.gettext('Service is in maintenance');
     } else if (this.service.not_accesible) {
-      return django.gettext('Service access is not allowed at this time');
+      return django.gettext('Access to the service is restricted at this time');
     }
     return '';
   }
@@ -80,7 +80,7 @@ export class ServiceComponent implements OnInit {
     this.api.gui.alert('<p align="center"><b>' + django.gettext('Launcher') + '</b></p>', message);
   }
 
-  launch() {
+  launch(transport: JSONTransport) {
     if (this.service.maintenance ) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
     } else if (this.service.not_accesible) {
@@ -91,7 +91,10 @@ export class ServiceComponent implements OnInit {
       '</p>'
       );
     } else {
-      this.api.launchURL(this.service.transports[0].link);
+      if (transport === null) {
+        transport = this.service.transports[0];
+      }
+      this.api.launchURL(transport.link);
     }
   }
 }

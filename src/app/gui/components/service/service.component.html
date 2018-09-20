@@ -1,6 +1,6 @@
 <div *ngIf="service.transports.length > 0">
   <mat-menu #transports>
-    <button mat-menu-item *ngFor="let trans of service.transports">
+    <button mat-menu-item *ngFor="let trans of service.transports" (click)="launch(trans)">
       <div class="transport-item">
         <img [src]="getTransportIcon(trans.id)">
         {{ trans.name }}
@@ -30,7 +30,7 @@
 
   <div [ngClass]="serviceClass" [matTooltipDisabled]="serviceTooltip===''" 
     [matTooltip]="serviceTooltip" matTooltipShowDelay="1000" matTooltipPosition="above">
-    <div class="icon" (click)="launch()">
+    <div class="icon" (click)="launch(null)">
       <img [src]="serviceImage">
     </div>
     <div class="name">
