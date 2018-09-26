@@ -50,7 +50,7 @@ export class Plugin {
             this.api.enabler(params[0], params[1]).subscribe(data => {
                 if (data.error !== undefined && data.error !== '') {
                     // TODO: show the error correctly
-                    alert(data.error);
+                    this.api.gui.alert(django.gettext('Error launching service'), data.error);
                 } else {
                     if (window.location.protocol === 'https:') {
                         // Ensures that protocol is https also for plugin, fixing if needed UDS provided info

@@ -16,3 +16,7 @@ i.material-icons {
     vertical-align: middle !important;
 }
 
+/* colors for remmarks */
+.highlight {
+    color: red;
+}

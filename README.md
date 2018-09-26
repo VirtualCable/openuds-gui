@@ -6,11 +6,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Remember editing the "proxy.conf.json" file and adapt it to your needings.
+Remember editing the "proxy.conf.json" file and adapt it to your needings. Normally this means changing the `172.27.0.1` value to `YOUR_UDS_SERVER_IP` value and nothing more.
 
 Currently, you will need to use a running UDS server backend in order to run the development environment.
 
-Run `yarn start` for a dev server. Navigate to `http://[YOUR_IP]:9000/`. The app will automatically reload if you change any of the source files.
+Run `yarn start` for a dev server. 
+
+In order to authenticate correctly against the platform, first navigate to `http://[YOUR_IP]:9000/uds/pages/login` so the cookies from backend are correctly implanted.
+
+Navigate to `http://[YOUR_IP]:9000/`. The app will automatically be reloaded if you change any of the source files.
 
 ## Importing into OpenUDS
 

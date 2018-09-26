@@ -63,6 +63,7 @@
 .name {
   margin-top: 0.5em;
   font-size: 1.2em;
+  width: calc(100% - 1em);
   display: flex;
   flex: 1 0 auto;
   flex-flow: row;

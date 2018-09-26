@@ -9,11 +9,11 @@
   </mat-menu>
 
   <mat-menu #actions>
-    <button mat-menu-item *ngIf="service.allow_users_remove">
+    <button mat-menu-item *ngIf="service.allow_users_remove" (click)="action('remove')">
       <i class="material-icons">delete</i>
       <uds-translate> Release service</uds-translate>
     </button>
-    <button mat-menu-item *ngIf="service.allow_users_reset">
+    <button mat-menu-item *ngIf="service.allow_users_reset" (click)="action('reset')">
       <i class="material-icons">refresh</i>
       <uds-translate> Reset service</uds-translate>
     </button>

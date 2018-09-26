@@ -31,18 +31,18 @@ export class ServiceComponent implements OnInit {
   }
 
   get serviceTooltip() {
-    if ( this.service.to_be_replaced !== null ) {
+    if (this.service.to_be_replaced !== null) {
       return this.service.to_be_replaced_text;
     } else if (this.service.maintenance) {
       return django.gettext('Service is in maintenance');
     } else if (this.service.not_accesible) {
-      return django.gettext('Access to the service is restricted at this time');
+      return django.gettext('This service is currently not accessible due to schedule restrictions.');
     }
     return '';
   }
 
   get serviceClass() {
-    const klass  = ['service'];
+    const klass = ['service'];
     if (this.service.to_be_replaced != null) {
       klass.push('tobereplaced');
     } else if (this.service.maintenance) {
@@ -50,7 +50,7 @@ export class ServiceComponent implements OnInit {
     } else if (this.service.not_accesible) {
       klass.push('forbidden');
     }
-    if (klass.length > 1 ) {
+    if (klass.length > 1) {
       klass.push('alert');
     }
 
@@ -73,7 +73,7 @@ export class ServiceComponent implements OnInit {
     return this.service.maintenance === false &&
       this.service.not_accesible === false &&
       (this.hasActions() || this.hasManyTransports())
-    ;
+      ;
   }
 
   notifyNotLaunching(message: string) {
@@ -81,20 +81,56 @@ export class ServiceComponent implements OnInit {
   }
 
   launch(transport: JSONTransport) {
-    if (this.service.maintenance ) {
+    if (this.service.maintenance) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
     } else if (this.service.not_accesible) {
       this.notifyNotLaunching('<p align="center">' +
-      django.gettext('This service is currently not accesible due to schedule restrictions.') +
-      '</p><p align="center"><b>' + django.gettext('Access limited by calendar') +
-      '</b></p><p align="center">' + django.gettext('Please, retry access in a while.') +
-      '</p>'
+        django.gettext('This service is currently not accesible due to schedule restrictions.') +
+        '</p><p align="center"><b>' + django.gettext('Access limited by calendar') +
+        '</b></p><p align="center">' + django.gettext('Please, retry access in a while.') +
+        '</p>'
       );
     } else {
       if (transport === null) {
         transport = this.service.transports[0];
       }
       this.api.launchURL(transport.link);
+    }
+  }
+
+  action(type: string) {
+    if (type === 'remove') {
+      this.api.gui.yesno(
+        django.gettext('Release service: ') + this.serviceName,
+        django.gettext('Are you sure?'
+        )).subscribe((val: boolean) => {
+          if (val) {
+            console.log('Releasing service');
+            this.api.releaser(this.service.id).subscribe((service) => {
+              this.api.gui.alert(
+                django.gettext('Release service: ') + this.serviceName,
+                django.gettext('Service released')
+              );
+              console.log(service);
+            });
+          }
+        });
+    } else {  // 'reset'
+      this.api.gui.yesno(
+        django.gettext('Reset service: ') + this.serviceName,
+        django.gettext('Are you sure?')
+      ).subscribe((val: boolean) => {
+        if (val) {
+          console.log('Reseting service');
+          this.api.resetter(this.service.id).subscribe((service) => {
+            this.api.gui.alert(
+              django.gettext('Reset service: ') + this.serviceName,
+              django.gettext('Service Reset')
+            );
+          console.log(service);
+          });
+      }
+      });
     }
   }
 }
