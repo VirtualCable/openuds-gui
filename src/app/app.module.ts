@@ -33,6 +33,7 @@ import { ServicesGroupComponent } from './gui/components/services-group/services
 import { ModalComponent } from './gui/modal/modal.component';
 import { SafeHtmlPipe } from './gui/safe-html.pipe';
 import { AboutComponent } from './pages/about/about.component';
+import { DownloadsComponent } from './pages/downloads/downloads.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { AboutComponent } from './pages/about/about.component';
     FooterComponent,
     ErrorComponent,
     AboutComponent,
+    DownloadsComponent,
   ],
   imports: [
     BrowserModule,

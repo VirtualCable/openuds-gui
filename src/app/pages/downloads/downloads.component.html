@@ -1,0 +1,20 @@
+<div class="actors-container">
+
+  <div class="banner">
+    <div class="banner-text">
+      <h1>
+        <uds-translate>Downloads</uds-translate>
+      </h1>
+    </div>
+  </div>
+
+  <div class="actors">
+    <div class="actor" *ngFor="let p of api.actors" (click)="download(p.url)">
+      <div class="name" [innerHTML]="p.name | safeHtml">
+      </div>
+      <div class="description" [innerHTML]="p.description | safeHtml ">
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -23,8 +23,7 @@ export interface UDSUrls {
     readonly services: string;
     readonly admin: string;
     readonly enabler: string;
-    readonly resetter: string;
-    readonly releaser: string;
+    readonly action: string;
     readonly galleryImage: string;
     readonly transportIcon: string;
 }
@@ -39,7 +38,6 @@ export interface UDSConfig {
     readonly csrf_field: string;
     readonly csrf: string;
     readonly urls: UDSUrls;
-    readonly bypassPluginDetection: boolean;
 }
 
 export interface Downloadable {

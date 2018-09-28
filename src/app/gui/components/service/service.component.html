@@ -9,7 +9,7 @@
   </mat-menu>
 
   <mat-menu #actions>
-    <button mat-menu-item *ngIf="service.allow_users_remove" (click)="action('remove')">
+    <button mat-menu-item *ngIf="service.allow_users_remove" (click)="action('release')">
       <i class="material-icons">delete</i>
       <uds-translate> Release service</uds-translate>
     </button>
@@ -20,7 +20,7 @@
   </mat-menu>
 
   <mat-menu #menu>
-    <button mat-menu-item [matMenuTriggerFor]="transports" *ngIf="hasManyTransports()">
+    <button mat-menu-item [matMenuTriggerFor]="transports" *ngIf="showTransportsMenu()">
       <uds-translate>Transports</uds-translate>
     </button>
     <button mat-menu-item [matMenuTriggerFor]="actions" *ngIf="hasActions()">

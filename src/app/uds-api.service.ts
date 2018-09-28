@@ -35,6 +35,13 @@ export class UDSApiService {
     return udsData.plugins;
   }
 
+  /**
+   * Gets actors list
+   */
+  get actors(): Downloadable[] {
+    return udsData.actors;
+  }
+
   /* Client enabler */
   enabler(serviceId: string, transportId: string) {
     const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);
@@ -42,15 +49,9 @@ export class UDSApiService {
   }
 
   /* Services resetter */
-  resetter(serviceId: string) {
-    const resetter = this.config.urls.resetter.replace('param1', serviceId);
-    return this.http.get<JSONService>(resetter);
-  }
-
-  /* Services resetter */
-  releaser(serviceId: string) {
-    const releaser = this.config.urls.resetter.replace('param1', serviceId);
-    return this.http.get<JSONService>(releaser);
+  action(action: string, serviceId: string) {
+    const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
+    return this.http.get<JSONService>(actionURL);
   }
 
   /* Images & static related */

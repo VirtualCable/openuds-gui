@@ -49,6 +49,8 @@ export class ServiceComponent implements OnInit {
       klass.push('maintenance');
     } else if (this.service.not_accesible) {
       klass.push('forbidden');
+    } else if (this.service.in_use) {
+      klass.push('inuse');
     }
     if (klass.length > 1) {
       klass.push('alert');
@@ -65,14 +67,14 @@ export class ServiceComponent implements OnInit {
     return this.service.allow_users_remove || this.service.allow_users_reset;
   }
 
-  hasManyTransports() {
-    return this.service.transports.length > 1;
+  showTransportsMenu() {
+    return this.service.transports.length > 1 && this.service.show_transports;
   }
 
   hasMenu() {
     return this.service.maintenance === false &&
       this.service.not_accesible === false &&
-      (this.hasActions() || this.hasManyTransports())
+      (this.hasActions() || this.showTransportsMenu())
       ;
   }
 
@@ -91,7 +93,7 @@ export class ServiceComponent implements OnInit {
         '</p>'
       );
     } else {
-      if (transport === null) {
+      if (transport === null || this.service.show_transports === false) {
         transport = this.service.transports[0];
       }
       this.api.launchURL(transport.link);
@@ -99,38 +101,23 @@ export class ServiceComponent implements OnInit {
   }
 
   action(type: string) {
-    if (type === 'remove') {
-      this.api.gui.yesno(
-        django.gettext('Release service: ') + this.serviceName,
-        django.gettext('Are you sure?'
-        )).subscribe((val: boolean) => {
-          if (val) {
-            console.log('Releasing service');
-            this.api.releaser(this.service.id).subscribe((service) => {
-              this.api.gui.alert(
-                django.gettext('Release service: ') + this.serviceName,
-                django.gettext('Service released')
-              );
-              console.log(service);
-            });
+    const title = type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ') + this.serviceName;
+    const action = type === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
+    this.api.gui.yesno(
+      title,
+      django.gettext('Are you sure?')
+    ).subscribe((val) => {
+      if (val) {
+        this.api.action(type, this.service.id).subscribe((service) => {
+          if (service) {
+            this.api.gui.alert(
+              title,
+              action
+            );
           }
         });
-    } else {  // 'reset'
-      this.api.gui.yesno(
-        django.gettext('Reset service: ') + this.serviceName,
-        django.gettext('Are you sure?')
-      ).subscribe((val: boolean) => {
-        if (val) {
-          console.log('Reseting service');
-          this.api.resetter(this.service.id).subscribe((service) => {
-            this.api.gui.alert(
-              django.gettext('Reset service: ') + this.serviceName,
-              django.gettext('Service Reset')
-            );
-          console.log(service);
-          });
       }
-      });
-    }
+    });
+
   }
 }
