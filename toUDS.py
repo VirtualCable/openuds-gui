@@ -85,6 +85,9 @@ def fixIndex():
     # Change <html lang="en"> with {{ LANGUAGE_CODE }}
     html = re.sub('<html lang="en">',
                   '<html lang="{{ LANGUAGE_CODE }}">', html)
+    # Add link rel style.. to our theme stylesheet AFTER all index styles
+    html = re.sub('</head>',
+                  '<link rel="stylesheet" href="{% url \'custom\' \'styles.css\' %}"></head>', html)
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
         f.write(translatePattern.sub(translations + jsdata, html))
 
