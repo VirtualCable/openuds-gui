@@ -48,21 +48,28 @@ export interface Downloadable {
 
 export interface UserProfile {
     readonly user: string;
-    readonly role: string;
+    readonly role: string;     // Info only, API will check it anyway, but hides non usable items
+    readonly admin: boolean;   // Info only, API will check it anyway, but hides non usable items
 }
 
 // User related
 export class User {
     readonly user: string;
     readonly role: string;
+    readonly admin: boolean;
 
     constructor(profile: UserProfile) {
         this.user = profile.user;
         this.role = profile.role;
+        this.admin = profile.admin;
     }
 
     get isStaff(): boolean {
         return this.role === 'staff';
+    }
+
+    get isAdmin(): boolean {
+        return this.isStaff && this.admin;
     }
 
     get isLogged(): boolean {
