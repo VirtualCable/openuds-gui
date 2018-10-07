@@ -83,11 +83,6 @@ export class ServicesComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Redirect, if not logged in, to login screen
-    if (!this.api.user.isLogged) {
-      this.api.router.navigate(['login']);
-    }
-
     this.loadServices(); // Loads service related data
   }
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 
 import { LoginComponent } from '../pages/login/login.component';
 import { ClientDownloadComponent } from '../pages/client-download/client-download.component';
@@ -10,13 +11,13 @@ import { AboutComponent } from '../pages/about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'services', pathMatch: 'full' },
-  { path: 'services', component: ServicesComponent },
+  { path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'login/:id', component: LoginComponent },
 
   { path: 'client-download', component: ClientDownloadComponent },
-  { path: 'downloads', component: DownloadsComponent },
+  { path: 'downloads', component: DownloadsComponent, canActivate: [AuthGuard]  },
 
   { path: 'error/:id', component: ErrorComponent },
   { path: 'about', component: AboutComponent },
