@@ -81,7 +81,7 @@ def fixIndex():
     with open(os.path.join(DIST, 'index.html'), 'r', encoding='utf8') as f:
         html = f.read()
     # include django headers
-    html = '{% load uds i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
+    html = '{% load i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
     # Change <html lang="en"> with {{ LANGUAGE_CODE }}
     html = re.sub('<html lang="en">',
                   '<html lang="{{ LANGUAGE_CODE }}">', html)
