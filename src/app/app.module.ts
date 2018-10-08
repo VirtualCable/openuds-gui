@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { LayoutModule } from '@angular/cdk/layout';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -6,7 +7,6 @@ import { AppRoutingModule } from './modules/app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './modules/app-material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 
@@ -55,11 +55,11 @@ import { DownloadsComponent } from './pages/downloads/downloads.component';
   ],
   imports: [
     BrowserModule,
+    LayoutModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AppMaterialModule,
-    FlexLayoutModule,
   ],
   providers: [
     UDSApiService,

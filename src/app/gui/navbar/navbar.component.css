@@ -18,3 +18,24 @@
 .udsicon {
   width: 2rem;
 }
+
+/* responsive part */
+@media only screen and (max-width: 744px) {
+  .expanded {
+      display: none;
+      visibility: hidden;
+  }
+  .shrinked {
+    visibility: visible;
+  }
+}
+
+@media only screen and (min-width: 745px) {
+  .expanded {
+      visibility: visible;
+  }
+  .shrinked {
+    display: none;
+    visibility: hidden;
+  }
+}

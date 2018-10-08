@@ -10,9 +10,10 @@ import { Lang } from '../../types/config';
 export class NavbarComponent implements OnInit {
   lang: Lang; // Current language
   langs: Lang[]; // Available languages
-  isNavbarCollapsed = true;
+  style = ''; // Empty on start
 
   constructor(public api: UDSApiService) {
+
     const lang = api.config.language;
     // Add "non current lang" to list
     this.langs = [];
@@ -25,7 +26,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   changeLang(to: Lang): boolean {

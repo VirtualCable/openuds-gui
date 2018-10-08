@@ -35,7 +35,7 @@
   <span class="fill-remaining-space"></span>
 
   <!-- elements only visible when expanded -->
-  <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+  <div class="expanded">
       <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>UDS Client</button>
       <button mat-button routerLink="/about"><i class="material-icons">info</i><uds-translate>About</uds-translate></button>
       <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i class="material-icons">arrow_drop_down</i></button>
@@ -43,8 +43,10 @@
   </div>
 
   <!-- button visible only when shrinked -->
-  <button mat-button [matMenuTriggerFor]="shrink" fxHide="false" fxHide.gt-sm>
-    <i class="material-icons">menu</i>
-  </button>
+  <div class="shrinked">
+    <button mat-button [matMenuTriggerFor]="shrink">
+      <i class="material-icons">menu</i>
+    </button>
+ </div>
 
 </mat-toolbar>
