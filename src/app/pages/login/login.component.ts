@@ -9,7 +9,6 @@ import { Authenticator } from '../../types/config';
 })
 export class LoginComponent implements OnInit {
   auths: Authenticator[];
-  visible: boolean;
   auth: HTMLInputElement;
   title = 'UDS Enterprise';
 
@@ -22,7 +21,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // We want to keep compatibility right now with previous UDS templates, so we
     // adapt form to post the correct values the correct way
-    this.visible = true;
     const form = <HTMLFormElement>document.getElementById('loginform');
     form.action = this.api.config.urls.login;
     const input = (<HTMLInputElement>document.getElementById('token'));
@@ -39,7 +37,6 @@ export class LoginComponent implements OnInit {
     this.auth.value = auth;
     // Ejecuted when custom auth selected
     const doCustomAuth = (data: string) => {
-      this.visible = false;
       // tslint:disable-next-line:no-eval
       eval(data);
     };
@@ -47,6 +44,8 @@ export class LoginComponent implements OnInit {
     for (const l of this.auths) {
       if (l.id === auth) {
         if (l.is_custom) { // If is custom, we should get the code from server to authentication
+          // Instant hide form
+          document.getElementsByClassName('login-form')[0].setAttribute('style', 'display: none;');
           this.api.getAuthCustomHtml(l.id)
             .subscribe(result => doCustomAuth(result));
         }
