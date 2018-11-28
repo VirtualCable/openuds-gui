@@ -96,6 +96,7 @@ export class ServiceComponent implements OnInit {
       if (transport === null || this.service.show_transports === false) {
         transport = this.service.transports[0];
       }
+      this.api.executeCustomJSForServiceLaunch();
       this.api.launchURL(transport.link);
     }
   }

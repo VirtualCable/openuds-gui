@@ -21,8 +21,6 @@ export class Plugin {
      * Launches an UDS related url
      * @param url uds url to be lauhcned
      *
-     * If the plugin cannon detect the correct launch of the UDS plugin, will redirect to plugin page
-     * unless bypassPluginDetection is FALSE
      */
     private doLaunch(url: string) {
         this.api.gui.alert(
