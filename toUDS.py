@@ -103,7 +103,7 @@ def extractTranslations():
                 # Locate pattern
                 for v in pattern.finditer(data):
                     print('Found string {}'.format(v.groups()[0]))
-                    print('gettext("{}");'.format(v.groups()[0]), file=output)
+                    print('gettext("{}");'.format(v.groups()[0].strip()), file=output)
 
     with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
         print('// "Fake" javascript file for translations', file=output)

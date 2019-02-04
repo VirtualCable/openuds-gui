@@ -11,7 +11,7 @@ export class TranslateDirective implements OnInit {
   ngOnInit() {
     // Simply substitute innter html with translation
 
-    this.el.nativeElement.innerHTML = django.gettext(this.el.nativeElement.innerHTML);
+    this.el.nativeElement.innerHTML = django.gettext(this.el.nativeElement.innerHTML.trim());
   }
 
 }
