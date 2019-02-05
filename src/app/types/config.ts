@@ -13,7 +13,7 @@ export interface Authenticator {
     is_custom: string;
 }
 
-// URLs related
+// URLs related, remember that only NEEDED elements are declared, but more elements are available
 export interface UDSUrls {
     readonly static: string;
     readonly changeLang: string;
@@ -28,6 +28,10 @@ export interface UDSUrls {
     readonly transportIcon: string;
 }
 
+export interface UDSMessages {
+    readonly calendarDenied: string;
+}
+
 export interface UDSConfig {
     readonly version: string;
     readonly version_stamp: string;
@@ -37,6 +41,8 @@ export interface UDSConfig {
     readonly os: string;
     readonly csrf_field: string;
     readonly csrf: string;
+    readonly reload_time: number;
+    readonly messages: UDSMessages;
     readonly urls: UDSUrls;
 }
 
