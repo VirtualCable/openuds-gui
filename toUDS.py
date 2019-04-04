@@ -96,13 +96,16 @@ def extractTranslations():
     print('Extracting translations from HTML')
     # Generate "fake" translations file (just to use django translator)
 
-    def getTranslations(locator, pattern, output):
+    def getTranslations(locator, pattern, output, strip=True):
         for fileName in locator():
             with open(fileName, 'r', encoding='utf8') as f:
                 data = f.read()
                 # Locate pattern
                 for v in pattern.finditer(data):
-                    s = v.groupdict()['data'].strip().replace('\n', '\\n')
+                    s = v.groupdict()['data']
+                    if strip:
+                        s = s.strip()
+                    s = s.replace('\n', '\\n')
 
                     print('Found string {}'.format(s))
                     print('gettext("{}");'.format(s), file=output)
@@ -113,7 +116,7 @@ def extractTranslations():
         # First, extract translations from typescript
         typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*([\'"])(?P<data>.*?)\1\)')
         print('// Typescript', file=output)
-        getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern, output)
+        getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern, output, strip=False)
 
         # Now extract translations from html
         htmlTranslationPattern = re.compile(r'<uds-translate>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
