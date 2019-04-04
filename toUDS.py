@@ -102,7 +102,7 @@ def extractTranslations():
                 data = f.read()
                 # Locate pattern
                 for v in pattern.finditer(data):
-                    s = v.groupdict()['data'].replace('\n', '\\n')
+                    s = v.groupdict()['data'].strip().replace('\n', '\\n')
 
                     print('Found string {}'.format(s))
                     print('gettext("{}");'.format(s), file=output)
@@ -111,7 +111,7 @@ def extractTranslations():
         print('// "Fake" javascript file for translations', file=output)
 
         # First, extract translations from typescript
-        typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*([\'"])(?P<data>.*)\1\)')
+        typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*([\'"])(?P<data>.*?)\1\)')
         print('// Typescript', file=output)
         getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern, output)
 
