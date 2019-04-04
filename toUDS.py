@@ -96,29 +96,29 @@ def extractTranslations():
     print('Extracting translations from HTML')
     # Generate "fake" translations file (just to use django translator)
 
-    def getTranslations(locator, pattern):
+    def getTranslations(locator, pattern, output):
         for fileName in locator():
             with open(fileName, 'r', encoding='utf8') as f:
                 data = f.read()
                 # Locate pattern
                 for v in pattern.finditer(data):
-                    print('Found string {}'.format(v.groups()[0]))
-                    print('gettext("{}");'.format(v.groups()[0].strip()), file=output)
+                    s = v.groupdict()['data'].replace('\n', '\\n')
+
+                    print('Found string {}'.format(s))
+                    print('gettext("{}");'.format(s), file=output)
 
     with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
         print('// "Fake" javascript file for translations', file=output)
 
         # First, extract translations from typescript
-        typeScriptTranslationPattern = re.compile(
-            r'django\.gettext\(\s*[\'"]([^\'"]+)')
+        typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*([\'"])(?P<data>.*)\1\)')
         print('// Typescript', file=output)
-        getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern)
+        getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern, output)
 
         # Now extract translations from html
-        htmlTranslationPattern = re.compile(
-            '<uds-translate>(.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
+        htmlTranslationPattern = re.compile(r'<uds-translate>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
         print('// HTML', file=output)
-        getTranslations(locateHtmlFiles, htmlTranslationPattern)
+        getTranslations(locateHtmlFiles, htmlTranslationPattern, output)
 
 
 def copyImages():
