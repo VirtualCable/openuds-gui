@@ -8,6 +8,7 @@ import { DownloadsComponent } from '../pages/downloads/downloads.component';
 import { ServicesComponent } from '../pages/services/services.component';
 import { ErrorComponent } from '../pages/error/error.component';
 import { AboutComponent } from '../pages/about/about.component';
+import { LauncherComponent } from '../pages/launcher/launcher.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'services', pathMatch: 'full' },
@@ -21,6 +22,9 @@ const routes: Routes = [
 
   { path: 'error/:id', component: ErrorComponent },
   { path: 'about', component: AboutComponent },
+
+  // TODO: Fix this launcher part
+  { path: 'ticket/launcher', component: LauncherComponent},
 
   // Placeholder, maybe we change it to "page not found"
   { path: '**', redirectTo: 'services' },

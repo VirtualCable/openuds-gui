@@ -26,6 +26,8 @@ export interface UDSUrls {
     readonly action: string;
     readonly galleryImage: string;
     readonly transportIcon: string;
+
+    readonly launch: string;
 }
 
 export interface UDSMessages {

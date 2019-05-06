@@ -83,7 +83,11 @@ export class ServicesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadServices(); // Loads service related data
+    if (this.api.config.urls.launch) {
+      this.api.logout();
+    } else {
+      this.loadServices(); // Loads service related data
+    }
   }
 
 }

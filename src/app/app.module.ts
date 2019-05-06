@@ -34,6 +34,7 @@ import { ModalComponent } from './gui/modal/modal.component';
 import { SafeHtmlPipe } from './gui/safe-html.pipe';
 import { AboutComponent } from './pages/about/about.component';
 import { DownloadsComponent } from './pages/downloads/downloads.component';
+import { LauncherComponent } from './pages/launcher/launcher.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { DownloadsComponent } from './pages/downloads/downloads.component';
     ErrorComponent,
     AboutComponent,
     DownloadsComponent,
+    LauncherComponent,
   ],
   imports: [
     BrowserModule,
