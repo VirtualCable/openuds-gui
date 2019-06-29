@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ModalComponent, DialogType } from './modal/modal.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class UDSGuiService {
