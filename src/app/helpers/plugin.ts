@@ -1,5 +1,4 @@
-import { Router } from '@angular/router';
-import { UDSApiService } from '../uds-api.service';
+import { UDSApiServiceType } from '../uds-api.service-type';
 
 /**
  * Plugin manipulation class
@@ -14,7 +13,7 @@ enum BrowserType {
 export class Plugin {
     static transportsWindow: Window = null;
 
-    constructor(private api: UDSApiService) {
+    constructor(private api: UDSApiServiceType) {
     }
 
     /**

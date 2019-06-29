@@ -7,10 +7,12 @@ import { JSONServicesInformation, JSONEnabledService, JSONService } from './type
 import { UDSGuiService } from './gui/uds-gui.service';
 import { Plugin } from './helpers/plugin';
 
+import { UDSApiServiceType } from './uds-api.service-type';
+
 import { environment } from '../environments/environment';
 
 @Injectable()
-export class UDSApiService {
+export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
   transportsWindow: Window;
   plugin: Plugin;
@@ -98,7 +100,7 @@ export class UDSApiService {
     window.location.href = this.config.urls.logout;
   }
 
-  launchURL(udsURL): void {
+  launchURL(udsURL: string): void {
     this.plugin.launchURL(udsURL);
   }
 
