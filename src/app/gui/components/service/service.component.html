@@ -21,14 +21,14 @@
 
   <mat-menu #menu>
     <button mat-menu-item [matMenuTriggerFor]="transports" *ngIf="showTransportsMenu()">
-      <uds-translate>Transports</uds-translate>
+      <uds-translate>Connections</uds-translate>
     </button>
     <button mat-menu-item [matMenuTriggerFor]="actions" *ngIf="hasActions()">
       <uds-translate>Actions</uds-translate>
     </button>
   </mat-menu>
 
-  <div [ngClass]="serviceClass" [matTooltipDisabled]="serviceTooltip===''" 
+  <div [ngClass]="serviceClass" [matTooltipDisabled]="serviceTooltip===''"
     [matTooltip]="serviceTooltip" matTooltipShowDelay="1000" matTooltipPosition="above">
     <div class="icon" (click)="launch(null)">
       <img [src]="serviceImage">
