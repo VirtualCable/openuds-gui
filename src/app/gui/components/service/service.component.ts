@@ -89,7 +89,7 @@ export class ServiceComponent implements OnInit {
       this.notifyNotLaunching('<p align="center">' +
         django.gettext('This service is currently not accesible due to schedule restrictions.') +
         '</p><p align="center"><b>' + this.api.config.messages.calendarDenied +
-        '</b></p><p align="center">' + django.gettext('Please, retry access in a while.') +
+        '</b></p><p align="center">' +
         '</p>'
       );
     } else {
