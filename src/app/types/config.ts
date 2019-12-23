@@ -35,6 +35,7 @@ export interface UDSMessages {
 }
 
 export interface UDSConfig {
+    readonly site_name: string;
     readonly version: string;
     readonly version_stamp: string;
     readonly language: string;

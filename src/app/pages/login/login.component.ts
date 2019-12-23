@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   title = 'UDS Enterprise';
 
   constructor(public api: UDSApiService) {
+    this.title = api.config.site_name;
     this.auths = api.config.authenticators.slice(0);
     // Sort array, so we can display it correctly
     this.auths.sort((a, b) => a.priority - b.priority);
