@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UDSApiService } from '../../uds-api.service';
 
 @Component({
   selector: 'uds-footer',
@@ -7,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() {
-   }
+  constructor(public api: UDSApiService) {
+  }
 
   ngOnInit() {
   }

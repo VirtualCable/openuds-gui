@@ -35,7 +35,6 @@ export interface UDSMessages {
 }
 
 export interface UDSConfig {
-    readonly site_name: string;
     readonly version: string;
     readonly version_stamp: string;
     readonly language: string;
@@ -45,6 +44,9 @@ export interface UDSConfig {
     readonly csrf_field: string;
     readonly csrf: string;
     readonly reload_time: number;
+    readonly site_name: string;
+    readonly site_copyright_info: string;
+    readonly site_copyright_link: string;
     readonly messages: UDSMessages;
     readonly urls: UDSUrls;
 }
