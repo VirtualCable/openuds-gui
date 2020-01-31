@@ -30,6 +30,7 @@ export interface JSONService {
     allow_users_reset: boolean;
     to_be_replaced: boolean;
     to_be_replaced_text: string;
+    custom_calendar_text: string;
     in_use: boolean;
     transports: JSONTransport[];
 }

@@ -86,9 +86,11 @@ export class ServiceComponent implements OnInit {
     if (this.service.maintenance) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
     } else if (this.service.not_accesible) {
+      const calendarDeniedText = this.service.custom_calendar_text || this.api.config.messages.calendarDenied;
+
       this.notifyNotLaunching('<p align="center">' +
         django.gettext('This service is currently not accesible due to schedule restrictions.') +
-        '</p><p align="center"><b>' + this.api.config.messages.calendarDenied +
+        '</p><p align="center"><b>' + calendarDeniedText +
         '</b></p><p align="center">' +
         '</p>'
       );
