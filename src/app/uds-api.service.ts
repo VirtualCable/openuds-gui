@@ -11,6 +11,9 @@ import { UDSApiServiceType } from './uds-api.service-type';
 
 import { environment } from '../environments/environment';
 
+declare var udsData: any;
+
+
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;

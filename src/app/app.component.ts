@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // External
+declare var django: any;
 declare var cookieconsent: any;
 
 

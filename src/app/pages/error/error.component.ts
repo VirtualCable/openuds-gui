@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+declare var django: any;
+declare var udsData: any;
+
 @Component({
   selector: 'uds-error',
   templateUrl: './error.component.html',

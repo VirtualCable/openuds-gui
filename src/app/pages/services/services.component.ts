@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
 import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
-import { Plugin } from '../../helpers/plugin';
+
+declare var django: any;
 
 class GroupedServices {
   services: JSONService[];

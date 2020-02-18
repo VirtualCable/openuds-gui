@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval, Subscription, Observable } from 'rxjs';
 
+declare var django: any;
+
 export enum DialogType {
   alert = 0,
   yesno = 1

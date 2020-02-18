@@ -1,5 +1,7 @@
 import { UDSApiServiceType } from '../uds-api.service-type';
 
+declare var django: any;
+
 /**
  * Plugin manipulation class
  */
