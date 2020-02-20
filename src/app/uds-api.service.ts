@@ -47,6 +47,17 @@ export class UDSApiService implements UDSApiServiceType {
     return udsData.actors;
   }
 
+  /**
+   * Actor errors. Empty array it no errors.
+   *
+   * @readonly
+   * @type {string[]}
+   * @memberof UDSApiService
+   */
+  get errors(): string[] {
+    return udsData.errors;
+  }
+
   /* Client enabler */
   enabler(serviceId: string, transportId: string) {
     const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);

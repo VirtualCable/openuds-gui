@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
 import { Authenticator } from '../../types/config';
 
+declare var django: any;
+
 @Component({
   selector: 'uds-login',
   templateUrl: './login.component.html',
@@ -32,6 +34,11 @@ export class LoginComponent implements OnInit {
     if (this.auths.length > 0) {
       this.auth.value = this.auths[0].id;
     }
+
+    if (this.api.errors.length > 0) {
+      this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>' );
+    }
+
   }
 
   changeAuth(auth) {
