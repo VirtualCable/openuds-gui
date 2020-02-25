@@ -38,7 +38,10 @@ export class ServiceComponent implements OnInit {
     } else if (this.service.maintenance) {
       return django.gettext('Service is in maintenance');
     } else if (this.service.not_accesible) {
-      return django.gettext('This service is currently not accessible due to schedule restrictions.');
+      // django.gettext('This service is currently not accessible due to schedule restrictions.');
+      return this.service.custom_calendar_text;
+    } else if (this.serviceName !== this.service.name) {
+      return this.service.name;
     }
     return '';
   }
