@@ -119,7 +119,7 @@ def extractTranslations():
         getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern, output, strip=False)
 
         # Now extract translations from html
-        htmlTranslationPattern = re.compile(r'<uds-translate>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
+        htmlTranslationPattern = re.compile(r'<uds-translate[^>]*>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
         print('// HTML', file=output)
         getTranslations(locateHtmlFiles, htmlTranslationPattern, output)
 
