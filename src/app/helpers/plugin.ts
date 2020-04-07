@@ -59,11 +59,17 @@ export class Plugin {
                 }
             });
         } else {
-            // Transport is http transport
-            if (Plugin.transportsWindow !== null) {
-                Plugin.transportsWindow.close();
+            // If the url contains "o_n_w", will open the url on a new window ALWAYS
+            if (url.indexOf('o_n_w') !== -1 ) {
+                // Remove o_n_w from url
+                window.open(url.replace('o_n_w', ''));
+            } else {
+                // Transport is http transport
+                if (Plugin.transportsWindow !== null) {
+                    Plugin.transportsWindow.close();
+                }
+                Plugin.transportsWindow = window.open(url, 'uds_transport_window');
             }
-            Plugin.transportsWindow = window.open(url, 'uds_transport_window');
-        }
+    }
     }
 }
