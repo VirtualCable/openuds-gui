@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     this.auth = (<HTMLInputElement>document.getElementById('authenticator'));
     if (this.auths.length > 0) {
       this.auth.value = this.auths[0].id;
+      this.changeAuth(this.auth.value);
     }
 
     if (this.api.errors.length > 0) {
