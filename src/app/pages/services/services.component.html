@@ -6,7 +6,7 @@
 
 
 <div *ngIf="api.staffInfo" class="staff-info">
-  <h1>Staff Information</h1>
+  <h1><uds-translate>Information</uds-translate></h1>
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header class="staff-panel">
@@ -14,12 +14,12 @@
           IPs
         </mat-panel-title>
         <mat-panel-description>
-          Detected clients ips
+          <uds-translate>Client IP</uds-translate>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ol>
-        <li>Detecetd client Ip: {{ api.staffInfo.ip }}</li>
-        <li *ngIf="api.staffInfo.ip_proxy !== api.staffInfo.ip"><b>Detected proxy ip</b>: {{ api.staffInfo.ip_proxy }}</li>
+        <li><uds-translate>Client IP</uds-translate>: {{ api.staffInfo.ip }}</li>
+        <li *ngIf="api.staffInfo.ip_proxy !== api.staffInfo.ip"><uds-translate>Detected proxy ip</uds-translate>: {{ api.staffInfo.ip_proxy }}</li>
       </ol>
     </mat-expansion-panel>
 
@@ -27,10 +27,10 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header class="staff-panel">
         <mat-panel-title>
-          Transports
+          <uds-translate>Transports</uds-translate>
         </mat-panel-title>
         <mat-panel-description>
-          Known UDS Transfors for this client
+          <uds-translate>UDS transports for this client</uds-translate>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ol>
@@ -41,10 +41,10 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header class="staff-panel">
         <mat-panel-title>
-          Networks
+          <uds-translate>Networks</uds-translate>
         </mat-panel-title>
         <mat-panel-description>
-          Known UDS networks for this IP
+          <uds-translate>UDS networks for this IP</uds-translate>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <span *ngFor="let n of api.staffInfo.networks">{{ n }}</span>&nbsp;
