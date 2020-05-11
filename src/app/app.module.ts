@@ -30,6 +30,8 @@ import { FooterComponent } from './gui/footer/footer.component';
 import { ServiceComponent } from './gui/components/service/service.component';
 import { ServicesGroupComponent } from './gui/components/services-group/services-group.component';
 
+import { StaffInfoComponent } from './gui/components/staff-info/staff-info.component';
+
 import { ModalComponent } from './gui/modal/modal.component';
 import { SafeHtmlPipe } from './gui/safe-html.pipe';
 import { AboutComponent } from './pages/about/about.component';
@@ -54,6 +56,7 @@ import { LauncherComponent } from './pages/launcher/launcher.component';
     AboutComponent,
     DownloadsComponent,
     LauncherComponent,
+    StaffInfoComponent,
   ],
   imports: [
     BrowserModule,
