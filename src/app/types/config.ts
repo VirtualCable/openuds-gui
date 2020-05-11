@@ -64,6 +64,13 @@ export interface UserProfile {
     readonly admin: boolean;   // Info only, API will check it anyway, but hides non usable items
 }
 
+export interface Info {
+    readonly networks: string[];
+    readonly transports: string[];
+    readonly ip: string;
+    readonly ip_proxy: string;
+}
+
 // User related
 export class User {
     readonly user: string;
