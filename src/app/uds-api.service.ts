@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { User, UDSConfig, Downloadable } from './types/config';
+import { User, UDSConfig, Downloadable, Info } from './types/config';
 import { Observable } from 'rxjs';
 import { JSONServicesInformation, JSONEnabledService, JSONService } from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
@@ -31,6 +31,13 @@ export class UDSApiService implements UDSApiServiceType {
    */
   get config(): UDSConfig {
     return udsData.config;
+  }
+
+  /**
+   * Gets staff information
+   */
+  get staffInfo(): Info | undefined {
+    return udsData.info;
   }
 
   /**

@@ -21,7 +21,7 @@ export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation;
   group: GroupedServices[];
 
-  constructor(private api: UDSApiService) {
+  constructor(public api: UDSApiService) {
   }
 
   /**
