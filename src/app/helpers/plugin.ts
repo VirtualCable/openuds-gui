@@ -27,7 +27,7 @@ export class Plugin {
         this.api.gui.alert(
             django.gettext('Launching service'),
             '<p stype="font-size: 1.2rem;">' + django.gettext('Please wait') + '</p><p style="font-size: 0.8rem;">' +
-            django.gettext('Remember that UDS Plugin is required in order for this service to be launched') +
+            django.gettext('Remember that you will need the USD client on your platform to access the service') +
             '</p>',
             5000
         );
