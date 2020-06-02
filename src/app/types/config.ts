@@ -84,11 +84,11 @@ export class User {
     }
 
     get isStaff(): boolean {
-        return this.role === 'staff';
+        return this.role === 'staff' || this.role === 'admin';
     }
 
     get isAdmin(): boolean {
-        return this.isStaff && this.admin;
+        return this.role === 'admin';
     }
 
     get isLogged(): boolean {
