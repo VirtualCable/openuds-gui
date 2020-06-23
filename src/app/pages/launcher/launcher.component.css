@@ -1,0 +1,26 @@
+.launcher {
+    justify-content: center;
+    display: flex;
+    margin-top: 1rem;
+    font-size: larger;
+}
+
+.launcher-box {
+    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    border: 1px;
+    border-style: solid;
+    border-radius: 0.5rem;
+    border-color: rgb(0, 0, 0, 0.22);
+    padding: 1rem;  
+}
+
+.launcher-box h1, h4 {
+    text-align: center;
+}
+
+.launcher-box h5, h6 {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+    font-weight: normal;
+}
