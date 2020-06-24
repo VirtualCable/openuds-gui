@@ -57,6 +57,7 @@ export interface Downloadable {
     readonly url: string;
     readonly description: string;
     readonly name: string;
+    readonly legacy?: boolean;
 }
 
 export interface UserProfile {

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
 import { Downloadable } from '../../types/config';
 
+declare var django: any;
+
 @Component({
   selector: 'uds-client-download',
   templateUrl: './client-download.component.html',
   styleUrls: ['./client-download.component.css']
 })
 export class ClientDownloadComponent implements OnInit {
-
-  plugins: Downloadable[];
 
   constructor(public api: UDSApiService) {
   }
@@ -24,4 +24,17 @@ export class ClientDownloadComponent implements OnInit {
   img(image: string) {
     return this.api.staticURL( 'modern/img/' + image + '.png');
   }
+
+  css(client: Downloadable): string[] {
+    const styles = ['plugin'];
+    if (client.legacy) {
+      styles.push('legacy');
+    }
+    return styles;
+  }
+
+  legacy(client: Downloadable): string {
+    return client.legacy ? 'Legacy' : '';
+  }
+
 }

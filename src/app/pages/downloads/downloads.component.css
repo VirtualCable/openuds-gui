@@ -33,16 +33,30 @@
     margin-right: 1em;
 }
 
+.actor.legacy {
+    background-color: lightgray;
+    max-width: 50%;
+}
+
 .actor:hover {
     cursor: pointer;
     box-shadow: 0 0.1rem 0.2rem rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    background-color:rgba(0,0,0,0.10);
+}
+
+.image {
+    display: block;
+    float: left;
+    padding-right: 1rem;
+    height: 100%;
+}
+
+.image img {
+    width: 4rem;
 }
 
 .name {
     font-size: 1.5em;
     margin-bottom: 1em;
     font-weight: bold;
-}
-
-.description {
 }

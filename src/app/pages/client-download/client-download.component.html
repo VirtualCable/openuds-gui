@@ -10,12 +10,12 @@
 </div>
 
 <div class="plugins">
-  <div class="plugin" *ngFor="let p of api.plugins" (click)="download(p.url)">
+  <div [class]="css(p)" *ngFor="let p of api.plugins" (click)="download(p.url)">
     <div class="image">
       <img [src]="img(p.name)">
     </div>
     <div class="platform">
-      {{ p.name }}
+      {{ legacy(p) }} {{ p.name }} ({{ p.url.split('.').pop() }})
     </div>
     <div class="description">
       {{ p.description }}
@@ -24,7 +24,11 @@
 </div>
 
 <div class="info">
-  <uds-translate>Download UDS client for your platform</uds-translate>  
+  <ul>
+    <li><uds-translate>Download UDS client for your platform</uds-translate></li>
+    <li><uds-translate>Legacy clients are only provided for old operating system support. Try to avoid them.</uds-translate></li>
+  </ul>
+  
 </div>
 
 </div>
