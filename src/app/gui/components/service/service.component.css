@@ -59,19 +59,35 @@
   z-index: 10;
 }
 
-
 .name {
   margin-top: 0.5em;
-  font-size: 1.2em;
+  font-size: 1.05rem;
   width: calc(100% - 1em);
   display: flex;
   flex: 1 0 auto;
   flex-flow: row;
   align-items: center;
   justify-content: center;
-  height: 1.5em;
   padding: 0 0.5em;
   overflow: hidden;
+  height: 2.4em;
+  text-align: center;
+}
+
+.small-16 {
+  font-size: 1.05rem;
+}
+
+.small-20 {
+  font-size: 1.0rem;
+}
+
+.small-24 {
+  font-size: 0.95rem;
+}
+
+.small-28 {
+  font-size: 0.9rem;
 }
 
 .menu {

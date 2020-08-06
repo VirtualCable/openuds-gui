@@ -11,7 +11,7 @@
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 .services-group-title img {
-    width: 2em; /* By using em, will also inherit font size & font size animations */
+    height: 2.2em; /* By using em, will also inherit font size & font size animations */
     margin: 0 9px 0 0;
     flex-flow: 0 0 auto;
 }

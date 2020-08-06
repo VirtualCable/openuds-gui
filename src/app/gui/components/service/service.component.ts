@@ -4,7 +4,7 @@ import { UDSApiService } from '../../../uds-api.service';
 
 declare var django: any;
 
-const MAX_NAME_LENGTH = 56;
+const MAX_NAME_LENGTH = 32;
 
 @Component({
   selector: 'uds-service',
@@ -61,6 +61,16 @@ export class ServiceComponent implements OnInit {
       klass.push('alert');
     }
 
+    return klass;
+  }
+
+  get serviceNameClass() {
+    const klass = [];
+    const len = Math.min(Math.floor((this.service.visual_name.length - 1) / 4) * 4, 28);
+    if (len >= 16) {
+      klass.push('small-' + len.toString());
+    }
+    console.log(this.service.visual_name, len, klass);
     return klass;
   }
 

@@ -37,6 +37,7 @@ import { SafeHtmlPipe } from './gui/safe-html.pipe';
 import { AboutComponent } from './pages/about/about.component';
 import { DownloadsComponent } from './pages/downloads/downloads.component';
 import { LauncherComponent } from './pages/launcher/launcher.component';
+import { FilterComponent } from './gui/components/filter/filter.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { LauncherComponent } from './pages/launcher/launcher.component';
     DownloadsComponent,
     LauncherComponent,
     StaffInfoComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

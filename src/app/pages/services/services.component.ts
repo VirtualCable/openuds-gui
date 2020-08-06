@@ -49,38 +49,47 @@ export class ServicesComponent implements OnInit {
     // Obtain services list
     this.api.getServicesInformation().subscribe((result: JSONServicesInformation) => {
       this.servicesInformation = result;
-      console.log(result);
-      // Fill up groupedServices
-      this.group = [];
       this.autorun();
 
-      let current: GroupedServices = null;
-      this.servicesInformation.services.sort(
-        (a, b) => {
-          if (a.group.priority !== b.group.priority) {
-            return a.group.priority - b.group.priority;
-          } else {
-            if (a.group.id > b.group.id) {
-              return 1;
-            } else if (a.group.id < b.group.id) {
-              return -1;
-            }
-          }
-          return 0;
-        }).forEach(element => {
-          if (current === null || element.group.id !== current.group.id) {
-            if (current !== null) {
-              this.group.push(current);
-            }
-            current = new GroupedServices(element.group);
-          }
-          current.services.push(element);
-        });
-      if (current !== null) {
-        this.group.push(current);
-      }
-      console.log(this.group);
+      this.updateServices();
     });
+  }
+
+  private updateServices(filter: string = '') {
+    // Fill up groupedServices
+    this.group = [];
+
+    let current: GroupedServices = null;
+    this.servicesInformation.services.filter(
+      (value) => !filter || value.visual_name.toLowerCase().includes(filter) || value.group.name.toLowerCase().includes(filter)
+    ).sort(
+      (a, b) => {
+        if (a.group.priority !== b.group.priority) {
+          return a.group.priority - b.group.priority;
+        } else {
+          if (a.group.id > b.group.id) {
+            return 1;
+          } else if (a.group.id < b.group.id) {
+            return -1;
+          }
+        }
+        return 0;
+      }).forEach(element => {
+        if (current === null || element.group.id !== current.group.id) {
+          if (current !== null) {
+            this.group.push(current);
+          }
+          current = new GroupedServices(element.group);
+        }
+        current.services.push(element);
+      });
+    if (current !== null) {
+      this.group.push(current);
+    }
+  }
+
+  update(filter: string) {
+    this.updateServices(filter);
   }
 
   ngOnInit() {

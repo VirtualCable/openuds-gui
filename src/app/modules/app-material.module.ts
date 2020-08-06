@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -9,22 +10,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatExpansionModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    ],
   exports: [
+    FormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
@@ -37,7 +27,10 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
     MatCheckboxModule,
     ],
     providers: [
-      {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}
+      {
+        provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+        useValue: { floatLabel: 'always' }
+      }
     ]
 })
 export class AppMaterialModule { }

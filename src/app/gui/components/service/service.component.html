@@ -34,7 +34,7 @@
       <img [src]="serviceImage">
     </div>
     <div class="name">
-      {{ serviceName }}
+      <span [ngClass]="serviceNameClass">{{ serviceName }}</span>
     </div>
     <div class="menu">
       <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="hasMenu()"><i class="material-icons">menu</i></button>
