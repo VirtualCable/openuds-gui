@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  changeAuth(auth) {
+  changeAuth(auth: string) {
     this.auth.value = auth;
     // Ejecuted when custom auth selected
     const doCustomAuth = (data: string) => {
@@ -60,6 +60,11 @@ export class LoginComponent implements OnInit {
         }
       }
     }
+  }
+
+  launch(): boolean {
+    document.forms['loginform'].submit();
+    return true;
   }
 
 }
