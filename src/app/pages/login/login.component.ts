@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   auths: Authenticator[];
   auth: HTMLInputElement;
   title = 'UDS Enterprise';
+  
 
   constructor(public api: UDSApiService) {
     this.title = api.config.site_name;
@@ -63,7 +64,8 @@ export class LoginComponent implements OnInit {
   }
 
   launch(): boolean {
-    document.forms['loginform'].submit();
+    const form = <HTMLFormElement>document.getElementById('loginform');
+    form.submit();
     return true;
   }
 

@@ -1,4 +1,4 @@
-<form id="loginform" method="post">
+<form id="loginform" method="post" (ngSubmit)="launch()">
   <input name="" id="token" value="" type="hidden">
   <input name="logouturl" id="id_logouturl" value="" type="hidden">
   <input name="authenticator" id="authenticator" value="" type="hidden">
@@ -47,7 +47,7 @@
       </div>
 
       <div class="login-button">
-        <button mat-stroked-button color="primary" (click)="launch()">
+        <button mat-stroked-button color="primary" type="submit">
           <uds-translate>Login</uds-translate>
         </button>
       </div>
