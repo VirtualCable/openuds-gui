@@ -70,7 +70,6 @@ export class ServiceComponent implements OnInit {
     if (len >= 16) {
       klass.push('small-' + len.toString());
     }
-    console.log(this.service.visual_name, len, klass);
     return klass;
   }
 

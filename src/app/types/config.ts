@@ -49,6 +49,7 @@ export interface UDSConfig {
     readonly site_copyright_link: string;
     readonly site_logo_name: string;
     readonly site_information: string;
+    readonly site_filter_on_top: boolean;
     readonly messages: UDSMessages;
     readonly urls: UDSUrls;
 }
