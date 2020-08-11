@@ -5,7 +5,7 @@
     <uds-services-group *ngFor="let g of group; let i = index" [services]="g.services" [group]="g.group" [expanded]="i==0"></uds-services-group>
   </mat-accordion>
 </div>
-{{ api.config.site_filter_on_top }}
+
 <uds-filter (updateEvent)="update($event)" *ngIf="!api.config.site_filter_on_top"></uds-filter>
 
 <uds-staff-info></uds-staff-info>

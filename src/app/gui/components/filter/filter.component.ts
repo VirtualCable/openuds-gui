@@ -20,7 +20,7 @@ export class FilterComponent implements AfterViewInit {
     fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
         filter(Boolean),
-        debounceTime(1000),
+        debounceTime(600),
         distinctUntilChanged(),
         tap(() => { this.update(this.input.nativeElement.value); })
       ).subscribe();
