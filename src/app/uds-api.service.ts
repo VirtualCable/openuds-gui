@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from './types/config';
 import { Observable } from 'rxjs';
-import { JSONServicesInformation, JSONEnabledService, JSONService } from './types/services';
+import { JSONServicesInformation, JSONEnabledService, JSONService, JSONTransportURLService } from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
 import { Plugin } from './helpers/plugin';
 
@@ -75,6 +75,10 @@ export class UDSApiService implements UDSApiServiceType {
   action(action: string, serviceId: string) {
     const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
     return this.http.get<JSONService>(actionURL);
+  }
+
+  transportUrl(url: string): Observable<JSONTransportURLService> {
+    return this.http.get<JSONTransportURLService>(url);
   }
 
   /* Images & static related */

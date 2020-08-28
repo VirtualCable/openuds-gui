@@ -15,6 +15,7 @@ export class UDSGuiService {
       data: { title: title, body: message, autoclose: autoclose, type: DialogType.alert },
       disableClose: true,
     });
+    return dialogRef;
   }
 
   yesno(title: string, message: string) {

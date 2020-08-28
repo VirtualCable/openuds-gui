@@ -47,3 +47,9 @@ export interface JSONEnabledService {
     url: string;
     error: string;
 }
+
+export interface JSONTransportURLService {
+    url?: string;
+    running?: string;
+    error?: string;
+}

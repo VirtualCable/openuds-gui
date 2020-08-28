@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { UDSApiServiceType } from '../uds-api.service-type';
 
 declare var django: any;
@@ -13,9 +14,18 @@ enum BrowserType {
 }
 
 export class Plugin {
-    static transportsWindow: Window = null;
+    static transportsWindow = {};
 
     constructor(private api: UDSApiServiceType) {
+    }
+
+    private showAlert(text: string, info: string, waitTime: number) {
+        return this.api.gui.alert(
+            django.gettext('Launching service'),
+            '<p stype="font-size: 1.2rem;">' + text + '</p><p style="font-size: 0.8rem;">' +
+            info + '</p>',
+            waitTime
+        );
     }
 
     /**
@@ -24,14 +34,6 @@ export class Plugin {
      *
      */
     private doLaunch(url: string) {
-        this.api.gui.alert(
-            django.gettext('Launching service'),
-            '<p stype="font-size: 1.2rem;">' + django.gettext('Please wait') + '</p><p style="font-size: 0.8rem;">' +
-            django.gettext('Remember that you will need the USD client on your platform to access the service') +
-            '</p>',
-            5000
-        );
-
         let elem = document.getElementById('hiddenUdsLauncherIFrame');
         if (elem === null) {
             const i = document.createElement('div');
@@ -44,10 +46,16 @@ export class Plugin {
     }
 
     launchURL(url: string): void {
+        // If uds url...
         if (url.substring(0, 7) === 'udsa://') {
+            this.showAlert(
+                django.gettext('Please wait'),
+                django.gettext('Remember that you will need the USD client on your platform to access the service'),
+                5000
+            );
             const params = url.split('//')[1].split('/');
             this.api.enabler(params[0], params[1]).subscribe(data => {
-                if (data.error !== undefined && data.error !== '') {
+                if (data.error) {
                     // TODO: show the error correctly
                     this.api.gui.alert(django.gettext('Error launching service'), data.error);
                 } else {
@@ -59,17 +67,39 @@ export class Plugin {
                 }
             });
         } else {
-            // If the url contains "o_n_w", will open the url on a new window ALWAYS
-            if (url.indexOf('o_n_w') !== -1 ) {
-                // Remove o_n_w from url
-                window.open(url.replace('o_n_w', ''));
-            } else {
-                // Transport is http transport
-                if (Plugin.transportsWindow !== null) {
-                    Plugin.transportsWindow.close();
+            // Custom url, http/https
+            const alert = this.showAlert(
+                django.gettext('Please wait'),
+                django.gettext('Your connection is being prepared. It will open on a new window when ready.'),
+                10000
+            );
+            this.api.transportUrl(url).subscribe(data => {
+                alert.close();
+                if (data.url) {
+                    // If the url contains "o_n_w", will open the url on a new window ALWAYS
+                    let name = 'global';
+                    if (data.url.indexOf('o_n_w=') !== -1) {
+                        // Extract window name from o_n_w parameter if present
+                        const onw = /.*o_n_w=([a-zA-Z0-9._-]*)/.exec(data.url);
+                        if (onw) {
+                            name = onw[1];
+                        }
+                    }
+                    if (Plugin.transportsWindow[name]) {
+                        Plugin.transportsWindow[name].close();
+                    }
+                    Plugin.transportsWindow[name] = window.open(data.url, 'uds_trans_' + name);
+                } else if (data.running) {  // Already preparing, show some info and request wait a bit to user
+                    alert.close();
+                    this.showAlert(
+                        django.gettext('The service is now being prepared. (It is at #).'.replace('#', '' + data.running + '%')),
+                        django.gettext('Please, tray again in a few moments.'),
+                        5000
+                    );
+                } else {  // error
+                    this.api.gui.alert(django.gettext('Error launching service'), data.error)
                 }
-                Plugin.transportsWindow = window.open(url, 'uds_transport_window');
-            }
-    }
+            });
+        }
     }
 }

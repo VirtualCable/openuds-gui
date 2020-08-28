@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { JSONServicesInformation, JSONEnabledService, JSONService } from './types/services';
+import { JSONServicesInformation, JSONEnabledService, JSONService, JSONTransportURLService } from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
 
 export interface UDSApiServiceType {
@@ -11,6 +11,8 @@ export interface UDSApiServiceType {
   /* Services resetter */
   action(action: string, serviceId: string): Observable<JSONService>;
 
+  /* transport url */
+  transportUrl(url: string): Observable<JSONTransportURLService>;
 
   /**
    * Gets services information
