@@ -50,7 +50,7 @@ export class Plugin {
         if (url.substring(0, 7) === 'udsa://') {
             this.showAlert(
                 django.gettext('Please wait'),
-                django.gettext('Remember that you will need the USD client on your platform to access the service'),
+                django.gettext('Remember that you will need the UDS client on your platform to access the service'),
                 5000
             );
             const params = url.split('//')[1].split('/');
