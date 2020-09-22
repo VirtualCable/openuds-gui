@@ -50,6 +50,7 @@ export interface UDSConfig {
     readonly site_logo_name: string;
     readonly site_information: string;
     readonly site_filter_on_top: boolean;
+    readonly launcher_wait_time: number;
     readonly messages: UDSMessages;
     readonly urls: UDSUrls;
 }

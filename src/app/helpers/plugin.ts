@@ -15,8 +15,10 @@ enum BrowserType {
 
 export class Plugin {
     static transportsWindow = {};
+    delay: number;
 
     constructor(private api: UDSApiServiceType) {
+        this.delay = api.config.launcher_wait_time;
     }
 
     private showAlert(text: string, info: string, waitTime: number) {
@@ -49,9 +51,9 @@ export class Plugin {
         // If uds url...
         if (url.substring(0, 7) === 'udsa://') {
             this.showAlert(
-                django.gettext('Please wait'),
-                django.gettext('Remember that you will need the UDS client on your platform to access the service'),
-                5000
+                django.gettext('Please wait until the service is launched.'),
+                django.gettext('Remember that you will need the UDS client on your platform to access the service.'),
+                this.delay
             );
             const params = url.split('//')[1].split('/');
             this.api.enabler(params[0], params[1]).subscribe(data => {
@@ -69,9 +71,9 @@ export class Plugin {
         } else {
             // Custom url, http/https
             const alert = this.showAlert(
-                django.gettext('Please wait'),
+                django.gettext('Please wait until the service is launched.'),
                 django.gettext('Your connection is being prepared. It will open on a new window when ready.'),
-                10000
+                this.delay * 2
             );
             this.api.transportUrl(url).subscribe(data => {
                 alert.close();
@@ -94,7 +96,7 @@ export class Plugin {
                     this.showAlert(
                         django.gettext('The service is now being prepared. (It is at #).'.replace('#', '' + data.running + '%')),
                         django.gettext('Please, tray again in a few moments.'),
-                        5000
+                        this.delay
                     );
                 } else {  // error
                     this.api.gui.alert(django.gettext('Error launching service'), data.error)

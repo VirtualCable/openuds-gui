@@ -1,9 +1,13 @@
 import { Observable } from 'rxjs';
 import { JSONServicesInformation, JSONEnabledService, JSONService, JSONTransportURLService } from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
+import { UDSConfig } from './types/config';
 
 export interface UDSApiServiceType {
   gui: UDSGuiService;
+
+  /* Config */
+  config: UDSConfig;
 
   /* Client enabler */
   enabler(serviceId: string, transportId: string): Observable<JSONEnabledService>;
