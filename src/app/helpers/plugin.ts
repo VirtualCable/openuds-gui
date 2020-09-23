@@ -61,6 +61,11 @@ export class Plugin {
                     // TODO: show the error correctly
                     this.api.gui.alert(django.gettext('Error launching service'), data.error);
                 } else {
+                    // Is HTTP access the service returned, or for UDS client?
+                    if (data.url.startsWith('/')) {
+                        this.launchURL(data.url);
+                        return;
+                    }
                     if (window.location.protocol === 'https:') {
                         // Ensures that protocol is https also for plugin, fixing if needed UDS provided info
                         data.url = data.url.replace('uds://', 'udss://');
