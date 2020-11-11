@@ -100,7 +100,7 @@ export class Plugin {
                     alert.close();
                     this.showAlert(
                         django.gettext('The service is now being prepared. (It is at #).'.replace('#', '' + data.running + '%')),
-                        django.gettext('Please, tray again in a few moments.'),
+                        django.gettext('Please, try again in a few moments.'),
                         this.delay
                     );
                 } else {  // error
