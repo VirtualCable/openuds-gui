@@ -118,7 +118,7 @@ export class ServiceComponent implements OnInit {
   }
 
   action(type: string) {
-    const title = type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ') + this.serviceName;
+    const title = (type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ')) + ' ' + this.serviceName;
     const action = type === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
     this.api.gui.yesno(
       title,
