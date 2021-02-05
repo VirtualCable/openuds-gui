@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { UDSApiServiceType } from '../uds-api.service-type';
 
 declare var django: any;
@@ -104,7 +103,7 @@ export class Plugin {
                         this.delay
                     );
                 } else {  // error
-                    this.api.gui.alert(django.gettext('Error launching service'), data.error)
+                    this.api.gui.alert(django.gettext('Error launching service'), data.error);
                 }
             });
         }
