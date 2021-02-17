@@ -83,21 +83,24 @@ export class Plugin {
             this.api.transportUrl(url).subscribe(data => {
                 alert.close();
                 if (data.url) {
-                    // If the url contains "o_n_w", will open the url on a new window ALWAYS
-                    let name = 'global';
-                    if (data.url.indexOf('o_n_w=') !== -1) {
-                        // Extract window name from o_n_w parameter if present
-                        const onw = /.*o_n_w=([a-zA-Z0-9._-]*)/.exec(data.url);
-                        if (onw) {
-                            name = onw[1];
+                    if (data.url.indexOf('o_s_w=') !== -1) {
+                        window.location.href = data.url;
+                    } else {
+                        // If the url contains "o_n_w", will open the url on a new window ALWAYS
+                        let name = 'global';
+                        if (data.url.indexOf('o_n_w=') !== -1) {
+                            // Extract window name from o_n_w parameter if present
+                            const onw = /.*o_n_w=([a-zA-Z0-9._-]*)/.exec(data.url);
+                            if (onw) {
+                                name = onw[1];
+                            }
                         }
+                        if (Plugin.transportsWindow[name]) {
+                            Plugin.transportsWindow[name].close();
+                        }
+                        Plugin.transportsWindow[name] = window.open(data.url, 'uds_trans_' + name);
                     }
-                    if (Plugin.transportsWindow[name]) {
-                        Plugin.transportsWindow[name].close();
-                    }
-                    Plugin.transportsWindow[name] = window.open(data.url, 'uds_trans_' + name);
                 } else if (data.running) {  // Already preparing, show some info and request wait a bit to user
-                    alert.close();
                     this.showAlert(
                         django.gettext('The service is now being prepared. (It is at #).'.replace('#', '' + data.running + '%')),
                         django.gettext('Please, tray again in a few moments.'),
