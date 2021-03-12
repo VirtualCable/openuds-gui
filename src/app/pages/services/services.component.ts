@@ -46,6 +46,11 @@ export class ServicesComponent implements OnInit {
   }
 
   private loadServices() {
+    // If restricted user, it's not allowed to see ALLL services
+    if (this.api.user.isRestricted) {
+      this.api.logout();
+    }
+
     // Obtain services list
     this.api.getServicesInformation().subscribe((result: JSONServicesInformation) => {
       this.servicesInformation = result;

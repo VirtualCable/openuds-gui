@@ -98,4 +98,8 @@ export class User {
     get isLogged(): boolean {
         return this.user != null;
     }
+
+    get isRestricted(): boolean {
+        return this.role === 'restricted';
+    }
 }
