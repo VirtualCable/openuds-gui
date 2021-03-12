@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    return;
   }
 
   changeLang(to: Lang): boolean {
@@ -34,15 +35,15 @@ export class NavbarComponent implements OnInit {
     this.lang = to;
     document.getElementById('id_language').attributes['value'].value = to.id;
     // alert(document.getElementById('id_language').attributes['value'].value);
-    (<any>document.getElementById('form_language')).submit();
+    (document.getElementById('form_language') as HTMLFormElement).submit();
     return false;
   }
 
-  admin() {
+  admin(): void {
     this.api.gotoAdmin();
   }
 
-  logout() {
+  logout(): void {
     this.api.logout();
   }
 

@@ -1,16 +1,10 @@
 import { UDSApiServiceType } from '../uds-api.service-type';
 
-declare var django: any;
+declare const django: { gettext: (arg0: string) => string; };
 
 /**
  * Plugin manipulation class
  */
-enum BrowserType {
-    chrome = 0,
-    safari,
-    ie,
-    firefox
-}
 
 export class Plugin {
     static transportsWindow = {};
@@ -35,15 +29,15 @@ export class Plugin {
      *
      */
     private doLaunch(url: string) {
-        let elem = document.getElementById('hiddenUdsLauncherIFrame');
+        let elem: HTMLIFrameElement = document.getElementById('hiddenUdsLauncherIFrame') as HTMLIFrameElement;
         if (elem === null) {
             const i = document.createElement('div');
             i.id = 'testID';
             i.innerHTML = '<iframe id="hiddenUdsLauncherIFrame" src="about:blank" style="display:none"></iframe>';
             document.body.appendChild(i);
-            elem = document.getElementById('hiddenUdsLauncherIFrame');
+            elem = document.getElementById('hiddenUdsLauncherIFrame') as HTMLIFrameElement;
         }
-        (<any>elem).contentWindow.location.href = url;
+        elem.contentWindow.location.href = url;
     }
 
     launchURL(url: string): void {

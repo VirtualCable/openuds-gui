@@ -3,7 +3,7 @@ import { Directive, OnInit, ElementRef } from '@angular/core';
 declare var django: any;
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'uds-translate'
 })
 export class TranslateDirective implements OnInit {

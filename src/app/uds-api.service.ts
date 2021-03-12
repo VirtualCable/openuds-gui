@@ -112,7 +112,7 @@ export class UDSApiService implements UDSApiServiceType {
     // Executes a defined JS on launch servic event if defined
     // this is in fact a hook
     if (udsData.customJSForServiceLaunch !== undefined) {
-      // tslint:disable-next-line:no-eval
+      // eslint-disable-next-line no-eval
       eval(udsData.customJSForServiceLaunch);
     }
   }

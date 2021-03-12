@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.auth.value = auth;
     // Ejecuted when custom auth selected
     const doCustomAuth = (data: string) => {
-      // tslint:disable-next-line:no-eval
+      // eslint-disable-next-line no-eval
       eval(data);
     };
 
