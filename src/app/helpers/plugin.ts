@@ -107,7 +107,7 @@ export class Plugin {
                         this.delay
                     );
                 } else {  // error
-                    this.api.gui.alert(django.gettext('Error launching service'), data.error)
+                    this.api.gui.alert(django.gettext('Error launching service'), data.error);
                 }
             });
         }
