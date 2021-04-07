@@ -2,23 +2,21 @@ import { Component, OnInit, Input } from '@angular/core';
 import { JSONService, JSONTransport } from '../../../types/services';
 import { UDSApiService } from '../../../uds-api.service';
 
-declare var django: any;
+declare const django: any;
 
 const MAX_NAME_LENGTH = 32;
 
 @Component({
   selector: 'uds-service',
   templateUrl: './service.component.html',
-  styleUrls: ['./service.component.css']
+  styleUrls: ['./service.component.css'],
 })
 export class ServiceComponent implements OnInit {
-
-  constructor(private api: UDSApiService) { }
-
   @Input() service: JSONService;
 
-  ngOnInit() {
-  }
+  constructor(private api: UDSApiService) {}
+
+  ngOnInit() {}
 
   get serviceImage() {
     return this.api.galleryImageURL(this.service.imageId);
@@ -66,7 +64,10 @@ export class ServiceComponent implements OnInit {
 
   get serviceNameClass() {
     const klass = [];
-    const len = Math.min(Math.floor((this.service.visual_name.length - 1) / 4) * 4, 28);
+    const len = Math.min(
+      Math.floor((this.service.visual_name.length - 1) / 4) * 4,
+      28
+    );
     if (len >= 16) {
       klass.push('small-' + len.toString());
     }
@@ -86,27 +87,39 @@ export class ServiceComponent implements OnInit {
   }
 
   hasMenu() {
-    return this.service.maintenance === false &&
+    return (
+      this.service.maintenance === false &&
       this.service.not_accesible === false &&
       (this.hasActions() || this.showTransportsMenu())
-      ;
+    );
   }
 
   notifyNotLaunching(message: string) {
-    this.api.gui.alert('<p align="center"><b>' + django.gettext('Launcher') + '</b></p>', message);
+    this.api.gui.alert(
+      '<p align="center"><b>' + django.gettext('Launcher') + '</b></p>',
+      message
+    );
   }
 
   launch(transport: JSONTransport) {
     if (this.service.maintenance) {
-      this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
+      this.notifyNotLaunching(
+        django.gettext('Service is in maintenance and cannot be launched')
+      );
     } else if (this.service.not_accesible) {
-      const calendarDeniedText = this.service.custom_calendar_text || this.api.config.messages.calendarDenied;
+      const calendarDeniedText =
+        this.service.custom_calendar_text ||
+        this.api.config.messages.calendarDenied;
 
-      this.notifyNotLaunching('<p align="center">' +
-        django.gettext('This service is currently not accesible due to schedule restrictions.') +
-        '</p><p align="center"><b>' + calendarDeniedText +
-        '</b></p><p align="center">' +
-        '</p>'
+      this.notifyNotLaunching(
+        '<p align="center">' +
+          django.gettext(
+            'This service is currently not accesible due to schedule restrictions.'
+          ) +
+          '</p><p align="center"><b>' +
+          calendarDeniedText +
+          '</b></p><p align="center">' +
+          '</p>'
       );
     } else {
       if (transport === null || this.service.show_transports === false) {
@@ -118,23 +131,26 @@ export class ServiceComponent implements OnInit {
   }
 
   action(type: string) {
-    const title = (type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ')) + ' ' + this.serviceName;
-    const action = type === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
-    this.api.gui.yesno(
-      title,
-      django.gettext('Are you sure?')
-    ).subscribe((val) => {
-      if (val) {
-        this.api.action(type, this.service.id).subscribe((service) => {
-          if (service) {
-            this.api.gui.alert(
-              title,
-              action
-            );
-          }
-        });
-      }
-    });
-
+    const title =
+      (type === 'release'
+        ? django.gettext('Release service: ')
+        : django.gettext('Reset service: ')) +
+      ' ' +
+      this.serviceName;
+    const action =
+      type === 'release'
+        ? django.gettext('Service released')
+        : django.gettext('Service reseted');
+    this.api.gui
+      .yesno(title, django.gettext('Are you sure?'))
+      .subscribe((val) => {
+        if (val) {
+          this.api.action(type, this.service.id).subscribe((service) => {
+            if (service) {
+              this.api.gui.alert(title, action);
+            }
+          });
+        }
+      });
   }
 }

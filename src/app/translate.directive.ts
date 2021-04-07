@@ -1,6 +1,6 @@
 import { Directive, OnInit, ElementRef } from '@angular/core';
 
-declare var django: any;
+declare const django: any;
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector

@@ -22,7 +22,7 @@ export class FilterComponent implements AfterViewInit {
         filter(Boolean),
         debounceTime(600),
         distinctUntilChanged(),
-        tap(() => { this.update(this.input.nativeElement.value); })
+        tap(() => this.update(this.input.nativeElement.value))
       ).subscribe();
   }
 

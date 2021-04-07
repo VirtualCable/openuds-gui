@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
 import { Downloadable } from '../../types/config';
 
-declare var django: any;
+declare const django: any;
 
 @Component({
   selector: 'uds-client-download',

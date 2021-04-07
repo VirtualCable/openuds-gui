@@ -5,9 +5,9 @@
   "scripts": {
     "ng": "ng",
     "f4xstart": "ng serve --host 0.0.0.0 --port 9000 --proxy-config proxy.conf.json",
-    "f4xbuild": "ng build --prod --output-hashing=none --aot=false --deleteOutputPath --build-optimizer=false --deploy-url /uds/res/modern/ --base-href /uds/page && yarn postbuild",
+    "f4xbuild": "ng build --prod --output-hashing=none --aot=false --delete-output-path --build-optimizer=false --deploy-url /uds/res/modern/ --base-href /uds/page && yarn postbuild",
     "start": "ng serve --host 0.0.0.0 --port 9000 --proxy-config proxy.conf.json",
-    "build": "ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page",
+    "build": "ng build --prod --output-hashing=none --aot --delete-output-path --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page",
     "postbuild": "python3 toUDS.py",
     "test": "ng test",
     "lint": "ng lint",

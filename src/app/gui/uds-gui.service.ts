@@ -11,8 +11,8 @@ export class UDSGuiService {
   alert(title: string, message: string, autoclose = 0 ) {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
-      width: width,
-      data: { title: title, body: message, autoclose: autoclose, type: DialogType.alert },
+      width,
+      data: { title, body: message, autoclose, type: DialogType.alert },
       disableClose: true,
     });
     return dialogRef;
@@ -21,8 +21,8 @@ export class UDSGuiService {
   yesno(title: string, message: string) {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
-      width: width,
-      data: { title: title, body: message, type: DialogType.yesno },
+      width,
+      data: { title, body: message, type: DialogType.yesno },
       disableClose: true,
     });
 

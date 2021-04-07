@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
-import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
+import {
+  JSONServicesInformation,
+  JSONGroup,
+  JSONService,
+} from '../../types/services';
 
-declare var django: any;
+declare const django: any;
 
 class GroupedServices {
   services: JSONService[];
@@ -15,13 +19,24 @@ class GroupedServices {
 @Component({
   selector: 'uds-services-page',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.css']
+  styleUrls: ['./services.component.css'],
 })
 export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation;
   group: GroupedServices[];
 
-  constructor(public api: UDSApiService) {
+  constructor(public api: UDSApiService) {}
+
+  update(filter: string) {
+    this.updateServices(filter);
+  }
+
+  ngOnInit() {
+    if (this.api.config.urls.launch) {
+      this.api.logout();
+    } else {
+      this.loadServices(); // Loads service related data
+    }
   }
 
   /**
@@ -29,14 +44,22 @@ export class ServicesComponent implements OnInit {
    */
   private autorun(): boolean {
     // If autorun, and there is only one service, launch it
-    if (this.servicesInformation.autorun && this.servicesInformation.services.length === 1) {
+    if (
+      this.servicesInformation.autorun &&
+      this.servicesInformation.services.length === 1
+    ) {
       if (!this.servicesInformation.services[0].maintenance) {
         this.api.executeCustomJSForServiceLaunch();
         // Launch url
-        this.api.launchURL(this.servicesInformation.services[0].transports[0].link);
+        this.api.launchURL(
+          this.servicesInformation.services[0].transports[0].link
+        );
         return true;
       } else {
-        this.api.gui.alert(django.gettext('Warning'), django.gettext('Service is in maintenance and cannot be executed'));
+        this.api.gui.alert(
+          django.gettext('Warning'),
+          django.gettext('Service is in maintenance and cannot be executed')
+        );
       }
     }
 
@@ -52,12 +75,14 @@ export class ServicesComponent implements OnInit {
     }
 
     // Obtain services list
-    this.api.getServicesInformation().subscribe((result: JSONServicesInformation) => {
-      this.servicesInformation = result;
-      this.autorun();
+    this.api
+      .getServicesInformation()
+      .subscribe((result: JSONServicesInformation) => {
+        this.servicesInformation = result;
+        this.autorun();
 
-      this.updateServices();
-    });
+        this.updateServices();
+      });
   }
 
   private updateServices(filter: string = '') {
@@ -65,10 +90,14 @@ export class ServicesComponent implements OnInit {
     this.group = [];
 
     let current: GroupedServices = null;
-    this.servicesInformation.services.filter(
-      (value) => !filter || value.visual_name.toLowerCase().includes(filter) || value.group.name.toLowerCase().includes(filter)
-    ).sort(
-      (a, b) => {
+    this.servicesInformation.services
+      .filter(
+        (value) =>
+          !filter ||
+          value.visual_name.toLowerCase().includes(filter) ||
+          value.group.name.toLowerCase().includes(filter)
+      )
+      .sort((a, b) => {
         if (a.group.priority !== b.group.priority) {
           return a.group.priority - b.group.priority;
         } else {
@@ -79,7 +108,8 @@ export class ServicesComponent implements OnInit {
           }
         }
         return 0;
-      }).forEach(element => {
+      })
+      .forEach((element) => {
         if (current === null || element.group.id !== current.group.id) {
           if (current !== null) {
             this.group.push(current);
@@ -92,17 +122,4 @@ export class ServicesComponent implements OnInit {
       this.group.push(current);
     }
   }
-
-  update(filter: string) {
-    this.updateServices(filter);
-  }
-
-  ngOnInit() {
-    if (this.api.config.urls.launch) {
-      this.api.logout();
-    } else {
-      this.loadServices(); // Loads service related data
-    }
-  }
-
 }

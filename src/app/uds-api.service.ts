@@ -11,7 +11,7 @@ import { UDSApiServiceType } from './uds-api.service-type';
 
 import { environment } from '../environments/environment';
 
-declare var udsData: any;
+declare const udsData: any;
 
 
 @Injectable()
@@ -131,6 +131,7 @@ export class UDSApiService implements UDSApiServiceType {
 
   /**
    * Gets auth custom html code
+   *
    * @param authId if of the authenticator
    * @returns  Observable
    */

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 // Types definition for services json
 
 export interface JSONGroup {

@@ -1,8 +1,9 @@
+/* eslint-disable no-shadow */
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval, Subscription, Observable } from 'rxjs';
 
-declare var django: any;
+declare const django: any;
 
 export enum DialogType {
   alert = 0,
@@ -49,16 +50,13 @@ export class ModalComponent implements OnInit {
         observer.complete();
       };
       const self = this;
-      return {unsubscribe() {
-        self.resetCallbacks();
-      }};
+      return {unsubscribe: () => self.resetCallbacks()};
     });
-
   }
 
   resetCallbacks() {
-    this.yes = this.no = () => { this.close(); };
-    this.close = () => { this.doClose(); };
+    this.yes = this.no = () => this.close();
+    this.close = () => this.doClose();
   }
 
   /**
@@ -77,6 +75,7 @@ export class ModalComponent implements OnInit {
 
   /**
    * Sets extra information on close button
+   *
    * @param miliseconds miliseconds to inform (will be converted to seconds)
    */
   setExtra(miliseconds: number) {
