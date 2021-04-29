@@ -92,11 +92,11 @@ export class Plugin {
         0,
         // Now UDS tries to check status before closing dialog...
         new Observable<boolean>((observer) => {
-          const notifyError = () => {
+          const notifyError = (error: string = null) => {
             window.setTimeout(() => {
               this.showAlert(
                 django.gettext('Error'),
-                django.gettext(
+                error || django.gettext(
                   'Error communicating with your service. Please, retry again.'
                 ),
                 5000
@@ -132,7 +132,7 @@ export class Plugin {
                 } else if (!data.running) {
                   observer.next(true);
                   observer.complete();
-                  notifyError();
+                  notifyError(data.error);
                 } else {
                   window.setTimeout(checker, this.delay); // Recheck after 5 seconds
                 }
