@@ -49,6 +49,10 @@ export interface JSONEnabledService {
     error: string;
 }
 
+export interface JSONStatusService {
+    status: string;
+}
+
 export interface JSONTransportURLService {
     url?: string;
     running?: string;

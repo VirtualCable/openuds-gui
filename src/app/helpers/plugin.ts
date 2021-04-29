@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { UDSApiServiceType } from '../uds-api.service-type';
 
 declare const django: any;
@@ -17,14 +18,50 @@ export class Plugin {
   launchURL(url: string): void {
     // If uds url...
     if (url.substring(0, 7) === 'udsa://') {
+      const params = url.split('//')[1].split('/');
       this.showAlert(
         django.gettext('Please wait until the service is launched.'),
         django.gettext(
           'Remember that you will need the UDS client on your platform to access the service.'
         ),
-        this.delay
+        0,
+        // Now UDS tries to check status
+        new Observable<boolean>((observer) => {
+          const notifyError = () => {
+            window.setTimeout(() => {
+              this.showAlert(
+                django.gettext('Error'),
+                django.gettext(
+                  'Error communicating with your service. Please, retry again.'
+                ),
+                5000
+              );
+            });
+          };
+          const checker = () => {
+            this.api.status(params[0], params[1]).subscribe(
+              (data) => {
+                if (data.status === 'ready') {
+                  observer.next(true);
+                  observer.complete();
+                } else if (data.status === 'running') {
+                  window.setTimeout(checker, this.delay); // Recheck after 5 seconds
+                } else {
+                  observer.next(true);
+                  observer.complete();
+                  notifyError();
+                }
+              },
+              (error) => {
+                observer.next(true);
+                observer.complete();
+                notifyError();
+              }
+            );
+          };
+          window.setTimeout(checker);
+        })
       );
-      const params = url.split('//')[1].split('/');
       this.api.enabler(params[0], params[1]).subscribe((data) => {
         if (data.error) {
           // TODO: show the error correctly
@@ -52,54 +89,70 @@ export class Plugin {
         django.gettext(
           'Your connection is being prepared. It will open on a new window when ready.'
         ),
-        this.delay * 2
-      );
-      this.api.transportUrl(url).subscribe((data) => {
-        alert.close();
-        if (data.url) {
-          if (data.url.indexOf('o_s_w=') !== -1) {
-            window.location.href = data.url;
-          } else {
-            // If the url contains "o_n_w", will open the url on a new window ALWAYS
-            let name = 'global';
-            if (data.url.indexOf('o_n_w=') !== -1) {
-              // Extract window name from o_n_w parameter if present
-              const onw = /.*o_n_w=([a-zA-Z0-9._-]*)/.exec(data.url);
-              if (onw) {
-                name = onw[1];
+        0,
+        // Now UDS tries to check status before closing dialog...
+        new Observable<boolean>((observer) => {
+          const notifyError = () => {
+            window.setTimeout(() => {
+              this.showAlert(
+                django.gettext('Error'),
+                django.gettext(
+                  'Error communicating with your service. Please, retry again.'
+                ),
+                5000
+              );
+            });
+          };
+          const checker = () => {
+            this.api.transportUrl(url).subscribe(
+              (data) => {
+                if (data.url) {
+                  observer.next(true);
+                  observer.complete();  // Notify window to close...
+                  if (data.url.indexOf('o_s_w=') !== -1) {
+                    window.location.href = data.url;
+                  } else {
+                    // If the url contains "o_n_w", will open the url on a new window ALWAYS
+                    let name = 'global';
+                    if (data.url.indexOf('o_n_w=') !== -1) {
+                      // Extract window name from o_n_w parameter if present
+                      const onw = /.*o_n_w=([a-zA-Z0-9._-]*)/.exec(data.url);
+                      if (onw) {
+                        name = onw[1];
+                      }
+                    }
+                    if (Plugin.transportsWindow[name]) {
+                      Plugin.transportsWindow[name].close();
+                    }
+                    Plugin.transportsWindow[name] = window.open(
+                      data.url,
+                      'uds_trans_' + name
+                    );
+                  }
+                } else if (!data.running) {
+                  observer.next(true);
+                  observer.complete();
+                  notifyError();
+                }
+              },
+              (error) => {
+                observer.next(true);
+                observer.complete();
+                notifyError();
               }
-            }
-            if (Plugin.transportsWindow[name]) {
-              Plugin.transportsWindow[name].close();
-            }
-            Plugin.transportsWindow[name] = window.open(
-              data.url,
-              'uds_trans_' + name
             );
-          }
-        } else if (data.running) {
-          // Already preparing, show some info and request wait a bit to user
-          this.showAlert(
-            django.gettext(
-              'The service is now being prepared. (It is at #).'.replace(
-                '#',
-                '' + data.running + '%'
-              )
-            ),
-            django.gettext('Please, try again in a few moments.'),
-            this.delay
-          );
-        } else {
-          // error
-          this.api.gui.alert(
-            django.gettext('Error launching service'),
-            data.error
-          );
-        }
-      });
+          };
+          window.setTimeout(checker);
+        })
+      );
     }
   }
-  private showAlert(text: string, info: string, waitTime: number) {
+  private showAlert(
+    text: string,
+    info: string,
+    waitTime: number,
+    checker: Observable<boolean> = null
+  ) {
     return this.api.gui.alert(
       django.gettext('Launching service'),
       '<p stype="font-size: 1.2rem;">' +
@@ -107,7 +160,8 @@ export class Plugin {
         '</p><p style="font-size: 0.8rem;">' +
         info +
         '</p>',
-      waitTime
+      waitTime,
+      checker
     );
   }
 

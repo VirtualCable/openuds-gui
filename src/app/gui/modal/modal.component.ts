@@ -14,6 +14,7 @@ export interface ModalData {
   title: string;
   body: string;
   autoclose?: number;
+  checkClose?: Observable<boolean>;
   type: DialogType;
 }
 
@@ -98,6 +99,17 @@ export class ModalComponent implements OnInit {
       /*window.setTimeout(() => {
         this.dialogRef.close();
       }, this.data.autoclose);*/
+    } else if (this.data.checkClose) {
+      this.dialogRef.afterClosed().subscribe(res => {
+        this.closed();
+      });
+      this.subscription = this.data.checkClose.subscribe(res => {
+        // Invoke the close after, result in fact is not important
+        window.setTimeout(() => {
+          this.doClose();
+        });
+      });
+
     }
   }
 

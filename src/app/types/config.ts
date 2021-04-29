@@ -24,6 +24,7 @@ export interface UDSUrls {
     readonly services: string;
     readonly admin: string;
     readonly enabler: string;
+    readonly status: string;
     readonly action: string;
     readonly galleryImage: string;
     readonly transportIcon: string;

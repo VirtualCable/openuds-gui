@@ -3,7 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from './types/config';
 import { Observable } from 'rxjs';
-import { JSONServicesInformation, JSONEnabledService, JSONService, JSONTransportURLService } from './types/services';
+import {
+  JSONServicesInformation,
+  JSONEnabledService,
+  JSONStatusService,
+  JSONService,
+  JSONTransportURLService,
+} from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
 import { Plugin } from './helpers/plugin';
 
@@ -13,19 +19,21 @@ import { environment } from '../environments/environment';
 
 declare const udsData: any;
 
-
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
   transportsWindow: Window;
   plugin: Plugin;
 
-  constructor(private http: HttpClient, public gui: UDSGuiService, public router: Router) {
+  constructor(
+    private http: HttpClient,
+    public gui: UDSGuiService,
+    public router: Router
+  ) {
     this.user = new User(udsData.profile);
     this.transportsWindow = null;
     this.plugin = new Plugin(this);
   }
-
   /**
    * Gets configuration data from uds.js file
    */
@@ -67,13 +75,28 @@ export class UDSApiService implements UDSApiServiceType {
 
   /* Client enabler */
   enabler(serviceId: string, transportId: string) {
-    const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);
+    const enabler = this.config.urls.enabler
+      .replace('param1', serviceId)
+      .replace('param2', transportId);
     return this.http.get<JSONEnabledService>(enabler);
+  }
+
+  /* Check userService status */
+  status(
+    serviceId: string,
+    transportId: string
+  ): Observable<JSONStatusService> {
+    const status = this.config.urls.status
+      .replace('param1', serviceId)
+      .replace('param2', transportId);
+    return this.http.get<JSONStatusService>(status);
   }
 
   /* Services resetter */
   action(action: string, serviceId: string) {
-    const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
+    const actionURL = this.config.urls.action
+      .replace('param1', serviceId)
+      .replace('param2', action);
     return this.http.get<JSONService>(actionURL);
   }
 
@@ -136,7 +159,8 @@ export class UDSApiService implements UDSApiServiceType {
    * @returns  Observable
    */
   getAuthCustomHtml(authId: string) {
-    return this.http.get(this.config.urls.customAuth + authId, { responseType: 'text' });
+    return this.http.get(this.config.urls.customAuth + authId, {
+      responseType: 'text',
+    });
   }
-
 }
