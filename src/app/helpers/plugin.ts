@@ -45,7 +45,7 @@ export class Plugin {
                   observer.next(true);
                   observer.complete();
                 } else if (data.status === 'running') {
-                  window.setTimeout(checker, this.delay); // Recheck after 5 seconds
+                  window.setTimeout(checker, this.delay); // Recheck after delay seconds
                 } else {
                   observer.next(true);
                   observer.complete();
@@ -133,6 +133,8 @@ export class Plugin {
                   observer.next(true);
                   observer.complete();
                   notifyError();
+                } else {
+                  window.setTimeout(checker, this.delay); // Recheck after 5 seconds
                 }
               },
               (error) => {
