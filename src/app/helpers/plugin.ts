@@ -53,7 +53,7 @@ export class Plugin {
                     );
                   } else {
                     // If Component took too long...
-                    if (Date.now() - readyTime > this.delay * 25) {
+                    if (Date.now() - readyTime > this.delay * 5) {
                       // Wait 5 times the default delay
                       alert.componentInstance.data.title =
                         django.gettext('Service ready') +
@@ -65,12 +65,12 @@ export class Plugin {
                           'It seems that you don\'t have UDS Client installed. Please, install it from here: '
                         ) +
                         '</span>' +
-                        '<a href="/client-download">' +
+                        '<a href="' + this.api.config.urls.clientDownload + '">' +
                         django.gettext('UDS Client Download') +
                         '</a>';
                     }
                   }
-                  window.setTimeout(checker, this.delay / 2); // Recheck after delay seconds
+                  window.setTimeout(checker, this.delay); // Recheck after delay seconds
                 } else if (data.status === 'accessed') {
                   alert.componentInstance.data.body = django.gettext(
                     'Machine ready, waiting for UDS Client'
