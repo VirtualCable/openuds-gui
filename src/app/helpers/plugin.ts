@@ -53,7 +53,7 @@ export class Plugin {
                     );
                   } else {
                     // If Component took too long...
-                    if (Date.now() - readyTime > this.delay * 1) {
+                    if (Date.now() - readyTime > this.delay * 25) {
                       // Wait 5 times the default delay
                       alert.componentInstance.data.title =
                         django.gettext('Service ready') +
