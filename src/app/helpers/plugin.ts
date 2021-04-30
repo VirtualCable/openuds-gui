@@ -19,7 +19,7 @@ export class Plugin {
     // If uds url...
     if (url.substring(0, 7) === 'udsa://') {
       const params = url.split('//')[1].split('/');
-      this.showAlert(
+      const alert = this.showAlert(
         django.gettext('Please wait until the service is launched.'),
         django.gettext(
           'Remember that you will need the UDS client on your platform to access the service.'
@@ -38,10 +38,43 @@ export class Plugin {
               );
             });
           };
+          let readyTime = 0;
           const checker = () => {
             this.api.status(params[0], params[1]).subscribe(
               (data) => {
                 if (data.status === 'ready') {
+                  if (!readyTime) {
+                    readyTime = Date.now(); // Milisecodns
+                    alert.componentInstance.data.title = django.gettext(
+                      'Service ready'
+                    );
+                    alert.componentInstance.data.body = django.gettext(
+                      'Launching UDS Client, almost done.'
+                    );
+                  } else {
+                    // If Component took too long...
+                    if (Date.now() - readyTime > this.delay * 1) {
+                      // Wait 5 times the default delay
+                      alert.componentInstance.data.title =
+                        django.gettext('Service ready') +
+                        ' - ' +
+                        django.gettext('UDS Client not launching');
+                      alert.componentInstance.data.body =
+                        '<span style="color: red; ">' +
+                        django.gettext(
+                          'It seems that you don\'t have UDS Client installed. Please, install it from here: '
+                        ) +
+                        '</span>' +
+                        '<a href="/client-download">' +
+                        django.gettext('UDS Client Download') +
+                        '</a>';
+                    }
+                  }
+                  window.setTimeout(checker, this.delay / 2); // Recheck after delay seconds
+                } else if (data.status === 'accessed') {
+                  alert.componentInstance.data.body = django.gettext(
+                    'Machine ready, waiting for UDS Client'
+                  );
                   observer.next(true);
                   observer.complete();
                 } else if (data.status === 'running') {
@@ -62,6 +95,7 @@ export class Plugin {
           window.setTimeout(checker);
         })
       );
+
       this.api.enabler(params[0], params[1]).subscribe((data) => {
         if (data.error) {
           // TODO: show the error correctly
@@ -96,9 +130,10 @@ export class Plugin {
             window.setTimeout(() => {
               this.showAlert(
                 django.gettext('Error'),
-                error || django.gettext(
-                  'Error communicating with your service. Please, retry again.'
-                ),
+                error ||
+                  django.gettext(
+                    'Error communicating with your service. Please, retry again.'
+                  ),
                 5000
               );
             });
@@ -108,7 +143,7 @@ export class Plugin {
               (data) => {
                 if (data.url) {
                   observer.next(true);
-                  observer.complete();  // Notify window to close...
+                  observer.complete(); // Notify window to close...
                   if (data.url.indexOf('o_s_w=') !== -1) {
                     window.location.href = data.url;
                   } else {
