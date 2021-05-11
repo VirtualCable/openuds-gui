@@ -33,6 +33,12 @@ export interface UDSApiServiceType {
   /* transport url */
   transportUrl(url: string): Observable<JSONTransportURLService>;
 
+  /* Go to admin dashboard */
+  gotoAdmin(): void;
+
+  /* Executes logout */
+  logout(): void;
+
   /**
    * Gets services information
    */
