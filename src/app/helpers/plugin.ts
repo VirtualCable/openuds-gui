@@ -150,15 +150,19 @@ export class Plugin {
                     observer.next(true);
                     observer.complete(); // Notify window to close...
                     if (data.url.indexOf('o_s_w=') !== -1) {
-                      window.location.href = data.url;
+                      const osw = /(.*)&o_s_w=.*/.exec(data.url);
+                      window.location.href = osw[1];
                     } else {
                       // If the url contains "o_n_w", will open the url on a new window ALWAYS
                       let name = 'global';
                       if (data.url.indexOf('o_n_w=') !== -1) {
                         // Extract window name from o_n_w parameter if present
-                        const onw = /.*o_n_w=([a-zA-Z0-9._-]*)/.exec(data.url);
+                        const onw = /(.*)&o_n_w=([a-zA-Z0-9._-]*)/.exec(
+                          data.url
+                        );
                         if (onw) {
-                          name = onw[1];
+                          name = onw[2];
+                          data.url = onw[1];
                         }
                       }
                       if (Plugin.transportsWindow[name]) {
