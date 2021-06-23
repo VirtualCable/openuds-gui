@@ -16,6 +16,7 @@ export class Plugin {
   }
 
   launchURL(url: string): void {
+    let state = 'init';
     // Internal helper for notify errors
     const notifyError = (error?: any) => {
       let msg: string = django.gettext(
@@ -54,7 +55,7 @@ export class Plugin {
               // Not closed dialog...
               this.api.status(params[0], params[1]).subscribe(
                 (data) => {
-                  if (data.status === 'ready') {
+                  if (data. status === 'ready') {
                     if (!readyTime) {
                       readyTime = Date.now(); // Milisecodns
                       alert.componentInstance.data.title = django.gettext(
@@ -107,12 +108,22 @@ export class Plugin {
               );
             }
           };
-          window.setTimeout(checker);
+          const init = () => {
+            if( state === 'init' ) {
+              window.setTimeout(init, this.delay);
+            } else if( state === 'error' || state === 'stop' ) {
+              return;
+            } else {
+              window.setTimeout(checker);
+            }
+          };
+          window.setTimeout(init);
         })
       );
 
       this.api.enabler(params[0], params[1]).subscribe((data) => {
         if (data.error) {
+          state = 'error';
           // TODO: show the error correctly
           this.api.gui.alert(
             django.gettext('Error launching service'),
@@ -121,6 +132,7 @@ export class Plugin {
         } else {
           // Is HTTP access the service returned, or for UDS client?
           if (data.url.startsWith('/')) {
+            state = 'stop';
             this.launchURL(data.url);
             return;
           }
@@ -128,6 +140,7 @@ export class Plugin {
             // Ensures that protocol is https also for plugin, fixing if needed UDS provided info
             data.url = data.url.replace('uds://', 'udss://');
           }
+          state = 'enabled';
           this.doLaunch(data.url);
         }
       });
