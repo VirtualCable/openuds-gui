@@ -75,9 +75,9 @@ export class Plugin {
                         alert.componentInstance.data.body =
                           '<span style="color: red; ">' +
                           django.gettext(
-                            'It seems that you don\'t have UDS Client installed. Please, install it from here: '
+                            'It seems that you don\'t have UDS Client installed. Please, install it from here:'
                           ) +
-                          '</span>' +
+                          '&nbsp;</span>' +
                           '<a href="' +
                           this.api.config.urls.clientDownload +
                           '">' +
