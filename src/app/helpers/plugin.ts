@@ -143,6 +143,9 @@ export class Plugin {
           state = 'enabled';
           this.doLaunch(data.url);
         }
+      }, (error) => {
+        // Any error on requests will redirect to login
+        this.api.logout();
       });
     } else {
       // Custom url, http/https
