@@ -1,4 +1,4 @@
-<uds-filter (updateEvent)="update($event)" *ngIf="api.config.site_filter_on_top"></uds-filter>
+<uds-filter (updateEvent)="update($event)" *ngIf="servicesInformation.services.length >= api.config.min_for_filter && api.config.site_filter_on_top"></uds-filter>
 
 <div class="services-groups">
   <mat-accordion>
@@ -6,6 +6,6 @@
   </mat-accordion>
 </div>
 
-<uds-filter (updateEvent)="update($event)" *ngIf="!api.config.site_filter_on_top"></uds-filter>
+<uds-filter (updateEvent)="update($event)" *ngIf="servicesInformation.services.length >= api.config.min_for_filter && !api.config.site_filter_on_top"></uds-filter>
 
 <uds-staff-info></uds-staff-info>

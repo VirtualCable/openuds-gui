@@ -56,6 +56,7 @@ export interface UDSConfig {
     readonly launcher_wait_time: number;
     readonly messages: UDSMessages;
     readonly urls: UDSUrls;
+    readonly min_for_filter: number;
 }
 
 export interface Downloadable {
