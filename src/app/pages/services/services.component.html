@@ -2,7 +2,7 @@
 
 <div class="services-groups">
   <mat-accordion>
-    <uds-services-group *ngFor="let g of group; let i = index" [services]="g.services" [group]="g.group" [expanded]="i==0"></uds-services-group>
+    <uds-services-group *ngFor="let g of group; let i = index" [services]="g.services" [group]="g.group" [expanded]="i===0"></uds-services-group>
   </mat-accordion>
 </div>
 
