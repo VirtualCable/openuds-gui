@@ -25,11 +25,7 @@
               "src/favicon.ico"
             ],
             "styles": [
-              {
-                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-                "inject": true
-              },
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/cookieconsent/build/cookieconsent.min.js"
@@ -94,11 +90,7 @@
               "node_modules/cookieconsent/build/cookieconsent.min.js"
             ],
             "styles": [
-              {
-                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-                "inject": true
-              },
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "assets": [
               "src/static",
