@@ -22,7 +22,14 @@ class GroupedServices {
   styleUrls: ['./services.component.css'],
 })
 export class ServicesComponent implements OnInit {
-  servicesInformation: JSONServicesInformation;
+  servicesInformation: JSONServicesInformation = {
+    autorun: false,
+    ip: '',
+    nets: '',
+    services: [],
+    transports: ''
+  };
+
   group: GroupedServices[];
 
   constructor(public api: UDSApiService) {}
