@@ -77,6 +77,11 @@
       }
     }
 
+    // check we are not running on an iframe
+    if (window.top !== window.self) {
+      window.top.location = window.location;
+    }
+
   </script>
   <!-- DYNAMIC_DATA -->
   <script type="text/javascript" src="/uds/utility/i18n/es.js"></script>
