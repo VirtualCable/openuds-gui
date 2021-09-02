@@ -52,10 +52,14 @@
       0% {
         stroke-dasharray: 1, 200;
         stroke-dashoffset: 0;
-      } 50% {
+      }
+
+      50% {
         stroke-dasharray: 89, 200;
         stroke-dashoffset: -35px;
-      } 100% {
+      }
+
+      100% {
         stroke-dasharray: 89, 200;
         stroke-dashoffset: -124px;
       }
@@ -71,13 +75,12 @@
 
   <!-- just in case translations cannot be loaded, provide a fallback -->
   <script type="text/javascript">
-    django = {
+    var django = {
       gettext: function (s) {
         return s;
       }
-    }
+    };
 
-    // check we are not running on an iframe
     if (window.top !== window.self) {
       window.top.location = window.location;
     }
@@ -100,13 +103,13 @@
 
 <body>
   <uds-root>
-      <!-- loading layout replaced by app after startupp -->
-      <div class="app-loading">
-        <div class="logo"></div>
-        <svg class="spinner" viewBox="25 25 50 50">
-          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-        </svg>
-</div>    
+    <!-- loading layout replaced by app after startupp -->
+    <div class="app-loading">
+      <div class="logo"></div>
+      <svg class="spinner" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+      </svg>
+    </div>
   </uds-root>
 </body>
 
