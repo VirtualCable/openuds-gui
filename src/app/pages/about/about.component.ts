@@ -7,10 +7,14 @@ import { UDSApiService } from '../../uds-api.service';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
+  year = new Date().getFullYear();
 
   constructor(public api: UDSApiService) { }
 
   ngOnInit() {
+    if (this.year < 2021) {
+      this.year = 2021;
+    }
   }
 
 }
