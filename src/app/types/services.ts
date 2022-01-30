@@ -18,6 +18,7 @@ export interface JSONTransport {
 
 export interface JSONService {
     id: string;
+    is_meta: boolean;
     comments: string;
     description: string;
     group: JSONGroup;
