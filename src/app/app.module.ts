@@ -41,40 +41,37 @@ import { FilterComponent } from './gui/components/filter/filter.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    TranslateDirective,
-    LoginComponent,
-    ClientDownloadComponent,
-    ServicesComponent,
-    ServiceComponent,
-    ServicesGroupComponent,
-    ModalComponent,
-    SafeHtmlPipe,
-    FooterComponent,
-    ErrorComponent,
-    AboutComponent,
-    DownloadsComponent,
-    LauncherComponent,
-    StaffInfoComponent,
-    FilterComponent,
-  ],
-  imports: [
-    BrowserModule,
-    LayoutModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    AppMaterialModule,
-  ],
-  providers: [
-    UDSApiService,
-    UDSGuiService,
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    ModalComponent
-  ]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        TranslateDirective,
+        LoginComponent,
+        ClientDownloadComponent,
+        ServicesComponent,
+        ServiceComponent,
+        ServicesGroupComponent,
+        ModalComponent,
+        SafeHtmlPipe,
+        FooterComponent,
+        ErrorComponent,
+        AboutComponent,
+        DownloadsComponent,
+        LauncherComponent,
+        StaffInfoComponent,
+        FilterComponent,
+    ],
+    imports: [
+        BrowserModule,
+        LayoutModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        AppMaterialModule,
+    ],
+    providers: [
+        UDSApiService,
+        UDSGuiService,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
