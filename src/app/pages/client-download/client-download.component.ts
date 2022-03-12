@@ -7,7 +7,7 @@ declare const django: any;
 @Component({
   selector: 'uds-client-download',
   templateUrl: './client-download.component.html',
-  styleUrls: ['./client-download.component.css']
+  styleUrls: ['./client-download.component.scss']
 })
 export class ClientDownloadComponent implements OnInit {
 

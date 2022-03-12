@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { UDSApiService } from './uds-api.service';
 
 // External
 declare const django: any;
@@ -11,7 +12,19 @@ declare const cookieconsent: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'uds';
+  title = 'UDS';
+  blackTheme = false;
+
+  constructor(private api: UDSApiService) {
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.altKey && event.ctrlKey && event.key === 'b') {
+      this.blackTheme = !this.blackTheme;
+      this.api.switchTheme(this.blackTheme);
+    }
+  }
 
   ngOnInit() {
     cookieconsent.initialise({
@@ -31,4 +44,5 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
 }

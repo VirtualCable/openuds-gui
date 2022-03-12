@@ -1,6 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
-/* Materials */
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'globals.scss';
+
+/* Default, light theme */
+@include angular-material-theme($angular-default-theme);
 
 /* Cookie consent */
 @import "~cookieconsent/build/cookieconsent.min.css";
@@ -34,3 +35,11 @@ i.material-icons {
     }
   }
   
+.dark-theme {
+  @include angular-material-color($angular-dark-theme);
+
+  html,
+  body {
+      background-color: $bg-dark;
+  }
+}

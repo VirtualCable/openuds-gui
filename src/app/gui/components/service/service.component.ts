@@ -9,14 +9,12 @@ const MAX_NAME_LENGTH = 32;
 @Component({
   selector: 'uds-service',
   templateUrl: './service.component.html',
-  styleUrls: ['./service.component.css'],
+  styleUrls: ['./service.component.scss'],
 })
 export class ServiceComponent implements OnInit {
   @Input() service: JSONService;
 
   constructor(private api: UDSApiService) {}
-
-  ngOnInit() {}
 
   get serviceImage() {
     return this.api.galleryImageURL(this.service.imageId);
@@ -73,6 +71,8 @@ export class ServiceComponent implements OnInit {
     }
     return klass;
   }
+
+  ngOnInit() {}
 
   getTransportIcon(transId: string) {
     return this.api.transportIconURL(transId);

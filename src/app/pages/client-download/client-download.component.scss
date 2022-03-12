@@ -66,3 +66,19 @@
   justify-content: center;
   margin-top: 0.5rem;
 }
+
+::ng-deep .dark-theme {
+  uds-client-download {
+    color: #FFFFFF !important;
+  }
+
+  .plugin.legacy {
+    background-color: darkgray;
+  }
+   
+  .plugin:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+  }
+  
+  
+}

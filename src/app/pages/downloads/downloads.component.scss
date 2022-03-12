@@ -61,3 +61,14 @@
     font-weight: bold;
     overflow: hidden;
 }
+
+::ng-deep .dark-theme {
+    uds-downloads {
+        color: #FFFFFF !important;
+    }
+
+    .actor.legacy {
+        background-color: rgb(70, 70, 70);
+    }
+    
+}  

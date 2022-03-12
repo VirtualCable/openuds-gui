@@ -19,6 +19,10 @@ import { environment } from '../environments/environment';
 
 declare const udsData: any;
 
+const DARK_THEME = 'dark-theme';
+const LIGHT_THEME = 'light-theme';
+
+
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
@@ -163,4 +167,16 @@ export class UDSApiService implements UDSApiServiceType {
       responseType: 'text',
     });
   }
+
+  // Switch dark/light theme
+  switchTheme(dark: boolean): void {
+    const body = document.getElementsByTagName('html')[0];
+    [DARK_THEME, LIGHT_THEME].forEach((cls) => {
+      if (body.classList.contains(cls)) {
+        body.classList.remove(cls);
+      }
+    });
+    body.classList.add(dark ? DARK_THEME : LIGHT_THEME);
+  }
+
 }

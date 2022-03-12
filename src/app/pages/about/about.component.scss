@@ -29,8 +29,6 @@ ul {
   list-style: none;
 }
 
-ul li {}
-
 ul li a {
   display: block;
   text-decoration: none;
@@ -50,4 +48,19 @@ ul li a:hover {
 
 ul li a strong {
   margin-right: 10px;
+}
+
+::ng-deep .dark-theme {
+  .about {
+    color: #FFFFFF !important;
+  }
+  ul li a {
+    color: rgb(255, 255, 255) !important;
+    background-color: inherit !important;
+  }
+
+  ul li a:hover {
+    color: rgb(62, 107, 45) !important;
+  }
+  
 }

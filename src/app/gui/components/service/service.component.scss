@@ -2,7 +2,7 @@
   width: 10rem;
   margin: 0 1rem 2rem 0;
   padding: 0.5rem 0 1rem 0;
-  /*border-radius: 1rem;*/
+  border-radius: 1rem;
   box-shadow: 0 12px 18px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
   border: 1px;
@@ -14,6 +14,10 @@
   justify-content: flex-start;
   flex-flow: column wrap;
   position: relative;
+}
+
+.service-menu {
+  border-radius: 0.6rem !important;
 }
 
 .service:hover {
@@ -98,7 +102,6 @@
 
 .menu .mat-icon-button {
   cursor: pointer;
-  border-radius: 1px;
   background-color: rgb(255, 255, 255, 0.80);
   /*line-height: 0px;
   width: auto;
@@ -157,3 +160,10 @@
   content: 'delete_forever';
 }
 
+
+::ng-deep .dark-theme {
+  .menu .mat-icon-button {
+    background-color: rgb(0, 0, 0, 0.20) !important;
+  }
+    
+}

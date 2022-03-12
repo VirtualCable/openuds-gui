@@ -1,0 +1,26 @@
+.staff-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: rgb(235, 235, 235);
+}
+
+.staff-info h1 {
+    text-align: center;
+}
+
+.staff-panel {
+    background-color:rgb(212, 212, 212);
+}
+
+::ng-deep .dark-theme {
+    .staff-info {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: rgb(15, 15, 15);
+    }
+    
+    .staff-panel {
+        background-color:rgb(43, 43, 43);
+    }
+        
+}

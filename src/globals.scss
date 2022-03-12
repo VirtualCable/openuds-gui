@@ -1,0 +1,31 @@
+@import '@angular/material/theming';
+@include mat-core();
+$angular-primary: mat-palette($mat-indigo, 500, 100, 900);
+$angular-accent: mat-palette($mat-pink, A200, A100, A400);
+$angular-warn: mat-palette($mat-red);
+
+$angular-default-theme: mat-light-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+
+$angular-dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+
+$bg-default: map-get(map-get($angular-default-theme, background), background);
+$fg-default: map-get(map-get($angular-default-theme, foreground), base);
+
+$bg-dark: map-get(map-get($angular-dark-theme, background), background);
+$fg-dark: map-get(map-get($angular-dark-theme, foreground), base);
