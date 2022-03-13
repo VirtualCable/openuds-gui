@@ -132,6 +132,10 @@ export class Plugin {
         } else {
           // Is HTTP access the service returned, or for UDS client?
           if (data.url.startsWith('/')) {
+            // If running message window, close it first...
+            if ( alert.componentInstance ) {
+              alert.componentInstance.close();
+            }
             state = 'stop';
             this.launchURL(data.url);
             return;
