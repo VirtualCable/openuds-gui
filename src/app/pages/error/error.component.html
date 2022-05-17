@@ -12,7 +12,9 @@
   <h1 class="title">
     <uds-translate>An error has occurred</uds-translate>
   </h1>
-  <p class="description" [innerHTML]="this.error | safeHtml">
+  
+  <p class="description">
+    <span *ngFor="let error of this.error" [innerHTML]="error"></span>
   </p>
 
   <a mat-raised-button color="warn" routerLink="/"><uds-translate>Return</uds-translate></a>
