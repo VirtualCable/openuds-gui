@@ -1,8 +1,8 @@
 <h4 mat-dialog-title [innerHtml]="data.title | safeHtml"></h4>
 <mat-dialog-content [innerHTML]="data.body | safeHtml"></mat-dialog-content>
 <mat-dialog-actions>
-  <button *ngIf="data.type==0" mat-raised-button mat-dialog-close (click)="close()"> <uds-translate>Close</uds-translate>{{ extra }}</button>
-  <button *ngIf="data.type==1" mat-raised-button mat-dialog-close (click)="yes()"><uds-translate>Yes</uds-translate></button>
-  <button *ngIf="data.type==1" mat-raised-button mat-dialog-close (click)="no()"><uds-translate>No</uds-translate></button>
+  <button *ngIf="data.type===0" mat-raised-button mat-dialog-close (click)="close()"> <uds-translate>Close</uds-translate>{{ extra }}</button>
+  <button *ngIf="data.type===1" mat-raised-button mat-dialog-close (click)="yes()"><uds-translate>Yes</uds-translate></button>
+  <button *ngIf="data.type===1" mat-raised-button mat-dialog-close (click)="no()"><uds-translate>No</uds-translate></button>
 
 </mat-dialog-actions>
