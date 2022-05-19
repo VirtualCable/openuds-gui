@@ -107,7 +107,6 @@ def extractTranslations():
                         s = s.strip()
                     s = s.replace('\n', '\\n')
 
-                    print('Found string {}'.format(s))
                     print('gettext("{}");'.format(s), file=output)
 
     with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
