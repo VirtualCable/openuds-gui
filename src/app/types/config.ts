@@ -44,8 +44,6 @@ export interface UDSConfig {
     readonly available_languages: Lang[];
     readonly authenticators: Authenticator[];
     readonly os: string;
-    readonly csrf_field: string;
-    readonly csrf: string;
     readonly reload_time: number;
     readonly site_name: string;
     readonly site_copyright_info: string;

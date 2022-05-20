@@ -50,9 +50,7 @@ var udsData = {
     "user": "172.27.0.8"
   },
   "config": {
-    "csrf_field": "csrfmiddlewaretoken",
     "version_stamp": "20180831-DEVEL",
-    "csrf": "cuZKC1fLfSXmiSO4UiIho0tr7nzPbagTVHWQFIKNhiOg2olryXcMvAYXHUUMzuBs",
     "available_languages": [{
       "name": "Spanish",
       "id": "es"

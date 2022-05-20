@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
     const form = document.getElementById('loginform') as HTMLFormElement;
     form.action = this.api.config.urls.login;
     const input = document.getElementById('token') as HTMLInputElement;
-    input.name = this.api.config.csrf_field;
-    input.value = this.api.config.csrf;
+    input.name = this.api.csrfField;
+    input.value = this.api.csrfToken;
 
     this.auth = document.getElementById('authenticator') as HTMLInputElement;
     if (this.auths.length > 0) {

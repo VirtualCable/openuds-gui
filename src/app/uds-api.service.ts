@@ -18,6 +18,7 @@ import { UDSApiServiceType } from './uds-api.service-type';
 import { environment } from '../environments/environment';
 
 declare const udsData: any;
+declare const csrf: any;
 
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
@@ -43,6 +44,14 @@ export class UDSApiService implements UDSApiServiceType {
    */
   get config(): UDSConfig {
     return udsData.config;
+  }
+
+  get csrfField(): string {
+    return csrf.csrfField;
+  }
+
+  get csrfToken(): string {
+    return csrf.csrfToken;
   }
 
   /**
