@@ -31,6 +31,7 @@ import os
 import shutil
 import glob
 import re
+import typing
 
 DIST = 'dist'
 SRC = 'src'
@@ -39,7 +40,7 @@ STATIC = 'static/modern'
 TEMPLATE = 'templates/uds/modern'
 
 
-def mkPath(path):
+def mkPath(path) -> None:
     folder = ''
     for p in path.split(os.path.sep):
         folder = os.path.join(folder, p)
@@ -49,7 +50,7 @@ def mkPath(path):
             pass  # Already exits, ignore
 
 
-def locateFiles(files, folder, extension):
+def locateFiles(files: typing.List[str], folder: str, extension: str) -> None:
     for f in glob.glob(folder+"/*"):
         if os.path.isdir(f):
             # Recurse
@@ -59,23 +60,25 @@ def locateFiles(files, folder, extension):
                 files.append(f)
 
 
-def locateHtmlFiles():
-    files = []
+def locateHtmlFiles() -> typing.List[str]:
+    files: typing.List[str] = []
     locateFiles(files, SRC, 'html')
     return files
 
 
-def locateTypeScriptFiles():
-    files = []
+def locateTypeScriptFiles() -> typing.List[str]:
+    files: typing.List[str] = []
     locateFiles(files, SRC, 'ts')
     return files
 
 
-def fixIndex():
+def fixIndex() -> None:
     print('Fixing index.html...')
     translations = '<script type="text/javascript" src="{% url \'utility.jsCatalog\' LANGUAGE_CODE %}"></script>'
     jsdata = '<script type="text/javascript" src="{% url \'utility.js\' %}"></script>'
-    # Change index.html, to include django required staff
+    csrfData = "var csrf = {  csrfToken: '{{ csrf_token }}',  csrfField: '{{ csrf_field }}' };"
+    csrfRE = re.compile(r'// CSRF.*// ENDCSRF', re.MULTILINE | re.DOTALL)
+    # Change index.html, to include django required stuff
     translatePattern = re.compile(
         '<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)
     with open(os.path.join(DIST, 'index.html'), 'r', encoding='utf8') as f:
@@ -88,6 +91,9 @@ def fixIndex():
     # Add link rel style.. to our theme stylesheet AFTER all index styles
     html = re.sub('</head>',
                   '<link rel="stylesheet" href="{% url \'custom\' \'styles.css\' %}"></head>', html)
+    html = csrfRE.sub(csrfData, html)
+    html = translatePattern.sub(translations + jsdata, html)
+
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
         f.write(translatePattern.sub(translations + jsdata, html))
 
