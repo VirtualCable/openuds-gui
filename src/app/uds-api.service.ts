@@ -9,6 +9,7 @@ import {
   JSONStatusService,
   JSONService,
   JSONTransportURLService,
+  JSONErrorInformation,
 } from './types/services';
 import { UDSGuiService } from './gui/uds-gui.service';
 import { Plugin } from './helpers/plugin';
@@ -135,6 +136,13 @@ export class UDSApiService implements UDSApiServiceType {
    */
   getServicesInformation(): Observable<JSONServicesInformation> {
     return this.http.get<JSONServicesInformation>(this.config.urls.services);
+  }
+
+  /**
+   * Gets error string from a code
+   */
+  getErrorInformation(errorCode: string): Observable<JSONErrorInformation> {
+    return this.http.get<JSONErrorInformation>(this.config.urls.error.replace('9999', errorCode));
   }
 
   /**

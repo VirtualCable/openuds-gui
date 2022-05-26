@@ -29,6 +29,7 @@ export interface UDSUrls {
     readonly galleryImage: string;
     readonly transportIcon: string;
     readonly clientDownload: string;
+    readonly error: string;
 
     readonly launch: string;
 }
