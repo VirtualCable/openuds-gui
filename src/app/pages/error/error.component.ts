@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UDSApiService } from '../../uds-api.service';
 
 declare const django: any;
 declare const udsData: any;
@@ -10,9 +11,9 @@ declare const udsData: any;
   styleUrls: ['./error.component.css'],
 })
 export class ErrorComponent implements OnInit {
-  error: string[] = [''];
+  error: string;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(public api: UDSApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getError();
@@ -20,20 +21,11 @@ export class ErrorComponent implements OnInit {
 
   getError(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    try {
-      const errText = new TextDecoder()
-        .decode(
-          Uint8Array.from(window.atob(id), (c) => (c as any).charCodeAt(c))
-        )
-        .replace('<', '&lt;')
-        .replace('>', '&gt;');
-      // Split error text in lines
-      this.error = errText.split('\n');
-      console.log(this.error);
-      udsData.error = this.error;
-    } catch (e) {
-      console.log(e);
-      this.error = [django.gettext('Invalid error string')];
-    }
+    this.error = '';
+    // Request error string from UDS
+    this.api.getErrorInformation(id).subscribe((errInfo) => {
+      // Set error to errInfo.error + Hex code
+      this.error = errInfo.error;
+    });
   }
 }

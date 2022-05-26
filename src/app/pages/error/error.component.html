@@ -14,7 +14,7 @@
   </h1>
   
   <p class="description">
-    <span *ngFor="let error of this.error" [innerHTML]="error"></span>
+    {{ error }}
   </p>
 
   <a mat-raised-button color="warn" routerLink="/"><uds-translate>Return</uds-translate></a>

@@ -45,6 +45,11 @@ export interface JSONServicesInformation {
     transports: string;
 }
 
+export interface JSONErrorInformation {
+    error: string;
+    code: string;
+}
+
 export interface JSONEnabledService {
     url: string;
     error: string;
