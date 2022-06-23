@@ -1,0 +1,42 @@
+.mfa-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.mfa-form {
+  margin: 0 1rem 2rem 0;
+  min-width: 32em;
+  padding: 1rem;
+  -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  flex: 1 0 auto;
+  justify-content: center;
+  flex-flow: column wrap;
+  align-items: center;
+  display: flex;
+}
+
+.mfa-field {
+  width: 80%;
+  margin: 0.5rem;
+}
+
+.mfa-button {
+  margin: 2rem;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+/* responsive part */
+@media only screen and (max-width: 744px) {
+  .mfa-form {
+    min-width: 80%;
+  }
+}

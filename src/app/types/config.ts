@@ -19,6 +19,7 @@ export interface UDSUrls {
     readonly static: string;
     readonly changeLang: string;
     readonly login: string;
+    readonly mfa: string;
     readonly logout: string;
     readonly customAuth: string;
     readonly services: string;
@@ -38,12 +39,18 @@ export interface UDSMessages {
     readonly calendarDenied: string;
 }
 
+export interface MFAInfo {
+    label: string;
+    validity: number;
+}
+
 export interface UDSConfig {
     readonly version: string;
     readonly version_stamp: string;
     readonly language: string;
     readonly available_languages: Lang[];
     readonly authenticators: Authenticator[];
+    readonly mfa: MFAInfo;
     readonly os: string;
     readonly reload_time: number;
     readonly site_name: string;
