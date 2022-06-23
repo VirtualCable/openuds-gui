@@ -16,9 +16,6 @@ export class MfaComponent implements OnInit {
     // adapt form to post the correct values the correct way
     const form = document.getElementById('mfaform') as HTMLFormElement;
     form.action = this.api.config.urls.mfa;
-    const input = document.getElementById('token') as HTMLInputElement;
-    input.name = this.api.csrfField;
-    input.value = this.api.csrfToken;
 
     if (this.api.errors.length > 0) {
       this.api.gui.alert(
