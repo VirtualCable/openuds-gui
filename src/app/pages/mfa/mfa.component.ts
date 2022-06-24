@@ -17,6 +17,11 @@ export class MfaComponent implements OnInit {
     const form = document.getElementById('mfaform') as HTMLFormElement;
     form.action = this.api.config.urls.mfa;
 
+    // if the user is already logged in, we redirect him to /
+    if (this.api.user.isLogged) {
+      this.api.router.navigate(['/']);
+    }
+
     if (this.api.errors.length > 0) {
       this.api.gui.alert(
         django.gettext('Errors found'),
