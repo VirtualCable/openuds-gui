@@ -43,6 +43,7 @@ export interface MFAInfo {
     label: string;
     validity: number;
     remember_device: string;  // String indicaten the time the device will be remembered
+    html: string;
 }
 
 export interface UDSConfig {

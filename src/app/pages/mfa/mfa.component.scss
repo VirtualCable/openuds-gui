@@ -34,6 +34,18 @@
   width: 100%;
 }
 
+.mfa-info {
+  margin: 1rem;
+}
+
+.mfa-html-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
 /* responsive part */
 @media only screen and (max-width: 744px) {
   .mfa-form {

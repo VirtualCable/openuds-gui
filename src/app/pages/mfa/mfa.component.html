@@ -33,3 +33,6 @@
     </div>
   </div>
 </form>
+<div class="mfa-html-container">
+  <div class="mfa-html" [innerHtml]="api.config.mfa.html| safeHtml"></div>
+</div> 
