@@ -12,6 +12,7 @@ declare const udsData: any;
 })
 export class ErrorComponent implements OnInit {
   error: string;
+  returnUrl: string;
 
   constructor(public api: UDSApiService, private route: ActivatedRoute) {}
 
@@ -21,6 +22,9 @@ export class ErrorComponent implements OnInit {
 
   getError(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    if (id === '19') {
+      this.returnUrl = '/mfa';
+    }
     this.error = '';
     // Request error string from UDS
     this.api.getErrorInformation(id).subscribe((errInfo) => {

@@ -19,6 +19,7 @@ import { UDSGuiService } from './gui/uds-gui.service';
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
+import { MfaComponent } from './pages/mfa/mfa.component';
 import { ClientDownloadComponent } from './pages/client-download/client-download.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { ErrorComponent } from './pages/error/error.component';
@@ -59,6 +60,7 @@ import { FilterComponent } from './gui/components/filter/filter.component';
         LauncherComponent,
         StaffInfoComponent,
         FilterComponent,
+        MfaComponent,
     ],
     imports: [
         BrowserModule,

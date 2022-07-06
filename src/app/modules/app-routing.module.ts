@@ -9,6 +9,7 @@ import { ServicesComponent } from '../pages/services/services.component';
 import { ErrorComponent } from '../pages/error/error.component';
 import { AboutComponent } from '../pages/about/about.component';
 import { LauncherComponent } from '../pages/launcher/launcher.component';
+import { MfaComponent } from '../pages/mfa/mfa.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'services', pathMatch: 'full' },
@@ -16,6 +17,8 @@ const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'login/:id', component: LoginComponent },
+
+  { path: 'mfa', component: MfaComponent },
 
   { path: 'client-download', component: ClientDownloadComponent },
   { path: 'downloads', component: DownloadsComponent, canActivate: [AuthGuard]  },
