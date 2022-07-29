@@ -42,7 +42,7 @@ export interface UDSMessages {
 export interface MFAInfo {
     label: string;
     validity: number;
-    remember_device: string;  // String indicaten the time the device will be remembered
+    remember_device: number;  // String indicaten the time the device will be remembered
     html: string;
 }
 
