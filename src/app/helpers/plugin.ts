@@ -55,12 +55,11 @@ export class Plugin {
               // Not closed dialog...
               this.api.status(params[0], params[1]).subscribe(
                 (data) => {
-                  if (data. status === 'ready') {
+                  if (data.status === 'ready') {
                     if (!readyTime) {
                       readyTime = Date.now(); // Milisecodns
-                      alert.componentInstance.data.title = django.gettext(
-                        'Service ready'
-                      );
+                      alert.componentInstance.data.title =
+                        django.gettext('Service ready');
                       alert.componentInstance.data.body = django.gettext(
                         'Launching UDS Client, almost done.'
                       );
@@ -109,9 +108,9 @@ export class Plugin {
             }
           };
           const init = () => {
-            if( state === 'init' ) {
+            if (state === 'init') {
               window.setTimeout(init, this.delay);
-            } else if( state === 'error' || state === 'stop' ) {
+            } else if (state === 'error' || state === 'stop') {
               return;
             } else {
               window.setTimeout(checker);
@@ -121,36 +120,39 @@ export class Plugin {
         })
       );
 
-      this.api.enabler(params[0], params[1]).subscribe((data) => {
-        if (data.error) {
-          state = 'error';
-          // TODO: show the error correctly
-          this.api.gui.alert(
-            django.gettext('Error launching service'),
-            data.error
-          );
-        } else {
-          // Is HTTP access the service returned, or for UDS client?
-          if (data.url.startsWith('/')) {
-            // If running message window, close it first...
-            if ( alert.componentInstance ) {
-              alert.componentInstance.close();
+      this.api.enabler(params[0], params[1]).subscribe(
+        (data) => {
+          if (data.error) {
+            state = 'error';
+            // TODO: show the error correctly
+            this.api.gui.alert(
+              django.gettext('Error launching service'),
+              data.error
+            );
+          } else {
+            // Is HTTP access the service returned, or for UDS client?
+            if (data.url.startsWith('/')) {
+              // If running message window, close it first...
+              if (alert.componentInstance) {
+                alert.componentInstance.close();
+              }
+              state = 'stop';
+              this.launchURL(data.url);
+              return;
             }
-            state = 'stop';
-            this.launchURL(data.url);
-            return;
+            if (window.location.protocol === 'https:') {
+              // Ensures that protocol is https also for plugin, fixing if needed UDS provided info
+              data.url = data.url.replace('uds://', 'udss://');
+            }
+            state = 'enabled';
+            this.doLaunch(data.url);
           }
-          if (window.location.protocol === 'https:') {
-            // Ensures that protocol is https also for plugin, fixing if needed UDS provided info
-            data.url = data.url.replace('uds://', 'udss://');
-          }
-          state = 'enabled';
-          this.doLaunch(data.url);
+        },
+        (error) => {
+          // Any error on requests will redirect to login
+          this.api.logout();
         }
-      }, (error) => {
-        // Any error on requests will redirect to login
-        this.api.logout();
-      });
+      );
     } else {
       // Custom url, http/https
       const alert = this.showAlert(
@@ -173,6 +175,8 @@ export class Plugin {
                     let username = '';
                     let domain = '';
                     let askCredentials = false;
+                    let ticket = '';
+                    let scrambler = '';
 
                     if (data.url.indexOf('&creds=') !== -1) {
                       askCredentials = true;
@@ -186,6 +190,10 @@ export class Plugin {
                       }
                       // Remove credentials from url
                       data.url = data.url.split('&creds=')[0];
+                      // From "data=..." extract ticket and scrambler that is ticket.scrambler
+                      const values = data.url.split('data=')[1].split('&')[0].split('.');
+                      ticket = values[0];
+                      scrambler = values[1];
                     }
 
                     let wnd = 'global';
@@ -224,23 +232,18 @@ export class Plugin {
                         );
                       }
                     };
-                    
+
                     // If credentials required, ask for them
                     if (askCredentials) {
                       this.api.gui
-                        .askCredentials(
-                          username,
-                          domain
-                        )
-                        .subscribe((data) => {
-                          if (data) {
-                            // Credentials provided, add them to url
-                            location += '&creds=' + data.username;
-                            if (data.domain) {
-                              location += '@' + data.domain;
+                        .askCredentials(username, domain)
+                        .subscribe((result) => {
+                          // Update transport credentials
+                          this.api.updateTransportTicket(ticket, scrambler,result.username, result.password, result.domain).subscribe(
+                            () => {
+                              openWindow();
                             }
-                            openWindow();
-                          }
+                          );
                         });
                     }
                   } else if (!data.running) {

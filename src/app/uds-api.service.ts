@@ -114,6 +114,17 @@ export class UDSApiService implements UDSApiServiceType {
     return this.http.get<JSONTransportURLService>(url);
   }
 
+  updateTransportTicket(ticketId: string, scrambler: string, username: string, password: string, domain: string): Observable<any> {
+    const url = this.config.urls.updateTransportTicket
+        .replace('param1', ticketId)
+        .replace('param2', scrambler);
+    return this.http.post<any>(url, {
+      username,
+      password,
+      domain,
+    });
+  }
+
   /* Images & static related */
   galleryImageURL(imageId: string) {
     return this.config.urls.galleryImage.replace('param1', imageId);

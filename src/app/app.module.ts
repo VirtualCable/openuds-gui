@@ -39,6 +39,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { DownloadsComponent } from './pages/downloads/downloads.component';
 import { LauncherComponent } from './pages/launcher/launcher.component';
 import { FilterComponent } from './gui/components/filter/filter.component';
+import { CredentialsModalComponent } from './gui/credentials-modal/credentials-modal.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { FilterComponent } from './gui/components/filter/filter.component';
     ServiceComponent,
     ServicesGroupComponent,
     ModalComponent,
+    CredentialsModalComponent,
     SafeHtmlPipe,
     FooterComponent,
     ErrorComponent,
