@@ -169,29 +169,79 @@ export class Plugin {
                   if (data.url) {
                     observer.next(true);
                     observer.complete(); // Notify window to close...
+                    // Extract if credentials modal is requested
+                    let username = '';
+                    let domain = '';
+                    let askCredentials = false;
+
+                    if (data.url.indexOf('&creds=') !== -1) {
+                      askCredentials = true;
+                      // Extract username and domain "&creds=username@domain"
+                      const creds = data.url.split('&creds=')[1];
+                      if (creds.indexOf('@') !== -1) {
+                        username = creds.split('@')[0];
+                        domain = creds.split('@')[1];
+                      } else {
+                        username = creds;
+                      }
+                      // Remove credentials from url
+                      data.url = data.url.split('&creds=')[0];
+                    }
+
+                    let wnd = 'global';
+                    let location = data.url;
+
+                    // check if on same window or not
                     if (data.url.indexOf('o_s_w=') !== -1) {
                       const osw = /(.*)&o_s_w=.*/.exec(data.url);
-                      window.location.href = osw[1];
+                      wnd = 'same';
+                      location = osw[1];
+                      //window.location.href = osw[1];
                     } else {
                       // If the url contains "o_n_w", will open the url on a new window ALWAYS
-                      let name = 'global';
                       if (data.url.indexOf('o_n_w=') !== -1) {
                         // Extract window name from o_n_w parameter if present
                         const onw = /(.*)&o_n_w=([a-zA-Z0-9._-]*)/.exec(
                           data.url
                         );
                         if (onw) {
-                          name = onw[2];
-                          data.url = onw[1];
+                          wnd = onw[2];
+                          location = onw[1];
                         }
                       }
-                      if (Plugin.transportsWindow[name]) {
-                        Plugin.transportsWindow[name].close();
+                    }
+
+                    const openWindow = () => {
+                      if (wnd === 'same') {
+                        window.location.href = location;
+                      } else {
+                        if (Plugin.transportsWindow[wnd]) {
+                          Plugin.transportsWindow[wnd].close();
+                        }
+                        Plugin.transportsWindow[wnd] = window.open(
+                          data.url,
+                          'uds_trans_' + wnd
+                        );
                       }
-                      Plugin.transportsWindow[name] = window.open(
-                        data.url,
-                        'uds_trans_' + name
-                      );
+                    };
+                    
+                    // If credentials required, ask for them
+                    if (askCredentials) {
+                      this.api.gui
+                        .askCredentials(
+                          username,
+                          domain
+                        )
+                        .subscribe((data) => {
+                          if (data) {
+                            // Credentials provided, add them to url
+                            location += '&creds=' + data.username;
+                            if (data.domain) {
+                              location += '@' + data.domain;
+                            }
+                            openWindow();
+                          }
+                        });
                     }
                   } else if (!data.running) {
                     observer.next(true);

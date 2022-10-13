@@ -29,4 +29,14 @@ export class UDSGuiService {
 
     return dialogRef.componentInstance.yesno;
   }
+
+  askCredentials(username: string, domain: string) {
+    const width = window.innerWidth < 800 ? '80%' : '40%';
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width,
+      data: { title: 'Credentials', body: 'Please enter your credentials', type: DialogType.credentials, username, domain },
+    });
+
+    return dialogRef.componentInstance.subscription;
+  }
 }
