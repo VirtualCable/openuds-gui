@@ -39,41 +39,46 @@ import { AboutComponent } from './pages/about/about.component';
 import { DownloadsComponent } from './pages/downloads/downloads.component';
 import { LauncherComponent } from './pages/launcher/launcher.component';
 import { FilterComponent } from './gui/components/filter/filter.component';
+import { CredentialsModalComponent } from './gui/credentials-modal/credentials-modal.component';
 
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavbarComponent,
-        TranslateDirective,
-        LoginComponent,
-        ClientDownloadComponent,
-        ServicesComponent,
-        ServiceComponent,
-        ServicesGroupComponent,
-        ModalComponent,
-        SafeHtmlPipe,
-        FooterComponent,
-        ErrorComponent,
-        AboutComponent,
-        DownloadsComponent,
-        LauncherComponent,
-        StaffInfoComponent,
-        FilterComponent,
-        MfaComponent,
-    ],
-    imports: [
-        BrowserModule,
-        LayoutModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        AppMaterialModule,
-    ],
-    providers: [
-        UDSApiService,
-        UDSGuiService,
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    TranslateDirective,
+    LoginComponent,
+    ClientDownloadComponent,
+    ServicesComponent,
+    ServiceComponent,
+    ServicesGroupComponent,
+    ModalComponent,
+    CredentialsModalComponent,
+    SafeHtmlPipe,
+    FooterComponent,
+    ErrorComponent,
+    AboutComponent,
+    DownloadsComponent,
+    LauncherComponent,
+    StaffInfoComponent,
+    FilterComponent,
+    MfaComponent,
+  ],
+  imports: [
+    BrowserModule,
+    LayoutModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    AppMaterialModule,
+  ],
+  providers: [
+    UDSApiService,
+    UDSGuiService,
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ModalComponent
+  ]
 })
 export class AppModule { }

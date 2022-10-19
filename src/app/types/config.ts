@@ -31,6 +31,7 @@ export interface UDSUrls {
     readonly transportIcon: string;
     readonly clientDownload: string;
     readonly error: string;
+    readonly updateTransportTicket: string;
 
     readonly launch: string;
 }

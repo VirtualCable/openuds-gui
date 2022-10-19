@@ -33,6 +33,9 @@ export interface UDSApiServiceType {
   /* transport url */
   transportUrl(url: string): Observable<JSONTransportURLService>;
 
+  /* Transport ticket credentials updater */
+  updateTransportTicket(ticketId: string, scrambler: string, username: string, password: string, domain: string): Observable<any>;
+
   /* Go to admin dashboard */
   gotoAdmin(): void;
 

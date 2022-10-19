@@ -7,7 +7,8 @@ declare const django: any;
 
 export enum DialogType {
   alert = 0,
-  yesno = 1
+  yesno = 1,
+  credentials = 2,
 }
 
 export interface ModalData {
@@ -16,6 +17,8 @@ export interface ModalData {
   autoclose?: number;
   checkClose?: Observable<boolean>;
   type: DialogType;
+  username?: string;
+  domain?: string;
 }
 
 @Component({
