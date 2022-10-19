@@ -245,6 +245,8 @@ export class Plugin {
                             }
                           );
                         });
+                    } else {
+                      openWindow();  // Open window
                     }
                   } else if (!data.running) {
                     observer.next(true);
