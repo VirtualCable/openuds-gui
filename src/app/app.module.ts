@@ -43,42 +43,39 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    TranslateDirective,
-    LoginComponent,
-    ClientDownloadComponent,
-    ServicesComponent,
-    ServiceComponent,
-    ServicesGroupComponent,
-    ModalComponent,
-    CredentialsModalComponent,
-    SafeHtmlPipe,
-    FooterComponent,
-    ErrorComponent,
-    AboutComponent,
-    DownloadsComponent,
-    LauncherComponent,
-    StaffInfoComponent,
-    FilterComponent,
-    MfaComponent,
-  ],
-  imports: [
-    BrowserModule,
-    LayoutModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    AppMaterialModule,
-  ],
-  providers: [
-    UDSApiService,
-    UDSGuiService,
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    ModalComponent
-  ]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        TranslateDirective,
+        LoginComponent,
+        ClientDownloadComponent,
+        ServicesComponent,
+        ServiceComponent,
+        ServicesGroupComponent,
+        ModalComponent,
+        CredentialsModalComponent,
+        SafeHtmlPipe,
+        FooterComponent,
+        ErrorComponent,
+        AboutComponent,
+        DownloadsComponent,
+        LauncherComponent,
+        StaffInfoComponent,
+        FilterComponent,
+        MfaComponent,
+    ],
+    imports: [
+        BrowserModule,
+        LayoutModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        AppMaterialModule,
+    ],
+    providers: [
+        UDSApiService,
+        UDSGuiService,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

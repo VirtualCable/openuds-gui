@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "a21f6880-5986-43de-9ca2-f1e4923f9ac8"
+    "analytics": false
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -125,7 +125,6 @@
       }
     }
   },
-  "defaultProject": "uds",
   "schematics": {
     "@schematics/angular:class": {
       "skipTests": true
@@ -142,16 +141,12 @@
     "@schematics/angular:guard": {
       "skipTests": true
     },
-    "@schematics/angular:module": {
-    },
+    "@schematics/angular:module": {},
     "@schematics/angular:pipe": {
       "skipTests": true
     },
     "@schematics/angular:service": {
       "skipTests": true
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }
