@@ -13,6 +13,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.0.4",
