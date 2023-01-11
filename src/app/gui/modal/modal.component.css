@@ -3,6 +3,6 @@
     justify-content: left;
 }
 
-.mat-dialog-actions {
+.mat-mdc-dialog-actions {
     justify-content: flex-end;
 }

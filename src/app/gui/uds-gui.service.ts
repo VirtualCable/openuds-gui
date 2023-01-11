@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ModalComponent, DialogType } from './modal/modal.component';
 import { CredentialsModalComponent } from './credentials-modal/credentials-modal.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 @Injectable()

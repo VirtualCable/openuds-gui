@@ -5,6 +5,8 @@
   "hints": {
     "axe/forms": "off",
     "axe/text-alternatives": "off",
-    "button-type": "off"
+    "button-type": "off",
+    "typescript-config/strict": "off",
+    "typescript-config/consistent-casing": "off"
   }
 }

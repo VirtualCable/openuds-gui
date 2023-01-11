@@ -29,11 +29,16 @@ i.material-icons {
     color: red;
 }
 
-.mat-menu-content {
-    .mat-menu-item:hover {
+.mat-mdc-menu-content {
+    .mat-mdc-menu-item:hover {
       background-color: #E8E8E8;
     }
   }
+
+.mat-mdc-option:hover:not(.mat-mdc-option-disabled) {
+    background: #648cb0 !important;
+    color: white !important;
+}
   
 .dark-theme {
   @include angular-material-color($angular-dark-theme);
@@ -43,3 +48,4 @@ i.material-icons {
       background-color: $bg-dark;
   }
 }
+
