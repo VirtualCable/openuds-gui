@@ -111,7 +111,7 @@ export class Plugin {
         enabledData.url = enabledData.url.replace('uds://', 'udss://');
       }
       // Launches UDS Client, using an iframe
-      await this.launchUDSUrl(enabledData.url);
+      this.launchUDSUrl(enabledData.url);
 
       while (!cancel) {
         const data = await this.api.status(serviceId, transportId);
