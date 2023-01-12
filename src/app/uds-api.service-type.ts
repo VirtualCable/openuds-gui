@@ -42,6 +42,8 @@ export interface UDSApiServiceType {
   /* Executes logout */
   logout(): void;
 
+  /* sleep milliseconds */
+  sleep(ms: number): Promise<void>;
   /**
    * Gets services information
    */

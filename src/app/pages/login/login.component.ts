@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
             .setAttribute('style', 'display: none;');
           this.api
             .getAuthCustomHtml(l.id)
-            .subscribe((result) => doCustomAuth(result));
+            .then((result) => doCustomAuth(result));
         }
       }
     }

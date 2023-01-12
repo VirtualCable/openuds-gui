@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core';
+import { timeout } from 'rxjs/operators';
 
 import { ModalComponent, DialogType } from './modal/modal.component';
 import { CredentialsModalComponent } from './credentials-modal/credentials-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable, firstValueFrom } from 'rxjs';
 
-const toPromise = <T>(observable: Observable<T>): Promise<T> => firstValueFrom(observable);
+export const toPromise = <T>(observable: Observable<T>|Promise<T>, wait?: number): Promise<T> => {
+  if (observable instanceof Promise) {
+    return observable;
+  }
+  if (wait) {
+    return firstValueFrom(observable.pipe(timeout(wait)));
+  }
+  return firstValueFrom(observable);
+};
 
 @Injectable()
 export class UDSGuiService {
   constructor(public dialog: MatDialog) {}
 
-  alert(
+  async alert(
     title: string,
     message: string,
     autoclose = 0,
     checkClose: Promise<boolean> = null
-  ) {
+  ): Promise<MatDialogRef<ModalComponent>> {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
       width,
@@ -43,7 +52,7 @@ export class UDSGuiService {
     return dialogRef.componentInstance.yesno;
   }
 
-  askCredentials(username: string, domain: string): Promise<{username: string; password: string; domain: string}> {
+  askCredentials(username: string, domain: string): Promise<{username: string; password: string; domain: string; success: boolean}> {
     const dialogRef = this.dialog.open(CredentialsModalComponent, {
       data: {
         username,

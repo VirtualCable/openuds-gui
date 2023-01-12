@@ -94,7 +94,10 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Client enabler */
-  enabler(serviceId: string, transportId: string): Promise<JSONEnabledService> {
+  async enabler(
+    serviceId: string,
+    transportId: string
+  ): Promise<JSONEnabledService> {
     const enabler = this.config.urls.enabler
       .replace('param1', serviceId)
       .replace('param2', transportId);
@@ -102,7 +105,10 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Check userService status */
-  status(serviceId: string, transportId: string): Promise<JSONStatusService> {
+  async status(
+    serviceId: string,
+    transportId: string
+  ): Promise<JSONStatusService> {
     const status = this.config.urls.status
       .replace('param1', serviceId)
       .replace('param2', transportId);
@@ -110,18 +116,18 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Services resetter */
-  action(action: string, serviceId: string): Promise<JSONService> {
+  async action(action: string, serviceId: string): Promise<JSONService> {
     const actionURL = this.config.urls.action
       .replace('param1', serviceId)
       .replace('param2', action);
     return toPromise(this.http.get<JSONService>(actionURL));
   }
 
-  transportUrl(url: string): Promise<JSONTransportURLService> {
+  async transportUrl(url: string): Promise<JSONTransportURLService> {
     return toPromise(this.http.get<JSONTransportURLService>(url));
   }
 
-  updateTransportTicket(
+  async updateTransportTicket(
     ticketId: string,
     scrambler: string,
     username: string,
@@ -160,16 +166,20 @@ export class UDSApiService implements UDSApiServiceType {
   /**
    * Gets services information
    */
-  getServicesInformation(): Promise<JSONServicesInformation> {
-    return toPromise(this.http.get<JSONServicesInformation>(this.config.urls.services));
+  async getServicesInformation(): Promise<JSONServicesInformation> {
+    return toPromise(
+      this.http.get<JSONServicesInformation>(this.config.urls.services)
+    );
   }
 
   /**
    * Gets error string from a code
    */
-  getErrorInformation(errorCode: string): Observable<JSONErrorInformation> {
-    return this.http.get<JSONErrorInformation>(
-      this.config.urls.error.replace('9999', errorCode)
+  async getErrorInformation(errorCode: string): Promise<JSONErrorInformation> {
+    return toPromise(
+      this.http.get<JSONErrorInformation>(
+        this.config.urls.error.replace('9999', errorCode)
+      )
     );
   }
 
@@ -193,6 +203,10 @@ export class UDSApiService implements UDSApiServiceType {
     window.location.href = this.config.urls.logout;
   }
 
+  sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   launchURL(udsURL: string): void {
     this.plugin.launchURL(udsURL);
   }
@@ -203,10 +217,10 @@ export class UDSApiService implements UDSApiServiceType {
    * @param authId if of the authenticator
    * @returns  Observable
    */
-  getAuthCustomHtml(authId: string) {
-    return this.http.get(this.config.urls.customAuth + authId, {
-      responseType: 'text',
-    });
+  async getAuthCustomHtml(authId: string): Promise<string> {
+    return toPromise(
+      this.http.get<string>(this.config.urls.customAuth + authId)
+    );
   }
 
   // Switch dark/light theme

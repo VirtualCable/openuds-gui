@@ -27,7 +27,7 @@ export class ErrorComponent implements OnInit {
     }
     this.error = '';
     // Request error string from UDS
-    this.api.getErrorInformation(id).subscribe((errInfo) => {
+    this.api.getErrorInformation(id).then((errInfo) => {
       // Set error to errInfo.error + Hex code
       this.error = errInfo.error;
     });
