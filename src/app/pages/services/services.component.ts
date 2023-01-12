@@ -84,7 +84,7 @@ export class ServicesComponent implements OnInit {
     // Obtain services list
     this.api
       .getServicesInformation()
-      .subscribe((result: JSONServicesInformation) => {
+      .then((result: JSONServicesInformation) => {
         this.servicesInformation = result;
         this.autorun();
 

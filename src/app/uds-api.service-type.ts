@@ -19,22 +19,22 @@ export interface UDSApiServiceType {
   enabler(
     serviceId: string,
     transportId: string
-  ): Observable<JSONEnabledService>;
+  ): Promise<JSONEnabledService>;
 
   /* Service status */
   status(
     serviceId: string,
     transportId: string
-  ): Observable<JSONStatusService>;
+  ): Promise<JSONStatusService>;
 
   /* Services resetter */
-  action(action: string, serviceId: string): Observable<JSONService>;
+  action(action: string, serviceId: string): Promise<JSONService>;
 
   /* transport url */
-  transportUrl(url: string): Observable<JSONTransportURLService>;
+  transportUrl(url: string): Promise<JSONTransportURLService>;
 
   /* Transport ticket credentials updater */
-  updateTransportTicket(ticketId: string, scrambler: string, username: string, password: string, domain: string): Observable<any>;
+  updateTransportTicket(ticketId: string, scrambler: string, username: string, password: string, domain: string): Promise<any>;
 
   /* Go to admin dashboard */
   gotoAdmin(): void;
@@ -45,7 +45,7 @@ export interface UDSApiServiceType {
   /**
    * Gets services information
    */
-  getServicesInformation(): Observable<JSONServicesInformation>;
+  getServicesInformation(): Promise<JSONServicesInformation>;
 
   /**
    * Executes custom javascript for service launch if it is available

@@ -48,12 +48,12 @@ export class Plugin {
         ),
         0,
         // Now UDS tries to check status
-        new Observable<boolean>((observer) => {
+        new Promise<boolean>((resolve) => {
           let readyTime = 0;
           const checker = () => {
             if (alert.componentInstance) {
               // Not closed dialog...
-              this.api.status(params[0], params[1]).subscribe(
+              this.api.status(params[0], params[1]).then(
                 (data) => {
                   if (data.status === 'ready') {
                     if (!readyTime) {
@@ -89,19 +89,16 @@ export class Plugin {
                     alert.componentInstance.data.body = django.gettext(
                       'Machine ready, waiting for UDS Client'
                     );
-                    observer.next(true);
-                    observer.complete();
+                    resolve(true);
                   } else if (data.status === 'running') {
                     window.setTimeout(checker, this.delay); // Recheck after delay seconds
                   } else {
-                    observer.next(true);
-                    observer.complete();
+                    resolve(true);
                     notifyError();
                   }
                 },
                 (error) => {
-                  observer.next(true);
-                  observer.complete();
+                  resolve(true);
                   notifyError(error);
                 }
               );
@@ -120,7 +117,7 @@ export class Plugin {
         })
       );
 
-      this.api.enabler(params[0], params[1]).subscribe(
+      this.api.enabler(params[0], params[1]).then(
         (data) => {
           if (data.error) {
             state = 'error';
@@ -162,15 +159,14 @@ export class Plugin {
         ),
         0,
         // Now UDS tries to check status before closing dialog...
-        new Observable<boolean>((observer) => {
+        new Promise<boolean>((resolve) => {
           const checker = () => {
             if (alert.componentInstance) {
               // Not closed dialog...
-              this.api.transportUrl(url).subscribe(
+              this.api.transportUrl(url).then(
                 (data) => {
                   if (data.url) {
-                    observer.next(true);
-                    observer.complete(); // Notify window to close...
+                    resolve(true);
                     // Extract if credentials modal is requested
                     let username = '';
                     let domain = '';
@@ -237,9 +233,9 @@ export class Plugin {
                     if (askCredentials) {
                       this.api.gui
                         .askCredentials(username, domain)
-                        .subscribe((result) => {
+                        .then((result) => {
                           // Update transport credentials
-                          this.api.updateTransportTicket(ticket, scrambler,result.username, result.password, result.domain).subscribe(
+                          this.api.updateTransportTicket(ticket, scrambler,result.username, result.password, result.domain).then(
                             () => {
                               openWindow();
                             }
@@ -249,16 +245,14 @@ export class Plugin {
                       openWindow();  // Open window
                     }
                   } else if (!data.running) {
-                    observer.next(true);
-                    observer.complete();
+                    resolve(true);
                     notifyError(data.error);
                   } else {
                     window.setTimeout(checker, this.delay); // Recheck after 5 seconds
                   }
                 },
                 (error) => {
-                  observer.next(true);
-                  observer.complete();
+                  resolve(true);
                   notifyError(error);
                 }
               );
@@ -273,7 +267,7 @@ export class Plugin {
     text: string,
     info: string,
     waitTime: number,
-    checker: Observable<boolean> = null
+    checker: Promise<boolean> = null
   ) {
     return this.api.gui.alert(
       django.gettext('Launching service'),

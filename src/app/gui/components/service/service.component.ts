@@ -141,16 +141,14 @@ export class ServiceComponent implements OnInit {
       type === 'release'
         ? django.gettext('Service released')
         : django.gettext('Service reseted');
-    this.api.gui
-      .yesno(title, django.gettext('Are you sure?'))
-      .subscribe((val) => {
-        if (val) {
-          this.api.action(type, this.service.id).subscribe((service) => {
-            if (service) {
-              this.api.gui.alert(title, action);
-            }
-          });
-        }
-      });
+    this.api.gui.yesno(title, django.gettext('Are you sure?')).then((val) => {
+      if (val) {
+        this.api.action(type, this.service.id).then((service) => {
+          if (service) {
+            this.api.gui.alert(title, action);
+          }
+        });
+      }
+    });
   }
 }

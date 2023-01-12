@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { ModalComponent, DialogType } from './modal/modal.component';
 import { CredentialsModalComponent } from './credentials-modal/credentials-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
+
+const toPromise = <T>(observable: Observable<T>): Promise<T> => firstValueFrom(observable);
 
 @Injectable()
 export class UDSGuiService {
@@ -13,7 +15,7 @@ export class UDSGuiService {
     title: string,
     message: string,
     autoclose = 0,
-    checkClose: Observable<boolean> = null
+    checkClose: Promise<boolean> = null
   ) {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
@@ -30,7 +32,7 @@ export class UDSGuiService {
     return dialogRef;
   }
 
-  yesno(title: string, message: string) {
+  yesno(title: string, message: string): Promise<boolean> {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
       width,
@@ -41,13 +43,13 @@ export class UDSGuiService {
     return dialogRef.componentInstance.yesno;
   }
 
-  askCredentials(username: string, domain: string): Observable<{username: string; password: string; domain: string}> {
+  askCredentials(username: string, domain: string): Promise<{username: string; password: string; domain: string}> {
     const dialogRef = this.dialog.open(CredentialsModalComponent, {
       data: {
         username,
         domain,
       },
     });
-    return dialogRef.afterClosed();
+    return toPromise(dialogRef.afterClosed());
   }
 }

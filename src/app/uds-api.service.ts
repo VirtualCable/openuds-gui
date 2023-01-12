@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from './types/config';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 import {
   JSONServicesInformation,
   JSONEnabledService,
@@ -23,7 +24,12 @@ declare const csrf: any;
 
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
+const TIMEOUT = 10000;
 
+const toPromise = <T>(observable: Observable<T>, wait?: number): Promise<T> => {
+  wait = wait || TIMEOUT;
+  return firstValueFrom(observable.pipe(timeout(wait)));
+};
 
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
@@ -88,45 +94,50 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Client enabler */
-  enabler(serviceId: string, transportId: string) {
+  enabler(serviceId: string, transportId: string): Promise<JSONEnabledService> {
     const enabler = this.config.urls.enabler
       .replace('param1', serviceId)
       .replace('param2', transportId);
-    return this.http.get<JSONEnabledService>(enabler);
+    return toPromise(this.http.get<JSONEnabledService>(enabler));
   }
 
   /* Check userService status */
-  status(
-    serviceId: string,
-    transportId: string
-  ): Observable<JSONStatusService> {
+  status(serviceId: string, transportId: string): Promise<JSONStatusService> {
     const status = this.config.urls.status
       .replace('param1', serviceId)
       .replace('param2', transportId);
-    return this.http.get<JSONStatusService>(status);
+    return toPromise(this.http.get<JSONStatusService>(status));
   }
 
   /* Services resetter */
-  action(action: string, serviceId: string) {
+  action(action: string, serviceId: string): Promise<JSONService> {
     const actionURL = this.config.urls.action
       .replace('param1', serviceId)
       .replace('param2', action);
-    return this.http.get<JSONService>(actionURL);
+    return toPromise(this.http.get<JSONService>(actionURL));
   }
 
-  transportUrl(url: string): Observable<JSONTransportURLService> {
-    return this.http.get<JSONTransportURLService>(url);
+  transportUrl(url: string): Promise<JSONTransportURLService> {
+    return toPromise(this.http.get<JSONTransportURLService>(url));
   }
 
-  updateTransportTicket(ticketId: string, scrambler: string, username: string, password: string, domain: string): Observable<any> {
+  updateTransportTicket(
+    ticketId: string,
+    scrambler: string,
+    username: string,
+    password: string,
+    domain: string
+  ): Promise<any> {
     const url = this.config.urls.updateTransportTicket
-        .replace('param1', ticketId)
-        .replace('param2', scrambler);
-    return this.http.post<any>(url, {
-      username,
-      password,
-      domain,
-    });
+      .replace('param1', ticketId)
+      .replace('param2', scrambler);
+    return toPromise(
+      this.http.post<any>(url, {
+        username,
+        password,
+        domain,
+      })
+    );
   }
 
   /* Images & static related */
@@ -149,15 +160,17 @@ export class UDSApiService implements UDSApiServiceType {
   /**
    * Gets services information
    */
-  getServicesInformation(): Observable<JSONServicesInformation> {
-    return this.http.get<JSONServicesInformation>(this.config.urls.services);
+  getServicesInformation(): Promise<JSONServicesInformation> {
+    return toPromise(this.http.get<JSONServicesInformation>(this.config.urls.services));
   }
 
   /**
    * Gets error string from a code
    */
   getErrorInformation(errorCode: string): Observable<JSONErrorInformation> {
-    return this.http.get<JSONErrorInformation>(this.config.urls.error.replace('9999', errorCode));
+    return this.http.get<JSONErrorInformation>(
+      this.config.urls.error.replace('9999', errorCode)
+    );
   }
 
   /**
@@ -206,5 +219,4 @@ export class UDSApiService implements UDSApiServiceType {
     });
     body.classList.add(dark ? DARK_THEME : LIGHT_THEME);
   }
-
 }
