@@ -23,18 +23,21 @@ export interface ModalData {
 @Component({
   selector: 'uds-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
 })
-
 export class ModalComponent implements OnInit {
   extra = '';
   subscription: Subscription | null = null;
-  yesno: Promise<boolean> = new Promise<boolean>((resolve) => this.resolver = resolve);
+  yesno: Promise<boolean> = new Promise<boolean>((resolve) => (this.resolver = resolve));
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>, @Inject(MAT_DIALOG_DATA) public data: ModalData) {
     // Notifies on case of yes or not to subscriber
   }
 
+  resolveAndClose(value: boolean): void {
+    this.resolver(value);
+    this.close();
+  }
   resolver: (value: boolean) => void = () => {};
 
   close() {
@@ -51,13 +54,13 @@ export class ModalComponent implements OnInit {
   }
 
   async initAlert(): Promise<void> {
-    const autoclose = (this.data.autoclose || 0);
+    const autoclose = this.data.autoclose || 0;
     if (autoclose > 0) {
-      this.dialogRef.afterClosed().subscribe(res => {
+      this.dialogRef.afterClosed().subscribe((res) => {
         this.close();
       });
       this.setExtra(autoclose);
-      interval(1000).subscribe(n => {
+      interval(1000).subscribe((n) => {
         const rem = autoclose - (n + 1) * 1000;
         this.setExtra(rem);
         if (rem <= 0) {
@@ -68,11 +71,8 @@ export class ModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if ( this.data.type === DialogType.yesno ) {
-      ;
-    } else {
+    if (this.data.type === DialogType.alert) {
       this.initAlert();
     }
   }
-
 }
