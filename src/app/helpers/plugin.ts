@@ -10,7 +10,7 @@ declare const django: any;
  */
 
 export class Plugin {
-  static transportsWindow = {};
+  static transportsWindow: any = {};
   delay: number;
 
   constructor(private api: UDSApiServiceType) {
@@ -29,7 +29,6 @@ export class Plugin {
     text: string,
     info: string,
     waitTime: number,
-    checker: Promise<boolean> = null
   ) {
     return this.api.gui.alert(
       django.gettext('Launching service'),
@@ -39,7 +38,6 @@ export class Plugin {
         info +
         '</p>',
       waitTime,
-      checker
     );
   }
 
@@ -61,6 +59,13 @@ export class Plugin {
       elem = document.getElementById(
         'hiddenUdsLauncherIFrame'
       ) as HTMLIFrameElement;
+    }
+    // Ensure all is ok
+    if (elem === null) {
+      throw new Error('Unable to create hidden iframe');
+    }
+    if (elem.contentWindow === null) {
+      throw new Error('Unable to get content window');
     }
     elem.contentWindow.location.href = url;
   }
@@ -215,14 +220,15 @@ export class Plugin {
   private async processCredentials(
     data: JSONTransportURLService
   ): Promise<any> {
-    if (data.url.indexOf('&creds=') !== -1) {
-      const creds = data.url.split('&creds=')[1];
+    const url = data.url || '';
+    if (url.indexOf('&creds=') !== -1) {
+      const creds = url.split('&creds=')[1];
       let username = '';
       let domain = '';
-      // Remove credentials from url
-      data.url = data.url.split('&creds=')[0];
+      // Remove credentials from data.url input
+      data.url = url.split('&creds=')[0];
       // From "data=..." extract ticket and scrambler that is ticket.scrambler
-      const values = data.url.split('data=')[1].split('&')[0].split('.');
+      const values = url.split('data=')[1].split('&')[0].split('.');
       const ticket = values[0];
       const scrambler = values[1];
 
@@ -253,6 +259,7 @@ export class Plugin {
     if (location.indexOf('o_s_w=') !== -1) {
       const osw = /(.*)&o_s_w=.*/.exec(location);
       wnd = 'same';
+      // @ts-ignore  osw is something for sure, checked before
       location = osw[1];
     } else {
       // If the url contains "o_n_w", will open the url on a new window ALWAYS

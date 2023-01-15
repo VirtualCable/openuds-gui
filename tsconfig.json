@@ -4,6 +4,7 @@
     "strictTemplates": true,
   },
   "compilerOptions": {
+    "strict": true,
     "downlevelIteration": true,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",

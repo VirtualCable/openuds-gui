@@ -34,7 +34,7 @@ const toPromise = <T>(observable: Observable<T>, wait?: number): Promise<T> => {
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
-  transportsWindow: Window;
+  transportsWindow: Window|null = null;
   plugin: Plugin;
 
   constructor(
@@ -43,7 +43,6 @@ export class UDSApiService implements UDSApiServiceType {
     public router: Router
   ) {
     this.user = new User(udsData.profile);
-    this.transportsWindow = null;
     this.plugin = new Plugin(this);
   }
   /**

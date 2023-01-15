@@ -11,25 +11,21 @@ declare const udsData: any;
   styleUrls: ['./error.component.css'],
 })
 export class ErrorComponent implements OnInit {
-  error: string;
-  returnUrl: string;
+  error = '';
+  returnUrl = '/';
 
   constructor(public api: UDSApiService, private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    this.getError();
+  async ngOnInit() {
+    await this.getError();
   }
 
-  getError(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id === '19') {
+  async getError(): Promise<void> {
+    const id = this.route.snapshot.paramMap.get('id') || '-1';
+    if (id === '19') {  // 19 is MFA error, return to MFA
       this.returnUrl = '/mfa';
     }
-    this.error = '';
     // Request error string from UDS
-    this.api.getErrorInformation(id).then((errInfo) => {
-      // Set error to errInfo.error + Hex code
-      this.error = errInfo.error;
-    });
+    this.error = (await this.api.getErrorInformation(id)).error;
   }
 }

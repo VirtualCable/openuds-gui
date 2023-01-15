@@ -30,7 +30,7 @@ export class ServicesComponent implements OnInit {
     transports: ''
   };
 
-  group: GroupedServices[];
+  group: GroupedServices[] = [];
 
   constructor(public api: UDSApiService) {}
 
@@ -96,7 +96,7 @@ export class ServicesComponent implements OnInit {
     // Fill up groupedServices
     this.group = [];
 
-    let current: GroupedServices = null;
+    let current: GroupedServices|null = null;
     this.servicesInformation.services
       .filter(
         (value) =>

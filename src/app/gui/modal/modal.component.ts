@@ -15,7 +15,6 @@ export interface ModalData {
   title: string;
   body: string;
   autoclose?: number;
-  checkClose?: Promise<boolean>;
   type: DialogType;
   username?: string;
   domain?: string;
@@ -28,17 +27,15 @@ export interface ModalData {
 })
 
 export class ModalComponent implements OnInit {
-  extra: string;
-  subscription: Subscription;
-  yesno: Promise<boolean>;
-  resolver: (value: boolean) => void;
+  extra = '';
+  subscription: Subscription | null = null;
+  yesno: Promise<boolean> = new Promise<boolean>((resolve) => this.resolver = resolve);
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>, @Inject(MAT_DIALOG_DATA) public data: ModalData) {
     // Notifies on case of yes or not to subscriber
-    this.yesno = new Promise<boolean>((resolve) => {
-      this.resolver = resolve;
-    });
   }
+
+  resolver: (value: boolean) => void = () => {};
 
   close() {
     this.dialogRef.close();
@@ -54,24 +51,19 @@ export class ModalComponent implements OnInit {
   }
 
   async initAlert(): Promise<void> {
-    if (this.data.autoclose > 0) {
+    const autoclose = (this.data.autoclose || 0);
+    if (autoclose > 0) {
       this.dialogRef.afterClosed().subscribe(res => {
         this.close();
       });
-      this.setExtra(this.data.autoclose);
+      this.setExtra(autoclose);
       interval(1000).subscribe(n => {
-        const rem = this.data.autoclose - (n + 1) * 1000;
+        const rem = autoclose - (n + 1) * 1000;
         this.setExtra(rem);
         if (rem <= 0) {
           this.close();
         }
       });
-      /*window.setTimeout(() => {
-        this.dialogRef.close();
-      }, this.data.autoclose);*/
-    } else if (this.data.checkClose) {
-      await this.data.checkClose;
-      this.close();
     }
   }
 

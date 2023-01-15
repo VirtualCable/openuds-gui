@@ -8,8 +8,8 @@ import { Lang } from '../../types/config';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  lang: Lang; // Current language
-  langs: Lang[]; // Available languages
+  lang: Lang = {} as Lang; // Current language
+  langs: Lang[] = []; // Available languages
   style = ''; // Empty on start
 
   constructor(public api: UDSApiService) {
@@ -30,13 +30,18 @@ export class NavbarComponent implements OnInit {
     return;
   }
 
-  changeLang(to: Lang): boolean {
+  changeLang(to: Lang): void {
     // alert(document.getElementById('form_language'));
     this.lang = to;
-    document.getElementById('id_language').attributes['value'].value = to.id;
-    // alert(document.getElementById('id_language').attributes['value'].value);
-    (document.getElementById('form_language') as HTMLFormElement).submit();
-    return false;
+    const lang = document.getElementById('id_language');
+    if (lang) {
+      lang.setAttribute('value', to.id);
+    }
+    // Submit form form_language
+    const form = document.getElementById('form_language');
+    if (form) {
+      (form as HTMLFormElement).submit();
+    }
   }
 
   admin(): void {

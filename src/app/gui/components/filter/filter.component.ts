@@ -12,17 +12,23 @@ export class FilterComponent implements AfterViewInit {
 
   @Output() updateEvent = new EventEmitter<string>();
 
-  @ViewChild('input', {static: true}) input: ElementRef;
+  @ViewChild('input', {static: true}) input: ElementRef|undefined = undefined;
 
   constructor() { }
 
   ngAfterViewInit() {
-    fromEvent(this.input.nativeElement, 'keyup')
+    // if input is not set, this will fail
+    if(this.input === undefined) {
+      throw new Error('input atrribute is not provided');
+    }
+    const input = this.input;
+
+    fromEvent(input.nativeElement, 'keyup')
       .pipe(
         filter(Boolean),
         debounceTime(600),
         distinctUntilChanged(),
-        tap(() => this.update(this.input.nativeElement.value))
+        tap(() => this.update(input.nativeElement.value))
       ).subscribe();
   }
 

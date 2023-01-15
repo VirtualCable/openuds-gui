@@ -9,7 +9,7 @@ import { Downloadable } from '../../types/config';
 })
 export class DownloadsComponent implements OnInit {
 
-  actors: Downloadable[];
+  actors: Downloadable[] = [];
 
   constructor(public api: UDSApiService) { }
 
@@ -33,7 +33,7 @@ export class DownloadsComponent implements OnInit {
   }
 
   img(filename: string) {
-    const extension = filename.split('.').pop().toLowerCase();
+    const extension = (filename.split('.').pop() || '').toLowerCase();
     let image = 'Linux';
     if (extension === 'exe') {
       image = 'Windows';

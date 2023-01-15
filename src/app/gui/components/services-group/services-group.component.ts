@@ -9,14 +9,11 @@ import { UDSApiService } from '../../../uds-api.service';
 })
 export class ServicesGroupComponent implements OnInit {
 
-  @Input() services: JSONService[];
-  @Input() group: JSONGroup;
+  @Input() services: JSONService[] = [];
+  @Input() group: JSONGroup = {} as JSONGroup;
   @Input() expanded = false;
 
   constructor(private api: UDSApiService) { }
-
-  ngOnInit() {
-  }
 
   get groupImage() {
     return this.api.galleryImageURL(this.group.imageUuid);
@@ -35,6 +32,9 @@ export class ServicesGroupComponent implements OnInit {
       }
       return 0;
     });
+  }
+
+  ngOnInit() {
   }
 
 }

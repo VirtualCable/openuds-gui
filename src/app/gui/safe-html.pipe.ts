@@ -13,7 +13,7 @@ export class SafeHtmlPipe implements PipeTransform {
     // Remove if exists any javascript event
     // eslint-disable-next-line max-len
     value = value.replace(/onclick|onmouseover|onmouseout|onmousemove|onmouseenter|onmouseleave|onmouseup|onmousedown|onkeyup|onkeydown|onkeypress|onkeydown|onkeypress|onkeyup|onchange|onfocus|onblur|onload|onunload|onabort|onerror|onresize|onscroll/gi, '');
-    // Remove if exists any javascript:
+    // Remove if exists any javascript: reference
     value = value.replace(/javascript\s*\:/gi, '');
 
     return this.sanitizer.bypassSecurityTrustHtml(value);

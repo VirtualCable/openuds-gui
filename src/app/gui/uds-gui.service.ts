@@ -24,7 +24,6 @@ export class UDSGuiService {
     title: string,
     message: string,
     autoclose = 0,
-    checkClose: Promise<boolean> = null
   ): Promise<MatDialogRef<ModalComponent>> {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
@@ -33,7 +32,6 @@ export class UDSGuiService {
         title,
         body: message,
         autoclose,
-        checkClose,
         type: DialogType.alert,
       },
       disableClose: true,

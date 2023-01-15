@@ -12,7 +12,7 @@ declare const django: any;
 })
 export class LoginComponent implements OnInit {
   auths: Authenticator[];
-  auth: HTMLInputElement;
+  auth: HTMLInputElement = {} as HTMLInputElement;
   title = 'UDS Enterprise';
 
   constructor(public api: UDSApiService) {

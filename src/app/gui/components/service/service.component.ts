@@ -12,7 +12,7 @@ const MAX_NAME_LENGTH = 32;
   styleUrls: ['./service.component.scss'],
 })
 export class ServiceComponent implements OnInit {
-  @Input() service: JSONService;
+  @Input() service: JSONService = {} as JSONService;
 
   constructor(private api: UDSApiService) {}
 
@@ -62,10 +62,7 @@ export class ServiceComponent implements OnInit {
 
   get serviceNameClass() {
     const klass = [];
-    const len = Math.min(
-      Math.floor((this.service.visual_name.length - 1) / 4) * 4,
-      28
-    );
+    const len = Math.min(Math.floor((this.service.visual_name.length - 1) / 4) * 4, 28);
     if (len >= 16) {
       klass.push('small-' + len.toString());
     }
@@ -95,27 +92,18 @@ export class ServiceComponent implements OnInit {
   }
 
   notifyNotLaunching(message: string) {
-    this.api.gui.alert(
-      '<p align="center"><b>' + django.gettext('Launcher') + '</b></p>',
-      message
-    );
+    this.api.gui.alert('<p align="center"><b>' + django.gettext('Launcher') + '</b></p>', message);
   }
 
-  launch(transport: JSONTransport) {
+  launch(transport: JSONTransport|null) {
     if (this.service.maintenance) {
-      this.notifyNotLaunching(
-        django.gettext('Service is in maintenance and cannot be launched')
-      );
+      this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
     } else if (this.service.not_accesible) {
-      const calendarDeniedText =
-        this.service.custom_calendar_text ||
-        this.api.config.messages.calendarDenied;
+      const calendarDeniedText = this.service.custom_calendar_text || this.api.config.messages.calendarDenied;
 
       this.notifyNotLaunching(
         '<p align="center">' +
-          django.gettext(
-            'This service is currently not accesible due to schedule restrictions.'
-          ) +
+          django.gettext('This service is currently not accesible due to schedule restrictions.') +
           '</p><p align="center"><b>' +
           calendarDeniedText +
           '</b></p><p align="center">' +
@@ -132,15 +120,10 @@ export class ServiceComponent implements OnInit {
 
   action(type: string) {
     const title =
-      (type === 'release'
-        ? django.gettext('Release service: ')
-        : django.gettext('Reset service: ')) +
+      (type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ')) +
       ' ' +
       this.serviceName;
-    const action =
-      type === 'release'
-        ? django.gettext('Service released')
-        : django.gettext('Service reseted');
+    const action = type === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
     this.api.gui.yesno(title, django.gettext('Are you sure?')).then((val) => {
       if (val) {
         this.api.action(type, this.service.id).then((service) => {
