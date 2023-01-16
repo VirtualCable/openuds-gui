@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
 
-declare const django: any;
-
 @Component({
   selector: 'uds-mfa',
   templateUrl: './mfa.component.html',

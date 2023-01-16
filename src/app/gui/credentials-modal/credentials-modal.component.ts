@@ -1,8 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-declare const django: any;
-
 @Component({
   selector: 'uds-credentials-modal',
   templateUrl: './credentials-modal.component.html',

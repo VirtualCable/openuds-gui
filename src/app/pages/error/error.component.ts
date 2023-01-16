@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UDSApiService } from '../../uds-api.service';
 
-declare const django: any;
-declare const udsData: any;
-
 @Component({
   selector: 'uds-error',
   templateUrl: './error.component.html',

@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../uds-api.service';
 import { Authenticator } from '../../types/config';
 
-declare const django: any;
-
 @Component({
   selector: 'uds-login',
   templateUrl: './login.component.html',

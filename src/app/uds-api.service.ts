@@ -19,8 +19,6 @@ import { UDSApiServiceType } from './uds-api.service-type';
 
 import { environment } from '../environments/environment';
 
-declare const udsData: any;
-declare const csrf: any;
 
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';

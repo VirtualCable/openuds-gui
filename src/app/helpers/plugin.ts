@@ -3,8 +3,6 @@ import { UDSApiServiceType } from '../uds-api.service-type';
 import { toPromise } from '../gui/uds-gui.service';
 import { JSONTransportURLService } from '../types/services';
 
-declare const django: any;
-
 /**
  * Plugin manipulation class
  */

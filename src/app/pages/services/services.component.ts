@@ -6,8 +6,6 @@ import {
   JSONService,
 } from '../../types/services';
 
-declare const django: any;
-
 class GroupedServices {
   services: JSONService[];
 

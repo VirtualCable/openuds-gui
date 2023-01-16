@@ -5,13 +5,11 @@
     "baseUrl": "./",
     "types": []
   },
-  "angularCompilerOptions": {
-    "strictTemplates": true
-  },
   "files": [
-    "main.ts",
+    "main.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "app/**/*.d.ts",
+    "**/*.d.ts",
   ]
 }

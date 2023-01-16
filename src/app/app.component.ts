@@ -1,9 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UDSApiService } from './uds-api.service';
 
-// External
-declare const django: any;
-declare const cookieconsent: any;
 
 
 @Component({
