@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
             .getElementsByClassName('login-form')[0]
             .setAttribute('style', 'display: none;');
           this.api
-            .getAuthCustomHtml(l.id)
+            .getAuthCustomJavascript(l.id)
             .then((result) => doCustomAuth(result));
         }
       }

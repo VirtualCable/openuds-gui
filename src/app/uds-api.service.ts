@@ -216,9 +216,9 @@ export class UDSApiService implements UDSApiServiceType {
    * @param authId if of the authenticator
    * @returns  Observable
    */
-  async getAuthCustomHtml(authId: string): Promise<string> {
+  async getAuthCustomJavascript(authId: string): Promise<string> {
     return toPromise(
-      this.http.get<string>(this.config.urls.customAuth + authId)
+      this.http.get(this.config.urls.customAuth + authId, {responseType: 'text'})
     );
   }
 
