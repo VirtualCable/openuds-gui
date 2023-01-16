@@ -23,6 +23,6 @@
     ],
     "module": "es2020",
     "baseUrl": "./",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": true
   }
 }

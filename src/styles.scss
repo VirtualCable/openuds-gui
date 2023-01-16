@@ -6,10 +6,17 @@
 /* Cookie consent */
 @import '~cookieconsent/build/cookieconsent.min.css';
 
+// variables
+$font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+//$font-family: Verdana, Geneva, Tahoma, sans-serif;
+$font-size: 14px;
+
+
 html,
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: $font-family;
+  font-size: $font-size;
   height: 100%;
 }
 
@@ -50,7 +57,13 @@ i.material-icons {
   }
 }
 
-/* Variables */
-:root {
-  --mdc-dialog-supporting-text-font: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+.mat-mdc-dialog-container {
+  --mdc-dialog-supporting-text-font: $font-family;
+  --mdc-dialog-subhead-font: $font-family;
+  --mdc-dialog-title-font: $font-family;
+  --mdc-dialog-button-font: $font-family;
+  --mdc-dialog-supporting-text-size: 1rem;
+  --mdc-dialog-subhead-size: 1.25rem;
+  --mdc-dialog-supporting-text-weight: 400;
+  --mdc-dialog-supporting-text-color: rgba(0, 0, 0, 1.0);
 }
