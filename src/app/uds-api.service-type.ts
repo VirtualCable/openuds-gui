@@ -42,6 +42,9 @@ export interface UDSApiServiceType {
   /* Executes logout */
   logout(): void;
 
+  /* Download file/launches a custom uro */
+  download(url: string): Promise<void>;
+
   /* sleep milliseconds */
   sleep(ms: number): Promise<void>;
   /**

@@ -17,7 +17,7 @@ export class ErrorComponent implements OnInit {
     await this.getError();
   }
 
-  async getError(): Promise<void> {
+  async getError() {
     const id = this.route.snapshot.paramMap.get('id') || '-1';
     if (id === '19') {  // 19 is MFA error, return to MFA
       this.returnUrl = '/mfa';

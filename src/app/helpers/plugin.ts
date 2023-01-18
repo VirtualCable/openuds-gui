@@ -15,7 +15,7 @@ export class Plugin {
     this.delay = api.config.launcher_wait_time;
   }
 
-  async launchURL(url: string): Promise<void> {
+  async launchURL(url: string) {
     // If uds url...
     if (url.substring(0, 7) === 'udsa://') {
       await this.processUDSUrl(url);
@@ -45,27 +45,7 @@ export class Plugin {
    * @param url uds url to be lauhcned
    */
   private launchUDSUrl(url: string) {
-    let elem: HTMLIFrameElement = document.getElementById(
-      'hiddenUdsLauncherIFrame'
-    ) as HTMLIFrameElement;
-    if (elem === null) {
-      const i = document.createElement('div');
-      i.id = 'testID';
-      i.innerHTML =
-        '<iframe id="hiddenUdsLauncherIFrame" src="about:blank" style="display:none"></iframe>';
-      document.body.appendChild(i);
-      elem = document.getElementById(
-        'hiddenUdsLauncherIFrame'
-      ) as HTMLIFrameElement;
-    }
-    // Ensure all is ok
-    if (elem === null) {
-      throw new Error('Unable to create hidden iframe');
-    }
-    if (elem.contentWindow === null) {
-      throw new Error('Unable to get content window');
-    }
-    elem.contentWindow.location.href = url;
+    this.api.download(url);
   }
 
   /**
@@ -74,7 +54,7 @@ export class Plugin {
    * @param url uds url (udsa://serviceId/transportId)
    * @returns nothing
    */
-  private async processUDSUrl(url: string): Promise<void> {
+  private async processUDSUrl(url: string) {
     // Extract params from url, serviceId and transportId
     const params = url.split('//')[1].split('/');
     if (params.length !== 2) {
@@ -96,7 +76,7 @@ export class Plugin {
     // Connect close dialog to "cancel" variable
     toPromise(dialog.afterClosed()).then(() => (cancel = true));
 
-    let readyTime = -1;
+    let readySinceTime = -1;
     try {
       // Enable service
       const enabledData = await this.api.enabler(serviceId, transportId);
@@ -119,7 +99,7 @@ export class Plugin {
       while (!cancel) {
         const data = await this.api.status(serviceId, transportId);
         // Wait 5 times the default delay before notifying that client is not installed
-        if (readyTime > 0 && Date.now() - readyTime > this.delay * 5) {
+        if (readySinceTime > 0 && Date.now() - readySinceTime > this.delay * 5) {
           dialog.componentInstance.data.title =
             django.gettext('Service ready') +
             ' - ' +
@@ -137,9 +117,9 @@ export class Plugin {
             '</a>';
         }
         if (data.status === 'ready') {
-          if (readyTime === -1) {
+          if (readySinceTime === -1) {
             // Service is ready, wait for client, update dialog text
-            readyTime = Date.now(); // Milisecodns
+            readySinceTime = Date.now(); // Milisecodns
             dialog.componentInstance.data.title =
               django.gettext('Service ready');
             dialog.componentInstance.data.body = django.gettext(
@@ -167,7 +147,7 @@ export class Plugin {
     }
   }
 
-  private async processExternalUrl(url: string): Promise<void> {
+  private async processExternalUrl(url: string) {
     const dialog = await this.showAlert(
       django.gettext('Please wait until the service is launched.'),
       django.gettext(
@@ -281,7 +261,7 @@ export class Plugin {
     }
   }
 
-  private async notifyError(error?: any): Promise<void> {
+  private async notifyError(error?: any) {
     let msg: string = django.gettext(
       'Error communicating with your service. Please, retry again.'
     );

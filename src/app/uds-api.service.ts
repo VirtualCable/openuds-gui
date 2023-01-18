@@ -19,7 +19,6 @@ import { UDSApiServiceType } from './uds-api.service-type';
 
 import { environment } from '../environments/environment';
 
-
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
 const TIMEOUT = 10000;
@@ -32,14 +31,10 @@ const toPromise = <T>(observable: Observable<T>, wait?: number): Promise<T> => {
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
-  transportsWindow: Window|null = null;
+  transportsWindow: Window | null = null;
   plugin: Plugin;
 
-  constructor(
-    private http: HttpClient,
-    public gui: UDSGuiService,
-    public router: Router
-  ) {
+  constructor(private http: HttpClient, public gui: UDSGuiService, public router: Router) {
     this.user = new User(udsData.profile);
     this.plugin = new Plugin(this);
   }
@@ -91,32 +86,20 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Client enabler */
-  async enabler(
-    serviceId: string,
-    transportId: string
-  ): Promise<JSONEnabledService> {
-    const enabler = this.config.urls.enabler
-      .replace('param1', serviceId)
-      .replace('param2', transportId);
+  async enabler(serviceId: string, transportId: string): Promise<JSONEnabledService> {
+    const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);
     return toPromise(this.http.get<JSONEnabledService>(enabler));
   }
 
   /* Check userService status */
-  async status(
-    serviceId: string,
-    transportId: string
-  ): Promise<JSONStatusService> {
-    const status = this.config.urls.status
-      .replace('param1', serviceId)
-      .replace('param2', transportId);
+  async status(serviceId: string, transportId: string): Promise<JSONStatusService> {
+    const status = this.config.urls.status.replace('param1', serviceId).replace('param2', transportId);
     return toPromise(this.http.get<JSONStatusService>(status));
   }
 
   /* Services resetter */
   async action(action: string, serviceId: string): Promise<JSONService> {
-    const actionURL = this.config.urls.action
-      .replace('param1', serviceId)
-      .replace('param2', action);
+    const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
     return toPromise(this.http.get<JSONService>(actionURL));
   }
 
@@ -131,9 +114,7 @@ export class UDSApiService implements UDSApiServiceType {
     password: string,
     domain: string
   ): Promise<any> {
-    const url = this.config.urls.updateTransportTicket
-      .replace('param1', ticketId)
-      .replace('param2', scrambler);
+    const url = this.config.urls.updateTransportTicket.replace('param1', ticketId).replace('param2', scrambler);
     return toPromise(
       this.http.post<any>(url, {
         username,
@@ -164,20 +145,14 @@ export class UDSApiService implements UDSApiServiceType {
    * Gets services information
    */
   async getServicesInformation(): Promise<JSONServicesInformation> {
-    return toPromise(
-      this.http.get<JSONServicesInformation>(this.config.urls.services)
-    );
+    return toPromise(this.http.get<JSONServicesInformation>(this.config.urls.services));
   }
 
   /**
    * Gets error string from a code
    */
   async getErrorInformation(errorCode: string): Promise<JSONErrorInformation> {
-    return toPromise(
-      this.http.get<JSONErrorInformation>(
-        this.config.urls.error.replace('9999', errorCode)
-      )
-    );
+    return toPromise(this.http.get<JSONErrorInformation>(this.config.urls.error.replace('9999', errorCode)));
   }
 
   /**
@@ -200,6 +175,28 @@ export class UDSApiService implements UDSApiServiceType {
     window.location.href = this.config.urls.logout;
   }
 
+  async download(url: string): Promise<void> {
+    // Launch the download
+    // Create an iframe and set the src to the url
+    // This will trigger the download
+    // First, loof for an existing download iframe
+    let iframe = document.getElementById('download') as HTMLIFrameElement;
+    // If not found, create it
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.id = 'download';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+    // Set the src to the url
+    iframe.src = url;
+    // onload in iframe will only be triggered if an html page is downloaded. If it is loaded, it's not a download
+    iframe.onload = () => {
+      alert('Error downloading file. Please try again later.');
+    };
+    //window.location.href = url;
+  }
+
   sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -215,9 +212,7 @@ export class UDSApiService implements UDSApiServiceType {
    * @returns  Observable
    */
   async getAuthCustomJavascript(authId: string): Promise<string> {
-    return toPromise(
-      this.http.get(this.config.urls.customAuth + authId, {responseType: 'text'})
-    );
+    return toPromise(this.http.get(this.config.urls.customAuth + authId, { responseType: 'text' }));
   }
 
   // Switch dark/light theme

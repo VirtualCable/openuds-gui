@@ -7,5 +7,10 @@
     "axe/text-alternatives": "off",
     "button-type": "off",
     "typescript-config/consistent-casing": "off"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11",
+    "not ie <= 10"
+  ]
 }

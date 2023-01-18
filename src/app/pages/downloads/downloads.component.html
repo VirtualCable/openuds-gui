@@ -9,7 +9,7 @@
   </div>
 
   <div class="actors">
-    <div [class]="css(p.name)" *ngFor="let p of actors" (click)="download(p.url)">
+    <div [class]="css(p.name)" *ngFor="let p of actors" (click)="api.download(p.url)">
       <div class="image">
         <img [src]="img(p.name)">
       </div>       

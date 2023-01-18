@@ -10,7 +10,7 @@
 </div>
 
 <div class="plugins">
-  <div [class]="css(p)" *ngFor="let p of api.plugins" (click)="download(p.url)">
+  <div [class]="css(p)" *ngFor="let p of api.plugins" (click)="api.download(p.url)">
     <div class="image">
       <img [src]="img(p.name)">
     </div>

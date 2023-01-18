@@ -51,7 +51,7 @@ export class ModalComponent implements OnInit {
     this.extra = ' (' + Math.floor(miliseconds / 1000) + ' ' + django.gettext('seconds') + ') ';
   }
 
-  async initAlert(): Promise<void> {
+  async initAlert() {
     const autoclose = this.data.autoclose || 0;
     if (autoclose > 0) {
       this.dialogRef.afterClosed().subscribe((res) => {
