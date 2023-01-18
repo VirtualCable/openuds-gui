@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JSONService, JSONTransport } from '../../../types/services';
-import { UDSApiService } from '../../../uds-api.service';
+import { UDSApiService } from '../../../services/uds-api.service';
 
 const MAX_NAME_LENGTH = 32;
 

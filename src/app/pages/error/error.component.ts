@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UDSApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
   selector: 'uds-error',

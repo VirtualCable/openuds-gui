@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UDSApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../services/uds-api.service';
 import { Lang } from '../../types/config';
 
 @Component({
   selector: 'uds-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
   lang: Lang = {} as Lang; // Current language

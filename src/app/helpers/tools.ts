@@ -36,9 +36,9 @@ export const initialsOf = (arr: string[]): string[] => {
   return res;
 };
 
-export const isValueEmpty = (value: any) => value === '' || value === null || value === undefined;
+export const isValueEmpty = (value: any) => !!value === false;
 
-export const isValueTrue = (value: any) => value === 'yes' || value === true || value === 'true' || value === 1;
+export const isValueTrue = (value: any) => value === 'yes' || value === true || value === 'true' || value === 'True' || value === 1;
 
 export const toPromise = <T>(awaitable: Observable<T> | Promise<T> | Future<T>, wait?: number): Promise<T> => {
   let promise: Promise<T>;
@@ -67,13 +67,9 @@ export class Future<T> implements Promise<T> {
     });
   }
 
-  resolve(value: T): void {
-    this.resolve(value);
-  }
-
-  reject(error: any): void {
-    this.reject(error);
-  }
+  // overwrited on constructor
+  resolve: (value: T | PromiseLike<T>) => void = () => {};
+  reject: (reason?: any) => void = () => {};
 
   then<TResult1 = T, TResult2 = never>(
     onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,

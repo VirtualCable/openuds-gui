@@ -11,11 +11,11 @@ import { AppMaterialModule } from './modules/app-material.module';
 import { AppComponent } from './app.component';
 
 // api
-import { TranslateDirective } from './translate.directive';
+import { TranslateDirective } from './helpers/translate.directive';
 
 // Service providers
-import { UDSApiService } from './uds-api.service';
-import { UDSGuiService } from './gui/uds-gui.service';
+import { UDSApiService } from './services/uds-api.service';
+import { UDSGuiService } from './services/uds-gui.service';
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
@@ -34,7 +34,7 @@ import { ServicesGroupComponent } from './gui/components/services-group/services
 import { StaffInfoComponent } from './gui/components/staff-info/staff-info.component';
 
 import { ModalComponent } from './gui/modal/modal.component';
-import { SafeHtmlPipe } from './gui/safe-html.pipe';
+import { SafeHtmlPipe } from './helpers/safe-html.pipe';
 import { AboutComponent } from './pages/about/about.component';
 import { DownloadsComponent } from './pages/downloads/downloads.component';
 import { LauncherComponent } from './pages/launcher/launcher.component';

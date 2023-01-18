@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs';
-import { UDSApiServiceType } from '../uds-api.service-type';
-import { toPromise } from '../gui/uds-gui.service';
+import { UDSApiServiceType } from '../types/uds-api-service';
+import { toPromise } from '../helpers/tools';
 import { JSONTransportURLService } from '../types/services';
 
 /**
@@ -8,7 +7,7 @@ import { JSONTransportURLService } from '../types/services';
  */
 
 export class Plugin {
-  static transportsWindow: any = {};
+  static transportsWindow: { [name: string]: Window} = {};
   delay: number;
 
   constructor(private api: UDSApiServiceType) {
@@ -232,11 +231,11 @@ export class Plugin {
   }
 
   private openWindow(location: string): void {
-    let wnd = 'global';
+    let wnd = '__global__';
     // check if on same window or not
     if (location.indexOf('o_s_w=') !== -1) {
       const osw = /(.*)&o_s_w=.*/.exec(location);
-      wnd = 'same';
+      wnd = '__same__';
       // @ts-ignore  osw is something for sure, checked before
       location = osw[1];
     } else {
@@ -251,13 +250,16 @@ export class Plugin {
       }
     }
 
-    if (wnd === 'same') {
+    if (wnd === '__same__') {
       window.location.href = location;
     } else {
       if (Plugin.transportsWindow[wnd]) {
         Plugin.transportsWindow[wnd].close();
       }
-      Plugin.transportsWindow[wnd] = window.open(location, 'uds_trans_' + wnd);
+      const opened = window.open(location, 'uds_trans_' + wnd);
+      if(opened) {
+        Plugin.transportsWindow[wnd] = opened;
+      }
     }
   }
 

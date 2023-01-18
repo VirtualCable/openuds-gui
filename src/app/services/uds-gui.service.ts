@@ -1,20 +1,9 @@
 import { Injectable } from '@angular/core';
-import { timeout } from 'rxjs/operators';
 
-import { ModalComponent, DialogType } from './modal/modal.component';
-import { CredentialsModalComponent } from './credentials-modal/credentials-modal.component';
+import { ModalComponent, DialogType } from '../gui/modal/modal.component';
+import { CredentialsModalComponent } from '../gui/credentials-modal/credentials-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Observable, firstValueFrom } from 'rxjs';
-
-export const toPromise = <T>(observable: Observable<T>|Promise<T>, wait?: number): Promise<T> => {
-  if (observable instanceof Promise) {
-    return observable;
-  }
-  if (wait) {
-    return firstValueFrom(observable.pipe(timeout(wait)));
-  }
-  return firstValueFrom(observable);
-};
+import { toPromise } from '../helpers/tools';
 
 @Injectable()
 export class UDSGuiService {

@@ -5,9 +5,9 @@ import {
   JSONStatusService,
   JSONService,
   JSONTransportURLService,
-} from './types/services';
-import { UDSGuiService } from './gui/uds-gui.service';
-import { UDSConfig } from './types/config';
+} from './services';
+import { UDSGuiService } from '../services/uds-gui.service';
+import { UDSConfig } from './config';
 
 export interface UDSApiServiceType {
   gui: UDSGuiService;

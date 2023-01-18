@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { UDSApiService } from './uds-api.service';
+import { UDSApiService } from './services/uds-api.service';
 
 
 
 @Component({
   selector: 'uds-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'UDS';

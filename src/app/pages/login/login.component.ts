@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/quotes
 import { Component, OnInit } from '@angular/core';
-import { UDSApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../services/uds-api.service';
 import { Authenticator } from '../../types/config';
 
 @Component({

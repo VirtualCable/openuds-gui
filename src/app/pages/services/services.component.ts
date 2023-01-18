@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UDSApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../services/uds-api.service';
 import {
   JSONServicesInformation,
   JSONGroup,

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UDSApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
   selector: 'uds-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
 

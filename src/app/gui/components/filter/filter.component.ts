@@ -6,7 +6,7 @@ import { filter, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators'
 @Component({
   selector: 'uds-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements AfterViewInit {
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UDSApiService } from '../../uds-api.service';
+import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
   selector: 'uds-launcher',
@@ -11,7 +11,7 @@ export class LauncherComponent implements OnInit {
   constructor(public api: UDSApiService) { }
 
   ngOnInit() {
-    if (this.api.config.urls.launch !== '') {
+    if (this.api.config.urls.launch) {
       this.api.launchURL(this.api.config.urls.launch);
     }
   }

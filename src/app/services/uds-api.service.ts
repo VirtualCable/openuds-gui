@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { User, UDSConfig, Downloadable, Info } from './types/config';
-import { firstValueFrom, Observable } from 'rxjs';
+import { User, UDSConfig, Downloadable, Info } from '../types/config';
+import { toPromise } from '../helpers/tools';
 import { timeout } from 'rxjs/operators';
+
+
 import {
   JSONServicesInformation,
   JSONEnabledService,
@@ -11,22 +13,18 @@ import {
   JSONService,
   JSONTransportURLService,
   JSONErrorInformation,
-} from './types/services';
-import { UDSGuiService } from './gui/uds-gui.service';
-import { Plugin } from './helpers/plugin';
+} from '../types/services';
+import { UDSGuiService } from './uds-gui.service';
+import { Plugin } from '../helpers/plugin';
 
-import { UDSApiServiceType } from './uds-api.service-type';
+import { UDSApiServiceType } from '../types/uds-api-service';
 
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
 const TIMEOUT = 10000;
 
-const toPromise = <T>(observable: Observable<T>, wait?: number): Promise<T> => {
-  wait = wait || TIMEOUT;
-  return firstValueFrom(observable.pipe(timeout(wait)));
-};
 
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {

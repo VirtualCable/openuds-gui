@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { UDSApiService } from '../uds-api.service';
+import { UDSApiService } from '../services/uds-api.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
