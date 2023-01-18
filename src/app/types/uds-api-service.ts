@@ -16,16 +16,10 @@ export interface UDSApiServiceType {
   config: UDSConfig;
 
   /* Client enabler */
-  enabler(
-    serviceId: string,
-    transportId: string
-  ): Promise<JSONEnabledService>;
+  enabler(serviceId: string, transportId: string): Promise<JSONEnabledService>;
 
   /* Service status */
-  status(
-    serviceId: string,
-    transportId: string
-  ): Promise<JSONStatusService>;
+  status(serviceId: string, transportId: string): Promise<JSONStatusService>;
 
   /* Services resetter */
   action(action: string, serviceId: string): Promise<JSONService>;
@@ -34,7 +28,13 @@ export interface UDSApiServiceType {
   transportUrl(url: string): Promise<JSONTransportURLService>;
 
   /* Transport ticket credentials updater */
-  updateTransportTicket(ticketId: string, scrambler: string, username: string, password: string, domain: string): Promise<any>;
+  updateTransportTicket(
+    ticketId: string,
+    scrambler: string,
+    username: string,
+    password: string,
+    domain: string
+  ): Promise<any>;
 
   /* Go to admin dashboard */
   gotoAdmin(): void;
@@ -56,4 +56,8 @@ export interface UDSApiServiceType {
    * Executes custom javascript for service launch if it is available
    */
   executeCustomJSForServiceLaunch(): void;
+
+  // Storage related
+  putOnStorage(key: string, value: string): void;
+  getFromStorage(key: string): string | null;
 }

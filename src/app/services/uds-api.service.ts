@@ -5,7 +5,6 @@ import { User, UDSConfig, Downloadable, Info } from '../types/config';
 import { toPromise } from '../helpers/tools';
 import { timeout } from 'rxjs/operators';
 
-
 import {
   JSONServicesInformation,
   JSONEnabledService,
@@ -24,7 +23,6 @@ import { environment } from '../../environments/environment';
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
 const TIMEOUT = 10000;
-
 
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
@@ -222,5 +220,20 @@ export class UDSApiService implements UDSApiServiceType {
       }
     });
     body.classList.add(dark ? DARK_THEME : LIGHT_THEME);
+  }
+
+  // Storage related
+  putOnStorage(key: string, value: string): void {
+    if (typeof Storage !== undefined) {
+      sessionStorage.setItem(key, value);
+    }
+  }
+
+  getFromStorage(key: string): string | null {
+    if (typeof Storage !== undefined) {
+      return sessionStorage.getItem(key);
+    } else {
+      return null;
+    }
   }
 }
