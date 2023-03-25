@@ -4,8 +4,8 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "ng": "ng",
-    "start": "NODE_OPTIONS=--openssl-legacy-provider ng serve --host 0.0.0.0 --port 9000 --proxy-config proxy.conf.json",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider ng build --configuration production --output-hashing=none --aot --delete-output-path --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page",
+    "start": "ng serve --host 0.0.0.0 --port 9000 --proxy-config proxy.conf.json",
+    "build": "ng build --configuration production --output-hashing=none --aot --delete-output-path --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page",
     "postbuild": "python3 toUDS.py",
     "test": "ng test",
     "lint": "ng lint",
