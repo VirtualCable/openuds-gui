@@ -20,12 +20,12 @@
 
       
       <!-- checkbox for remember -->
-      <div class="mfa-field" *ngIf="api.config.mfa.remember_device > 0">
+      <div class="mfa-field" *ngIf="api.config.mfa.remember_device !== ''">
           <mat-checkbox id="remember" name="remember">
-            <uds-translate>Remember Me</uds-translate>
+            <uds-translate>Remember me for {{ api.config.mfa.remember_device }}</uds-translate>
           </mat-checkbox>
       </div>
-      <input type="hidden" name="remember" value="0" *ngIf="api.config.mfa.remember_device <= 0"/>
+      <input type="hidden" name="remember" value="0" *ngIf="api.config.mfa.remember_device === ''"/>
 
       <div class="mfa-button">
         <button mat-stroked-button color="primary" type="submit">
