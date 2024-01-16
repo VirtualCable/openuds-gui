@@ -1,6 +1,6 @@
 <ng-container *ngIf="api.config.urls.launch === ''">
   <!-- Lang change form -->
-  <form id="form_language" action="{{ api.config.urls.changeLang }}" method="post">
+  <form id="form_language" action="{{ api.config.urls.change_language }}" method="post">
     <input type="hidden" name="{{ api.csrfField }}" value="{{ api.csrfToken }}">
     <input id="id_language" type="hidden" name="language" value="{{ lang.id }}" />
   </form>

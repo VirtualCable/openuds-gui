@@ -1,7 +1,9 @@
+@use '@angular/material' as mat;
+
 @import 'globals.scss';
 
 /* Default, light theme */
-@include angular-material-theme($angular-default-theme);
+@include mat.all-component-themes($angular-default-theme);
 
 /* Cookie consent */
 @import '~cookieconsent/build/cookieconsent.min.css';
@@ -49,7 +51,7 @@ i.material-icons {
 }
 
 .dark-theme {
-  @include angular-material-color($angular-dark-theme);
+  @include mat.all-component-colors($angular-dark-theme);
 
   html,
   body {

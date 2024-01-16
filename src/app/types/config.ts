@@ -17,7 +17,7 @@ export interface Authenticator {
 // URLs related, remember that only NEEDED elements are declared, but more elements are available
 export interface UDSUrls {
     readonly static: string;
-    readonly changeLang: string;
+    readonly change_language: string;
     readonly login: string;
     readonly mfa: string;
     readonly logout: string;

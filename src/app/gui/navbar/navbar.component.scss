@@ -1,7 +1,10 @@
+@import "globals.scss";
+
 .uds-nav {
   position: fixed;
   top: 0;
   z-index: 1000;
+  background-image: $bg-title;
 }
 
 .fill-remaining-space {
