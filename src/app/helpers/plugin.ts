@@ -110,7 +110,7 @@ export class Plugin {
             ) +
             '&nbsp;</span>' +
             '<a href="' +
-            this.api.config.urls.clientDownload +
+            this.api.config.urls.client_download +
             '">' +
             django.gettext('UDS Client Download') +
             '</a>';

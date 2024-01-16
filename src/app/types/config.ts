@@ -21,17 +21,17 @@ export interface UDSUrls {
     readonly login: string;
     readonly mfa: string;
     readonly logout: string;
-    readonly customAuth: string;
+    readonly custom_auth: string;
     readonly services: string;
     readonly admin: string;
     readonly enabler: string;
     readonly status: string;
     readonly action: string;
-    readonly galleryImage: string;
-    readonly transportIcon: string;
-    readonly clientDownload: string;
+    readonly gallery_image: string;
+    readonly transport_icon: string;
+    readonly client_download: string;
     readonly error: string;
-    readonly updateTransportTicket: string;
+    readonly update_transport_ticket: string;
 
     readonly launch: string;
 }

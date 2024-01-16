@@ -110,7 +110,7 @@ export class UDSApiService implements UDSApiServiceType {
     password: string,
     domain: string
   ): Promise<any> {
-    const url = this.config.urls.updateTransportTicket.replace('param1', ticketId).replace('param2', scrambler);
+    const url = this.config.urls.update_transport_ticket.replace('param1', ticketId).replace('param2', scrambler);
     return toPromise(
       this.http.post<any>(url, {
         username,
@@ -122,11 +122,11 @@ export class UDSApiService implements UDSApiServiceType {
 
   /* Images & static related */
   galleryImageURL(imageId: string) {
-    return this.config.urls.galleryImage.replace('param1', imageId);
+    return this.config.urls.gallery_image.replace('param1', imageId);
   }
 
   transportIconURL(transportId: string) {
-    return this.config.urls.transportIcon.replace('param1', transportId);
+    return this.config.urls.transport_icon.replace('param1', transportId);
   }
 
   staticURL(url: string) {
@@ -208,7 +208,7 @@ export class UDSApiService implements UDSApiServiceType {
    * @returns  Observable
    */
   async getAuthCustomJavascript(authId: string): Promise<string> {
-    return toPromise(this.http.get(this.config.urls.customAuth + authId, { responseType: 'text' }));
+    return toPromise(this.http.get(this.config.urls.custom_auth + authId, { responseType: 'text' }));
   }
 
   // Switch dark/light theme
