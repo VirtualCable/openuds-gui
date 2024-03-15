@@ -93,7 +93,7 @@ export class ServiceComponent implements OnInit {
     this.api.gui.alert('<p align="center"><b>' + django.gettext('Launcher') + '</b></p>', message);
   }
 
-  launch(transport: JSONTransport|null) {
+  async launch(transport: JSONTransport|null) {
     if (this.service.maintenance) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
     } else if (this.service.not_accesible) {
@@ -110,6 +110,11 @@ export class ServiceComponent implements OnInit {
     } else {
       if (transport === null || this.service.show_transports === false) {
         transport = this.service.transports[0];
+      }
+      if (this.service.custom_message_text !== null && this.service.custom_message_text !== undefined) {
+        if ((await this.api.gui.yesno(django.gettext('Service message'), this.service.custom_message_text)) === false) {
+          return;
+        }
       }
       this.api.executeCustomJSForServiceLaunch();
       this.api.launchURL(transport.link);

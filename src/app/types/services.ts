@@ -33,6 +33,7 @@ export interface JSONService {
     to_be_replaced: boolean;
     to_be_replaced_text: string;
     custom_calendar_text: string;
+    custom_message_text: string|null;
     in_use: boolean;
     transports: JSONTransport[];
 }
