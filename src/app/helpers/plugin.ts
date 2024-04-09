@@ -234,7 +234,7 @@ export class Plugin {
     let wnd = '__global__';
     // check if on same window or not
     if (location.indexOf('o_s_w=') !== -1) {
-      const osw = /(.*)&o_s_w=.*/.exec(location);
+      const osw = /(.*)[&?]o_s_w=.*/.exec(location);
       wnd = '__same__';
       // @ts-ignore  osw is something for sure, checked before
       location = osw[1];
@@ -242,7 +242,7 @@ export class Plugin {
       // If the url contains "o_n_w", will open the url on a new window ALWAYS
       if (location.indexOf('o_n_w=') !== -1) {
         // Extract window name from o_n_w parameter if present
-        const onw = /(.*)&o_n_w=([a-zA-Z0-9._-]*)/.exec(location);
+        const onw = /(.*)[&?]o_n_w=([a-zA-Z0-9._-]*)/.exec(location);
         if (onw) {
           wnd = onw[2];
           location = onw[1];
