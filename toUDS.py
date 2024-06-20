@@ -33,14 +33,15 @@ import glob
 import re
 import typing
 
-DIST = 'dist'
+DIST = 'dist/browser'
+THIRD_PARTY_LICENSES = 'dist/3rdpartylicenses.txt'
 SRC = 'src'
 UDS = os.path.join(DIST, 'uds')
 STATIC = 'static/modern'
 TEMPLATE = 'templates/uds/modern'
 
 
-def mkPath(path) -> None:
+def make_path(path) -> None:
     folder = ''
     for p in path.split(os.path.sep):
         folder = os.path.join(folder, p)
@@ -50,29 +51,29 @@ def mkPath(path) -> None:
             pass  # Already exits, ignore
 
 
-def locateFiles(files: typing.List[str], folder: str, extension: str) -> None:
+def locate_files(files: typing.List[str], folder: str, extension: str) -> None:
     for f in glob.glob(folder+"/*"):
         if os.path.isdir(f):
             # Recurse
-            locateFiles(files, os.path.join(f), extension)
+            locate_files(files, os.path.join(f), extension)
         else:
             if os.path.splitext(f)[1][1:].lower() == extension:
                 files.append(f)
 
 
-def locateHtmlFiles() -> typing.List[str]:
+def locate_html_files() -> typing.List[str]:
     files: typing.List[str] = []
-    locateFiles(files, SRC, 'html')
+    locate_files(files, SRC, 'html')
     return files
 
 
-def locateTypeScriptFiles() -> typing.List[str]:
+def locate_typescript_files() -> typing.List[str]:
     files: typing.List[str] = []
-    locateFiles(files, SRC, 'ts')
+    locate_files(files, SRC, 'ts')
     return files
 
 
-def fixIndex() -> None:
+def fix_index_html() -> None:
     print('Fixing index.html...')
     translations = '<script type="text/javascript" src="{% url \'utility.jsCatalog\' LANGUAGE_CODE %}"></script>'
     jsdata = '<script type="text/javascript" src="{% url \'utility.js\' %}"></script>'
@@ -98,7 +99,7 @@ def fixIndex() -> None:
         f.write(translatePattern.sub(translations + jsdata, html))
 
 
-def extractTranslations():
+def extract_translations():
     print('Extracting translations from HTML')
     # Generate "fake" translations file (just to use django translator)
 
@@ -121,21 +122,24 @@ def extractTranslations():
         # First, extract translations from typescript
         typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*([\'"])(?P<data>.*?)\1\)')
         print('// Typescript', file=output)
-        getTranslations(locateTypeScriptFiles, typeScriptTranslationPattern, output, strip=False)
+        getTranslations(locate_typescript_files, typeScriptTranslationPattern, output, strip=False)
 
         # Now extract translations from html
         htmlTranslationPattern = re.compile(r'<uds-translate[^>]*>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
         print('// HTML', file=output)
-        getTranslations(locateHtmlFiles, htmlTranslationPattern, output)
+        getTranslations(locate_html_files, htmlTranslationPattern, output)
 
 
-def copyImages():
+def copy_images():
     print('Copying images')
     outputPath = os.path.join(UDS, STATIC, 'img')
-    mkPath(outputPath)
+    make_path(outputPath)
     for f in glob.glob(DIST + '/static/modern/img/*'):
         shutil.copy(f, outputPath)
 
+def copy_third_party_licenses() -> None:
+    print('Copying third party licenses')
+    shutil.copy(THIRD_PARTY_LICENSES, os.path.join(UDS, STATIC))
 
 def organize():
     print('Organizing content')
@@ -147,13 +151,13 @@ def organize():
         shutil.copy(f, os.path.join(UDS, STATIC))
 
 
-def cleanUp():
+def clean_up():
     print('Cleaning unneeded content')
     folder = os.path.join(UDS, STATIC)
     os.unlink(os.path.join(folder, 'favicon.ico'))
 
 
-def createDirs():
+def create_output_folders():
     try:
         print('Creating output uds dir...')
         os.mkdir(UDS)
@@ -163,8 +167,8 @@ def createDirs():
         os.mkdir(UDS)
 
     # Static folders
-    mkPath(os.path.join(UDS, STATIC))
-    mkPath(os.path.join(UDS, TEMPLATE))
+    make_path(os.path.join(UDS, STATIC))
+    make_path(os.path.join(UDS, TEMPLATE))
 
 #
 # def buildSource():
@@ -174,12 +178,12 @@ def createDirs():
 def main():
     print('Use "yarn build" to correctly build for UDS')
     # buildSource()
-    createDirs()
-    extractTranslations()
-    fixIndex()
-    copyImages()
+    create_output_folders()
+    extract_translations()
+    fix_index_html()
+    copy_images()
     organize()
-    cleanUp()
+    clean_up()
 
 
 # Updades index.html

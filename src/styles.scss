@@ -6,7 +6,7 @@
 @include mat.all-component-themes($angular-default-theme);
 
 /* Cookie consent */
-@import '~cookieconsent/build/cookieconsent.min.css';
+@import 'cookieconsent/build/cookieconsent.min.css';
 
 // variables
 $font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;

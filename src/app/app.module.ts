@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 import { NgModule } from '@angular/core';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppRoutingModule } from './modules/app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -42,8 +42,7 @@ import { FilterComponent } from './gui/components/filter/filter.component';
 import { CredentialsModalComponent } from './gui/credentials-modal/credentials-modal.component';
 
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         NavbarComponent,
         TranslateDirective,
@@ -64,18 +63,13 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
         FilterComponent,
         MfaComponent,
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         LayoutModule,
-        HttpClientModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        AppMaterialModule,
-    ],
-    providers: [
+        AppMaterialModule], providers: [
         UDSApiService,
         UDSGuiService,
-    ],
-    bootstrap: [AppComponent]
-})
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }
