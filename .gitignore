@@ -9,6 +9,8 @@
 # dependencies
 /node_modules
 yarn.lock
+.yarn
+.pnp.*
 
 # IDEs and editors
 /.idea
@@ -44,4 +46,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-.vscode

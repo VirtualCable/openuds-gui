@@ -26,10 +26,11 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "vendor/cookieconsent/cookieconsent.min.css"
             ],
             "scripts": [
-              "node_modules/cookieconsent/build/cookieconsent.min.js"
+              "vendor/cookieconsent/cookieconsent.min.js"
             ],
             "extractLicenses": false,
             "sourceMap": true,
@@ -85,10 +86,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/cookieconsent/build/cookieconsent.min.js"
+              "vendor/cookieconsent/cookieconsent.min.js"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "vendor/cookieconsent/cookieconsent.min.css"
             ],
             "assets": [
               "src/static",

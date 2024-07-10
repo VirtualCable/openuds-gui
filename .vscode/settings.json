@@ -1,6 +1,14 @@
 {
-    "python.linting.enabled": true,
-    "python.pythonPath": "/usr/bin/python3",
-    "prettier.singleQuote": true,
-    "typescript.preferences.quoteStyle": "single"
+  "python.linting.enabled": true,
+  "python.pythonPath": "/usr/bin/python3",
+  "prettier.singleQuote": true,
+  "typescript.preferences.quoteStyle": "single",
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
