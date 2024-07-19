@@ -1,7 +1,8 @@
 /* eslint-disable no-shadow */
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { interval, Subscription, Observable } from 'rxjs';
+import { interval } from 'rxjs';
+import { Future } from '../../helpers/tools';
 
 export enum DialogType {
   alert = 0,
@@ -25,19 +26,17 @@ export interface ModalData {
 })
 export class ModalComponent implements OnInit {
   extra = '';
-  subscription: Subscription | null = null;
-  yesno: Promise<boolean> = new Promise<boolean>((resolve) => (this.resolver = resolve));
+  yesno: Future<boolean> = new Future<boolean>();
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>, @Inject(MAT_DIALOG_DATA) public data: ModalData) {
     // Notifies on case of yes or not to subscriber
   }
 
   resolveAndClose(value: boolean): void {
-    this.resolver(value);
+    this.yesno.resolve(value);
     this.close();
   }
-  resolver: (value: boolean) => void = () => {};
-
+  
   close() {
     this.dialogRef.close();
   }

@@ -93,7 +93,7 @@ export class ServiceComponent implements OnInit {
     this.api.gui.alert('<p align="center"><b>' + django.gettext('Launcher') + '</b></p>', message);
   }
 
-  async launch(transport: JSONTransport|null) {
+  async launch(transport: JSONTransport | null) {
     if (this.service.maintenance) {
       this.notifyNotLaunching(django.gettext('Service is in maintenance and cannot be launched'));
     } else if (this.service.not_accesible) {
@@ -112,28 +112,29 @@ export class ServiceComponent implements OnInit {
         transport = this.service.transports[0];
       }
       if (this.service.custom_message_text !== null && this.service.custom_message_text !== undefined) {
+        const tr = transport;
         if ((await this.api.gui.yesno(django.gettext('Service message'), this.service.custom_message_text)) === false) {
           return;
         }
+        console.debug('Launching service with transport', tr);
       }
       this.api.executeCustomJSForServiceLaunch();
       this.api.launchURL(transport.link);
     }
   }
 
-  action(type: string) {
+  async action(type: string) {
     const title =
       (type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ')) +
       ' ' +
       this.serviceName;
     const action = type === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
-    this.api.gui.yesno(title, django.gettext('Are you sure?')).then((val) => {
-      if (val) {
-        this.api.action(type, this.service.id).then((service) => {
-          if (service) {
-            this.api.gui.alert(title, action);
-          }
-        });
+    if ((await this.api.gui.yesno(title, django.gettext('Are you sure?'))) === false) {
+      return;
+    }
+    this.api.action(type, this.service.id).then((service) => {
+      if (service) {
+        this.api.gui.alert(title, action);
       }
     });
   }

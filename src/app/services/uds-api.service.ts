@@ -24,6 +24,8 @@ const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
 const TIMEOUT = 10000;
 
+const EVAL_FNC = eval;
+
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
@@ -158,8 +160,7 @@ export class UDSApiService implements UDSApiServiceType {
     // Executes a defined JS on launch servic event if defined
     // this is in fact a hook
     if (udsData.custom_js_for_service_launch !== undefined) {
-      // eslint-disable-next-line no-eval
-      eval(udsData.custom_js_for_service_launch);
+      this.eval(udsData.custom_js_for_service_launch);
     }
   }
 
@@ -235,5 +236,10 @@ export class UDSApiService implements UDSApiServiceType {
     } else {
       return null;
     }
+  }
+
+  eval(data: string): void {
+    // eslint-disable-next-line no-eval
+    EVAL_FNC(data);
   }
 }

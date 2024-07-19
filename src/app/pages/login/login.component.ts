@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
     // Ejecuted when custom auth selected
     const doCustomAuth = (data: string) => {
       // eslint-disable-next-line no-eval
-      eval(data);
+      this.api.eval(data);
     };
 
     for (const l of this.auths) {
