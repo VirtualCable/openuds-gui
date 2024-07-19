@@ -112,11 +112,15 @@ export class ServiceComponent implements OnInit {
         transport = this.service.transports[0];
       }
       if (this.service.custom_message_text !== null && this.service.custom_message_text !== undefined) {
-        const tr = transport;
-        if ((await this.api.gui.yesno(django.gettext('Service message'), this.service.custom_message_text)) === false) {
+        if (
+          (await this.api.gui.yesno(
+            django.gettext('Service message'),
+            this.service.custom_message_text + '<br/><p>' + django.gettext('Press "Yes" to continue, or "No" to cancel') + '</p>'
+          )) === false
+        ) {
           return;
         }
-        console.debug('Launching service with transport', tr);
+        console.debug('Launching service with transport', transport);
       }
       this.api.executeCustomJSForServiceLaunch();
       this.api.launchURL(transport.link);
