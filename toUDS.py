@@ -111,9 +111,10 @@ def extract_translations():
                 for v in pattern.finditer(data):
                     s = v.groupdict()['data']
                     if strip:
-                        s = s.strip()
-                    s = s.replace('\n', '\\n')
+                        s = s.replace('\n', ' ').replace('\r', ' ').strip()
+                    s = s.replace('\n', '\\n').replace('\r', '\\r').replace('"', '\\"')
 
+                    # print('Found string {}'.format(s))
                     print('gettext("{}");'.format(s), file=output)
 
     with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
