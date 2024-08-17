@@ -17,7 +17,7 @@ export class SafeHtmlPipe implements PipeTransform {
     // 'onmousemove', 'onmouseenter', 'onmouseleave', 'onmouseup', 
     // 'onmousedown', 'onkeyup', 'onkeydown', 'onkeypress', 'onkeydown',
     // 'onkeypress', 'onkeyup', 'onchange', 'onfocus', 'onblur', 'onload', 'onunload', 'onabort', 'onerror', 'onresize', 'onscroll'
-    value = value.replace(/on\w+\s*=\s*['"]?[^'"]*['"]?/gi, '');
+    value = value.replace(/(on|(on\w+\s*))=\s*['"]?[^'"]*['"]?/gi, '');
 
     // Remove if exists any javascript: reference
     value = value.replace(/javascript\s*\:/gi, '');
