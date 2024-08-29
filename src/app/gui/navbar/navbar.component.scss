@@ -18,9 +18,14 @@
   /*margin-left: 0.3rem;*/
 }
 
-.logo > img {
-  display: block;
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
   width: 2rem;
+  margin-right: 0.5rem;
 }
 
 /* responsive part */
