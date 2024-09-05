@@ -179,9 +179,9 @@ export class Plugin {
           this.openWindow(data.url);
           cancel = true;
         } else {
-          if (!data.running) {
+          if (data.error) {
             dialog.close();
-            await this.notifyError();
+            await this.notifyError(data.error);
             cancel = true;
           }
         }
