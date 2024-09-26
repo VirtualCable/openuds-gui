@@ -9,7 +9,7 @@
   </div>
 
   <div class="actors">
-    <div [class]="css(p.name)" *ngFor="let p of actors" (click)="api.download(p.url)">
+    <div [class]="css(p)" *ngFor="let p of actors" (click)="api.download(p.url)">
       <div class="image">
         <img [src]="img(p.name)">
       </div>       
@@ -23,7 +23,6 @@
   <div class="info">
     <ul>
       <li><uds-translate>Always download the UDS actor matching your platform</uds-translate></li>
-      <li><uds-translate>Legacy actors are only provided for old operating system support. Try to avoid them.</uds-translate></li>
     </ul>
     
   </div>

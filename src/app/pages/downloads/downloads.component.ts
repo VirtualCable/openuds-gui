@@ -17,7 +17,7 @@ export class DownloadsComponent implements OnInit {
     this.actors = []; // Put legacy at end of downloadables...
     const legacy: Downloadable[] = [];
     for (const a of this.api.actors) {
-      if (a.name.includes('legacy')) {
+      if (a.legacy) {
         legacy.push(a);
       } else {
         this.actors.push(a);
@@ -41,9 +41,9 @@ export class DownloadsComponent implements OnInit {
     return this.api.staticURL('modern/img/' + image + '.png');
   }
 
-  css(filename: string): string[] {
+  css(downloadable: Downloadable): string[] {
     const styles = ['actor'];
-    if (filename.toLowerCase().includes('legacy')) {
+    if (downloadable.legacy) {
       styles.push('legacy');
     }
     return styles;
