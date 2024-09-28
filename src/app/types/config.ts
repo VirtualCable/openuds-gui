@@ -37,7 +37,7 @@ export interface UDSUrls {
 }
 
 export interface UDSMessages {
-    readonly calendarDenied: string;
+    readonly calendar_denied: string;
 }
 
 export interface MFAInfo {
