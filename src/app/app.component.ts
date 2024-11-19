@@ -45,18 +45,6 @@ export class AppComponent implements OnInit {
 
     // Initialize cookie consent
     cookieconsent.initialise({
-      onStatusChange: (status: string, chosenBefore: boolean) => {
-        console.log('cookieconsent.onStatusChange', status, chosenBefore);
-        console.log('This: ', this);
-        console.log('CookieConsent: ', cookieconsent);
-        if (cookieconsent.hasConsented()) {
-          console.log('enable cookies');
-        } else {
-          alert('We need cookies to work, you will be redirected to an outside page');
-          window.location.href = 'https://www.cookiesandyou.com';
-        }
-        console.log(cookieconsent.hasConsented() ? 'enable cookies' : 'disable cookies');
-      },
       palette: {
         popup: {
           background: '#343c66',
@@ -70,7 +58,7 @@ export class AppComponent implements OnInit {
       layout: 'basic',
       position: 'bottom-right',
       theme: 'classic',
-      revokable: true,
+      //revokable: true,
       type: 'info',
       content: {
         message: message,
