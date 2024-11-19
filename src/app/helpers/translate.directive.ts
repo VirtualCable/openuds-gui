@@ -1,8 +1,9 @@
 import { Directive, OnInit, ElementRef } from '@angular/core';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: 'uds-translate'
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: 'uds-translate',
+    standalone: false
 })
 export class TranslateDirective implements OnInit {
 

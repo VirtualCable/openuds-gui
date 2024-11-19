@@ -3,9 +3,10 @@ import { JSONGroup, JSONService } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
 
 @Component({
-  selector: 'uds-services-group',
-  templateUrl: './services-group.component.html',
-  styleUrls: ['./services-group.component.scss']
+    selector: 'uds-services-group',
+    templateUrl: './services-group.component.html',
+    styleUrls: ['./services-group.component.scss'],
+    standalone: false
 })
 export class ServicesGroupComponent implements OnInit {
 

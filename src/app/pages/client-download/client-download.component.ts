@@ -3,9 +3,10 @@ import { UDSApiService } from '../../services/uds-api.service';
 import { Downloadable } from '../../types/config';
 
 @Component({
-  selector: 'uds-client-download',
-  templateUrl: './client-download.component.html',
-  styleUrls: ['./client-download.component.scss']
+    selector: 'uds-client-download',
+    templateUrl: './client-download.component.html',
+    styleUrls: ['./client-download.component.scss'],
+    standalone: false
 })
 export class ClientDownloadComponent implements OnInit {
 

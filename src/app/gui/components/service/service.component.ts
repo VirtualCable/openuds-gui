@@ -5,9 +5,10 @@ import { UDSApiService } from '../../../services/uds-api.service';
 const MAX_NAME_LENGTH = 32;
 
 @Component({
-  selector: 'uds-service',
-  templateUrl: './service.component.html',
-  styleUrls: ['./service.component.scss'],
+    selector: 'uds-service',
+    templateUrl: './service.component.html',
+    styleUrls: ['./service.component.scss'],
+    standalone: false
 })
 export class ServiceComponent implements OnInit {
   @Input() service: JSONService = {} as JSONService;

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
-  selector: 'uds-launcher',
-  templateUrl: './launcher.component.html',
-  styleUrls: ['./launcher.component.css']
+    selector: 'uds-launcher',
+    templateUrl: './launcher.component.html',
+    styleUrls: ['./launcher.component.css'],
+    standalone: false
 })
 export class LauncherComponent implements OnInit {
 

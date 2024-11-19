@@ -2,9 +2,10 @@ import {Component, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'uds-credentials-modal',
-  templateUrl: './credentials-modal.component.html',
-  styleUrls: ['./credentials-modal.component.scss']
+    selector: 'uds-credentials-modal',
+    templateUrl: './credentials-modal.component.html',
+    styleUrls: ['./credentials-modal.component.scss'],
+    standalone: false
 })
 export class CredentialsModalComponent {
   username: string;

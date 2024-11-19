@@ -15,9 +15,10 @@ class GroupedServices {
 }
 
 @Component({
-  selector: 'uds-services-page',
-  templateUrl: './services.component.html',
-  styleUrls: ['./services.component.css'],
+    selector: 'uds-services-page',
+    templateUrl: './services.component.html',
+    styleUrls: ['./services.component.css'],
+    standalone: false
 })
 export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation = {

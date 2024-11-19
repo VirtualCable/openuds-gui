@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
-  selector: 'uds-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css'],
+    selector: 'uds-error',
+    templateUrl: './error.component.html',
+    styleUrls: ['./error.component.css'],
+    standalone: false
 })
 export class ErrorComponent implements OnInit {
   error = '';

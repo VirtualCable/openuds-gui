@@ -3,9 +3,10 @@ import { UDSApiService } from '../../services/uds-api.service';
 import { Downloadable } from '../../types/config';
 
 @Component({
-  selector: 'uds-downloads',
-  templateUrl: './downloads.component.html',
-  styleUrls: ['./downloads.component.scss'],
+    selector: 'uds-downloads',
+    templateUrl: './downloads.component.html',
+    styleUrls: ['./downloads.component.scss'],
+    standalone: false
 })
 export class DownloadsComponent implements OnInit {
   actors: Downloadable[] = [];

@@ -20,9 +20,10 @@ export interface ModalData {
 }
 
 @Component({
-  selector: 'uds-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss'],
+    selector: 'uds-modal',
+    templateUrl: './modal.component.html',
+    styleUrls: ['./modal.component.scss'],
+    standalone: false
 })
 export class ModalComponent implements OnInit {
   extra = '';

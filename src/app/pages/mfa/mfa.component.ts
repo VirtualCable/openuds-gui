@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
-  selector: 'uds-mfa',
-  templateUrl: './mfa.component.html',
-  styleUrls: ['./mfa.component.scss'],
+    selector: 'uds-mfa',
+    templateUrl: './mfa.component.html',
+    styleUrls: ['./mfa.component.scss'],
+    standalone: false
 })
 export class MfaComponent implements OnInit {
   constructor(public api: UDSApiService) {}

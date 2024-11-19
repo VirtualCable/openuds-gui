@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../../services/uds-api.service';
 
 @Component({
-  selector: 'uds-staff-info',
-  templateUrl: './staff-info.component.html',
-  styleUrls: ['./staff-info.component.scss']
+    selector: 'uds-staff-info',
+    templateUrl: './staff-info.component.html',
+    styleUrls: ['./staff-info.component.scss'],
+    standalone: false
 })
 export class StaffInfoComponent implements OnInit {
 

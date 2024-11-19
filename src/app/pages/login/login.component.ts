@@ -4,9 +4,10 @@ import { UDSApiService } from '../../services/uds-api.service';
 import { Authenticator } from '../../types/config';
 
 @Component({
-  selector: 'uds-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+    selector: 'uds-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   auths: Authenticator[];
