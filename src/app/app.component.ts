@@ -2,10 +2,10 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { UDSApiService } from './services/uds-api.service';
 
 @Component({
-    selector: 'uds-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'uds-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   title = 'UDS';
@@ -33,21 +33,55 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // Swith theme if needed
     this.api.switchTheme(this.blackTheme);
+
+    const message =
+      this.api.config.cookies_consent.text ||
+      django.gettext('We use cookies to authenticate users and remember preferences.') +
+        '<br/>' +
+        django.gettext('If you do not agree, please') +
+        ' <a class="cc-link" href="https://www.cookiesandyou.com">' +
+        django.gettext('leave this site') +
+        '</a>.';
+
     // Initialize cookie consent
     cookieconsent.initialise({
+      onStatusChange: (status: string, chosenBefore: boolean) => {
+        console.log('cookieconsent.onStatusChange', status, chosenBefore);
+        console.log('This: ', this);
+        console.log('CookieConsent: ', cookieconsent);
+        if (cookieconsent.hasConsented()) {
+          console.log('enable cookies');
+        } else {
+          alert('We need cookies to work, you will be redirected to an outside page');
+          window.location.href = 'https://www.cookiesandyou.com';
+        }
+        console.log(cookieconsent.hasConsented() ? 'enable cookies' : 'disable cookies');
+      },
       palette: {
         popup: {
           background: '#343c66',
-          text: '#cfcfe8',
+          text: '#dfdfe8',
         },
         button: {
           background: '#f71559',
         },
       },
+      enabled: this.api.config.cookies_consent.enabled,
+      layout: 'basic',
+      position: 'bottom-right',
+      theme: 'classic',
+      revokable: true,
+      type: 'info',
       content: {
-        message: django.gettext('We use cookies to track usage and preferences'),
-        dismiss: django.gettext('I Understand'),
+        message: message,
+        dismiss: django.gettext('I Accept'),
+        //deny: django.gettext('Refuse and leave'),
+        //allow: django.gettext('I Accept'),
         link: django.gettext('Learn more'),
+        href: 'https://www.cookiesandyou.com',
+        policy: django.gettext('Cookie Policy'),
+        close: '&#x274c;',
+        target: '_blank',
       },
     });
   }

@@ -40,6 +40,11 @@ export interface UDSMessages {
     readonly calendar_denied: string;
 }
 
+export interface CookiesConsent {
+    text: string;
+    enabled: boolean;
+}
+
 export interface MFAInfo {
     label: string;
     validity: number;
@@ -66,6 +71,7 @@ export interface UDSConfig {
     readonly messages: UDSMessages;
     readonly urls: UDSUrls;
     readonly min_for_filter: number;
+    readonly cookies_consent: CookiesConsent;
 }
 
 export interface Downloadable {
