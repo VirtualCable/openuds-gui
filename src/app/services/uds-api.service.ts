@@ -32,7 +32,11 @@ export class UDSApiService implements UDSApiServiceType {
   transportsWindow: Window | null = null;
   plugin: Plugin;
 
-  constructor(private http: HttpClient, public gui: UDSGuiService, public router: Router) {
+  constructor(
+    private http: HttpClient,
+    public gui: UDSGuiService,
+    public router: Router,
+  ) {
     this.user = new User(udsData.profile);
     this.plugin = new Plugin(this);
   }
@@ -110,7 +114,7 @@ export class UDSApiService implements UDSApiServiceType {
     scrambler: string,
     username: string,
     password: string,
-    domain: string
+    domain: string,
   ): Promise<any> {
     const url = this.config.urls.update_transport_ticket.replace('param1', ticketId).replace('param2', scrambler);
     return toPromise(
@@ -118,7 +122,7 @@ export class UDSApiService implements UDSApiServiceType {
         username,
         password,
         domain,
-      })
+      }),
     );
   }
 
@@ -176,12 +180,12 @@ export class UDSApiService implements UDSApiServiceType {
     // Launch the download
     // Create an iframe and set the src to the url
     // This will trigger the download
-    // First, loof for an existing download iframe
-    let iframe = document.getElementById('download') as HTMLIFrameElement;
+    // First, look for an existing download iframe
+    let iframe = document.getElementById('download-frm') as HTMLIFrameElement;
     // If not found, create it
     if (!iframe) {
       iframe = document.createElement('iframe');
-      iframe.id = 'download';
+      iframe.id = 'download-frm';
       iframe.style.display = 'none';
       document.body.appendChild(iframe);
     }
@@ -226,13 +230,13 @@ export class UDSApiService implements UDSApiServiceType {
   // Storage related
   putOnStorage(key: string, value: string): void {
     if (typeof Storage !== undefined) {
-      sessionStorage.setItem(key, value);
+      localStorage.setItem(key, value);
     }
   }
 
   getFromStorage(key: string): string | null {
     if (typeof Storage !== undefined) {
-      return sessionStorage.getItem(key);
+      return localStorage.getItem(key);
     } else {
       return null;
     }
