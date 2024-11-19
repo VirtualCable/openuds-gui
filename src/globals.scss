@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use "sass:map";
 
 @include mat.elevation-classes();
 @include mat.app-background();
@@ -32,11 +33,11 @@ $angular-dark-theme: mat.m2-define-dark-theme(
   )
 );
 
-$bg-default: map-get(map-get($angular-default-theme, background), background);
-$fg-default: map-get(map-get($angular-default-theme, foreground), base);
+$bg-default: map.get(map.get($angular-default-theme, background), background);
+$fg-default: map.get(map.get($angular-default-theme, foreground), base);
 
-$bg-dark: map-get(map-get($angular-dark-theme, background), background);
-$fg-dark: map-get(map-get($angular-dark-theme, foreground), base);
+$bg-dark: map.get(map.get($angular-dark-theme, background), background);
+$fg-dark: map.get(map.get($angular-dark-theme, foreground), base);
 
 // Set variables for several backgrounds
 $bg-title: linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156));
