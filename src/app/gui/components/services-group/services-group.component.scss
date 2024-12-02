@@ -1,43 +1,54 @@
 .services-group {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    /* margin: 0 10%; */
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  /* margin: 0 10%; */
 }
 .services-group-title {
-    display: flex;
-    align-items: center;
-    font-size: 1em;
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .services-group-title img {
-    height: 2.2em; /* By using em, will also inherit font size & font size animations */
-    margin: 0 9px 0 0;
-    flex-flow: 0 0 auto;
+  height: 2.2em; /* By using em, will also inherit font size & font size animations */
+  margin: 0 9px 0 0;
+  flex: 0 0 auto;
+}
+
+.mat-expansion-panel-header {
+  display: flex;
+  align-items: center;
 }
 
 /* .mat-expansion-panel-header-description */
 .mat-expansion-panel-header-title {
-    width: 15%;
+  flex: 1; 
+  //white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mat-expansion-panel-header-description {
-    font-size: 1em;
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  flex-shrink: 0; /* Evita que la descripción se reduzca o sea empujada */
+  margin-left: 8px; /* Agrega espacio entre el título y la descripción */
+  font-size: 1em;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .mat-expanded .mat-expansion-panel-header-description {
-    font-size: 1.5em;
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  flex-shrink: 0; /* Evita que la descripción se reduzca o sea empujada */
+  margin-left: 8px; /* Agrega espacio entre el título y la descripción */
+  font-size: 1.1em;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .mat-expanded .services-group-title {
-    font-size: 2em;
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  font-size: 1.5em;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 @media only screen and (max-width: 744px) {
-    .services-group {
-        justify-content: center;
-    }
+  .services-group {
+    justify-content: center;
+  }
 }
