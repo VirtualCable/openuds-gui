@@ -2,7 +2,7 @@
 
 This project is related to the web interface of OpenUDS from version 3.0 onwards. This is not usable on previous versions of UDS, so don't try to use it!! :).
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1, but currently it's using 19.0.0 (and growing).
 
 ## Development server
 
