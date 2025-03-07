@@ -39,7 +39,9 @@ export class AppComponent implements OnInit {
       django.gettext('We use cookies to authenticate users and remember preferences.') +
         '<br/>' +
         django.gettext('If you do not agree, please') +
-        ' <a class="cc-link" href="https://www.cookiesandyou.com">' +
+        ' <a class="cc-link" href="' +
+        (this.api.config.cookies_consent.urls.leave || 'https://www.cookiesandyou.com') +
+        '">' +
         django.gettext('leave this site') +
         '</a>.';
 
@@ -66,7 +68,7 @@ export class AppComponent implements OnInit {
         //deny: django.gettext('Refuse and leave'),
         //allow: django.gettext('I Accept'),
         link: django.gettext('Learn more'),
-        href: 'https://www.cookiesandyou.com',
+        href: this.api.config.cookies_consent.urls.more || 'https://www.cookiesandyou.com',
         policy: django.gettext('Cookie Policy'),
         close: '&#x274c;',
         target: '_blank',

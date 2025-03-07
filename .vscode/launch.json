@@ -8,14 +8,14 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "http://172.27.0.1:8000", // For auth first, later go to :9000
+            "url": "http://172.27.0.1:9000", // For auth first, later go to :9000
             "webRoot": "${workspaceFolder}"
         },
         {
             "type": "firefox",
             "request": "launch",
             "name": "Launch Firefox",
-            "url": "http://172.27.0.1:8000",  // For auth first, later go to :9000
+            "url": "http://172.27.0.1:9000",  // For auth first, later go to :9000
             "webRoot": "${workspaceFolder}"
         }
     ]

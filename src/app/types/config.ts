@@ -40,9 +40,15 @@ export interface UDSMessages {
     readonly calendar_denied: string;
 }
 
+export interface CookiesConsentUrls {
+    readonly leave: string;
+    readonly more: string;
+}
+
 export interface CookiesConsent {
-    text: string;
-    enabled: boolean;
+    readonly text: string;
+    readonly enabled: boolean;
+    readonly urls: CookiesConsentUrls;
 }
 
 export interface MFAInfo {
