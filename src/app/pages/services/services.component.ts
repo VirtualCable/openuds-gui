@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
-import {
-  JSONServicesInformation,
-  JSONGroup,
-  JSONService,
-} from '../../types/services';
+import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
 
 class GroupedServices {
   services: JSONService[];
@@ -15,10 +11,10 @@ class GroupedServices {
 }
 
 @Component({
-    selector: 'uds-services-page',
-    templateUrl: './services.component.html',
-    styleUrls: ['./services.component.css'],
-    standalone: false
+  selector: 'uds-services-page',
+  templateUrl: './services.component.html',
+  styleUrls: ['./services.component.css'],
+  standalone: false,
 })
 export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation = {
@@ -26,7 +22,7 @@ export class ServicesComponent implements OnInit {
     ip: '',
     nets: '',
     services: [],
-    transports: ''
+    transports: '',
   };
 
   group: GroupedServices[] = [];
@@ -50,21 +46,16 @@ export class ServicesComponent implements OnInit {
    */
   private autorun(): boolean {
     // If autorun, and there is only one service, launch it
-    if (
-      this.servicesInformation.autorun &&
-      this.servicesInformation.services.length === 1
-    ) {
+    if (this.servicesInformation.autorun && this.servicesInformation.services.length === 1) {
       if (!this.servicesInformation.services[0].maintenance) {
         this.api.executeCustomJSForServiceLaunch();
         // Launch url
-        this.api.launchURL(
-          this.servicesInformation.services[0].transports[0].link
-        );
+        this.api.launchURL(this.servicesInformation.services[0].transports[0].link);
         return true;
       } else {
         this.api.gui.alert(
           django.gettext('Warning'),
-          django.gettext('Service is in maintenance and cannot be executed')
+          django.gettext('Service is in maintenance and cannot be executed'),
         );
       }
     }
@@ -81,27 +72,25 @@ export class ServicesComponent implements OnInit {
     }
 
     // Obtain services list
-    this.api
-      .getServicesInformation()
-      .then((result: JSONServicesInformation) => {
-        this.servicesInformation = result;
-        this.autorun();
+    this.api.getServicesInformation().then((result: JSONServicesInformation) => {
+      this.servicesInformation = result;
+      this.autorun();
 
-        this.updateServices();
-      });
+      this.updateServices();
+    });
   }
 
   private updateServices(filter: string = '') {
     // Fill up groupedServices
     this.group = [];
 
-    let current: GroupedServices|null = null;
+    let current: GroupedServices | null = null;
     this.servicesInformation.services
       .filter(
         (value) =>
           !filter ||
           value.visual_name.toLowerCase().includes(filter) ||
-          value.group.name.toLowerCase().includes(filter)
+          value.group.name.toLowerCase().includes(filter),
       )
       .sort((a, b) => {
         if (a.group.priority !== b.group.priority) {
@@ -127,5 +116,9 @@ export class ServicesComponent implements OnInit {
     if (current !== null) {
       this.group.push(current);
     }
+    // Sort services by name for each group
+    this.group.forEach((group) => {
+      group.services.sort((a, b) => a.visual_name.localeCompare(b.visual_name));
+    });
   }
 }
