@@ -46,4 +46,18 @@
       </ol>
     </mat-expansion-panel>
   </mat-accordion>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header class="staff-panel">
+      <mat-panel-title>
+        <uds-translate>Groups</uds-translate>
+      </mat-panel-title>
+      <mat-panel-description>
+        <uds-translate>UDS groups for this user</uds-translate>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ol>
+      <li *ngFor="let g of api.staffInfo.groups">{{ g }}</li>&nbsp;
+    </ol>
+  </mat-expansion-panel>
 </div>

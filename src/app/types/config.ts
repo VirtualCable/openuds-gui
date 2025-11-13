@@ -94,6 +94,7 @@ export interface UserProfile {
 }
 
 export interface Info {
+    readonly groups: string[];
     readonly networks: string[];
     readonly transports: string[];
     readonly ip: string;
