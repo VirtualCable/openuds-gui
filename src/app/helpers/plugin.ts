@@ -7,7 +7,7 @@ import { JSONTransportURLService } from '../types/services';
  */
 
 export class Plugin {
-  static transportsWindow: { [name: string]: Window} = {};
+  static transportsWindow: { [name: string]: Window } = {};
   delay: number;
 
   constructor(private api: UDSApiServiceType) {
@@ -22,18 +22,10 @@ export class Plugin {
       await this.processExternalUrl(url);
     }
   }
-  private async showAlert(
-    text: string,
-    info: string,
-    waitTime: number,
-  ) {
+  private async showAlert(text: string, info: string, waitTime: number) {
     return this.api.gui.alert(
       django.gettext('Launching service'),
-      '<p stype="font-size: 1.2rem;">' +
-        text +
-        '</p><p style="font-size: 0.8rem;">' +
-        info +
-        '</p>',
+      '<p stype="font-size: 1.2rem;">' + text + '</p><p style="font-size: 0.8rem;">' + info + '</p>',
       waitTime,
     );
   }
@@ -65,10 +57,8 @@ export class Plugin {
 
     const dialog = await this.showAlert(
       django.gettext('Please wait until the service is launched.'),
-      django.gettext(
-        'Remember that you will need the UDS client on your platform to access the service.'
-      ),
-      0
+      django.gettext('Remember that you will need the UDS client on your platform to access the service.'),
+      0,
     );
     let cancel = false;
 
@@ -88,10 +78,6 @@ export class Plugin {
         await this.launchURL(enabledData.url);
         return;
       }
-      if (window.location.protocol === 'https:') {
-        // Ensures that protocol is https also for plugin, fixing if needed UDS provided info
-        enabledData.url = enabledData.url.replace('uds://', 'udss://');
-      }
       // Launches UDS Client, using an iframe
       this.launchUDSUrl(enabledData.url);
 
@@ -100,14 +86,10 @@ export class Plugin {
         // Wait 5 times the default delay before notifying that client is not installed
         if (readySinceTime > 0 && Date.now() - readySinceTime > this.delay * 5) {
           dialog.componentInstance.data.title =
-            django.gettext('Service ready') +
-            ' - ' +
-            django.gettext('UDS Client not launching');
+            django.gettext('Service ready') + ' - ' + django.gettext('UDS Client not launching');
           dialog.componentInstance.data.body =
             '<span style="color: red; ">' +
-            django.gettext(
-              'It seems that you don\'t have UDS Client installed. Please, install it from here:'
-            ) +
+            django.gettext("It seems that you don't have UDS Client installed. Please, install it from here:") +
             '&nbsp;</span>' +
             '<a href="' +
             this.api.config.urls.client_download +
@@ -119,11 +101,8 @@ export class Plugin {
           if (readySinceTime === -1) {
             // Service is ready, wait for client, update dialog text
             readySinceTime = Date.now(); // Milisecodns
-            dialog.componentInstance.data.title =
-              django.gettext('Service ready');
-            dialog.componentInstance.data.body = django.gettext(
-              'Launching UDS Client, almost done.'
-            );
+            dialog.componentInstance.data.title = django.gettext('Service ready');
+            dialog.componentInstance.data.body = django.gettext('Launching UDS Client, almost done.');
           }
         } else if (data.status === 'accessed') {
           // stop checking
@@ -149,10 +128,8 @@ export class Plugin {
   private async processExternalUrl(url: string) {
     const dialog = await this.showAlert(
       django.gettext('Please wait until the service is launched.'),
-      django.gettext(
-        'Remember that you will need the UDS client on your platform to access the service.'
-      ),
-      0
+      django.gettext('Remember that you will need the UDS client on your platform to access the service.'),
+      0,
     );
     let cancel = false;
 
@@ -173,7 +150,7 @@ export class Plugin {
               creds.scrambler,
               creds.username,
               creds.password,
-              creds.domain
+              creds.domain,
             );
           }
           this.openWindow(data.url);
@@ -194,9 +171,7 @@ export class Plugin {
     }
   }
 
-  private async processCredentials(
-    data: JSONTransportURLService
-  ): Promise<any> {
+  private async processCredentials(data: JSONTransportURLService): Promise<any> {
     const url = data.url || '';
     if (url.indexOf('&creds=') !== -1) {
       const creds = url.split('&creds=')[1];
@@ -257,16 +232,14 @@ export class Plugin {
         Plugin.transportsWindow[wnd].close();
       }
       const opened = window.open(location, 'uds_trans_' + wnd);
-      if(opened) {
+      if (opened) {
         Plugin.transportsWindow[wnd] = opened;
       }
     }
   }
 
   private async notifyError(error?: any) {
-    let msg: string = django.gettext(
-      'Error communicating with your service. Please, retry again.'
-    );
+    let msg: string = django.gettext('Error communicating with your service. Please, retry again.');
     if (typeof error === 'string') {
       msg = error;
     } else if (error instanceof Error) {

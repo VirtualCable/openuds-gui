@@ -40,10 +40,7 @@ export interface JSONService {
 
 export interface JSONServicesInformation {
     autorun: boolean;
-    ip: string;
-    nets: string;
     services: JSONService[];
-    transports: string;
 }
 
 export interface JSONErrorInformation {

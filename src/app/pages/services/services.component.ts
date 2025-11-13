@@ -23,10 +23,7 @@ class GroupedServices {
 export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation = {
     autorun: false,
-    ip: '',
-    nets: '',
     services: [],
-    transports: ''
   };
 
   group: GroupedServices[] = [];
