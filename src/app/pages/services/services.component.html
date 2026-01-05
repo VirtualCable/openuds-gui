@@ -1,11 +1,17 @@
-<uds-filter (updateEvent)="update($event)" *ngIf="servicesInformation.services.length >= api.config.min_for_filter && api.config.site_filter_on_top"></uds-filter>
+@if (servicesInformation.services.length >= api.config.min_for_filter && api.config.site_filter_on_top) {
+  <uds-filter (updateEvent)="update($event)"></uds-filter>
+}
 
 <div class="services-groups">
   <mat-accordion>
-    <uds-services-group *ngFor="let g of group; let i = index" [services]="g.services" [group]="g.group" [expanded]="i===0"></uds-services-group>
+    @for (g of group; track g; let i = $index) {
+      <uds-services-group [services]="g.services" [group]="g.group" [expanded]="i===0"></uds-services-group>
+    }
   </mat-accordion>
 </div>
 
-<uds-filter (updateEvent)="update($event)" *ngIf="servicesInformation.services.length >= api.config.min_for_filter && !api.config.site_filter_on_top"></uds-filter>
+@if (servicesInformation.services.length >= api.config.min_for_filter && !api.config.site_filter_on_top) {
+  <uds-filter (updateEvent)="update($event)"></uds-filter>
+}
 
 <uds-staff-info></uds-staff-info>

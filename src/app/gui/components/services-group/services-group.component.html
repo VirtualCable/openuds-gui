@@ -1,4 +1,5 @@
-  <mat-expansion-panel [expanded]="expanded" *ngIf="hasVisibleServices">
+@if (hasVisibleServices) {
+  <mat-expansion-panel [expanded]="expanded">
     <mat-expansion-panel-header [collapsedHeight]="'3rem'" [expandedHeight]="'5rem'">
       <mat-panel-title>
         <div class="services-group-title"><img [src]="groupImage"> {{group.name}}</div>
@@ -7,9 +8,10 @@
         {{group.comments}}
       </mat-panel-description>
     </mat-expansion-panel-header>
-
     <div class="services-group">
-      <uds-service *ngFor="let s of sortedServices" [service]="s"></uds-service>
+      @for (s of sortedServices; track s) {
+        <uds-service [service]="s"></uds-service>
+      }
     </div>
-
   </mat-expansion-panel>
+}

@@ -1,33 +1,35 @@
 <div class="plugins-container">
 
 
-<div class="banner">
-  <div class="banner-text">
-    <h1>
-      <uds-translate>UDS Client</uds-translate>
-    </h1>
-  </div>
-</div>
-
-<div class="plugins">
-  <div [class]="css(p)" *ngFor="let p of api.plugins" (click)="api.download(p.url)">
-    <div class="image">
-      <img [src]="img(p.name)">
-    </div>
-    <div class="platform">
-      {{ legacy(p) }} {{ p.name }} ({{ p.url.split('.').pop() }})
-    </div>
-    <div class="description">
-      {{ p.description }}
+  <div class="banner">
+    <div class="banner-text">
+      <h1>
+        <uds-translate>UDS Client</uds-translate>
+      </h1>
     </div>
   </div>
-</div>
 
-<div class="info">
-  <ul>
-    <li><uds-translate>Download UDS client for your platform</uds-translate></li>
-  </ul>
-  
-</div>
+  <div class="plugins">
+    @for (p of api.plugins; track p) {
+      <div [class]="css(p)" (click)="api.download(p.url)">
+        <div class="image">
+          <img [src]="img(p.name)">
+        </div>
+        <div class="platform">
+          {{ legacy(p) }} {{ p.name }} ({{ p.url.split('.').pop() }})
+        </div>
+        <div class="description">
+          {{ p.description }}
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="info">
+    <ul>
+      <li><uds-translate>Download UDS client for your platform</uds-translate></li>
+    </ul>
+
+  </div>
 
 </div>

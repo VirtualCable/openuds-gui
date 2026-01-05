@@ -1,73 +1,73 @@
-<ng-container *ngIf="api.config.urls.launch === ''">
+@if (api.config.urls.launch === '') {
   <!-- Lang change form -->
   <form id="form_language" action="{{ api.config.urls.change_language }}" method="post">
     <input type="hidden" name="{{ api.csrfField }}" value="{{ api.csrfToken }}">
     <input id="id_language" type="hidden" name="language" value="{{ lang.id }}" />
   </form>
-
   <!-- languages menu -->
   <mat-menu #appMenu="matMenu">
-    <button mat-menu-item *ngFor="let l of langs" (click)="changeLang(l)">{{ l.name }}</button>
+    @for (l of langs; track l) {
+      <button mat-menu-item (click)="changeLang(l)">{{ l.name }}</button>
+    }
   </mat-menu>
-
   <!-- user menu -->
   <mat-menu #userMenu="matMenu">
-    <button mat-menu-item *ngIf="api.user.isStaff" (click)="admin()"><i class="material-icons">dashboard</i>
+    @if (api.user.isStaff) {
+      <button mat-menu-item (click)="admin()"><i class="material-icons">dashboard</i>
       <uds-translate>Dashboard</uds-translate>
     </button>
-    <button mat-menu-item *ngIf="api.user.isStaff" routerLink="/downloads"><i class="material-icons">file_download</i>
-      <uds-translate>Downloads</uds-translate>
-    </button>
-    <button mat-menu-item (click)='logout()'><i class="material-icons highlight">exit_to_app</i>
-      <uds-translate>Logout</uds-translate>
-    </button>
-  </mat-menu>
-
-  <!-- shriked menu -->
-  <mat-menu x-position="before" #shrink="matMenu">
-    <button mat-menu-item *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
-    <button mat-menu-item [matMenuTriggerFor]="appMenu">{{ lang.name }} </button>
-
-    <button mat-menu-item routerLink="/client-download">
-      <uds-translate>UDS Client</uds-translate>
-    </button>
-    <button mat-menu-item routerLink="/about">
-      <uds-translate>About</uds-translate>
-    </button>
-  </mat-menu>
-
-  <mat-toolbar color="primary" class="uds-nav">
-
-    <button mat-button routerLink="/">
-      <div class="logo">
-        <img alt="Universal Desktop Services" [src]="api.staticURL('modern/img/udsicon.png')" >
-        {{api.config.site_logo_name}}
-      </div>
-    </button>
-
-    <!-- This fills the remaining space of the current row -->
-    <span class="fill-remaining-space"></span>
-
-    <!-- elements only visible when expanded -->
-    <div class="expanded">
-      <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>
-        <uds-translate>UDS Client</uds-translate>
-      </button>
-      <button mat-button routerLink="/about"><i class="material-icons">info</i>
-        <uds-translate>About</uds-translate>
-      </button>
-      <button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i
-          class="material-icons">arrow_drop_down</i></button>
-      <button mat-button *ngIf="api.user.isLogged" [matMenuTriggerFor]="userMenu">{{api.user.user}} <i
-          class="material-icons">arrow_drop_down</i></button>
+  }
+  @if (api.user.isStaff) {
+    <button mat-menu-item routerLink="/downloads"><i class="material-icons">file_download</i>
+    <uds-translate>Downloads</uds-translate>
+  </button>
+}
+<button mat-menu-item (click)='logout()'><i class="material-icons highlight">exit_to_app</i>
+<uds-translate>Logout</uds-translate>
+</button>
+</mat-menu>
+<!-- shriked menu -->
+<mat-menu x-position="before" #shrink="matMenu">
+  @if (api.user.isLogged) {
+    <button mat-menu-item [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
+  }
+  <button mat-menu-item [matMenuTriggerFor]="appMenu">{{ lang.name }} </button>
+  <button mat-menu-item routerLink="/client-download">
+    <uds-translate>UDS Client</uds-translate>
+  </button>
+  <button mat-menu-item routerLink="/about">
+    <uds-translate>About</uds-translate>
+  </button>
+</mat-menu>
+<mat-toolbar color="primary" class="uds-nav">
+  <button mat-button routerLink="/">
+    <div class="logo">
+      <img alt="Universal Desktop Services" [src]="api.staticURL('modern/img/udsicon.png')" >
+      {{api.config.site_logo_name}}
     </div>
-
-    <!-- button visible only when shrinked -->
-    <div class="shrinked">
-      <button mat-button [matMenuTriggerFor]="shrink">
-        <i class="material-icons">menu</i>
-      </button>
-    </div>
-
-  </mat-toolbar>
-</ng-container>
+  </button>
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space"></span>
+  <!-- elements only visible when expanded -->
+  <div class="expanded">
+    <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>
+    <uds-translate>UDS Client</uds-translate>
+  </button>
+  <button mat-button routerLink="/about"><i class="material-icons">info</i>
+  <uds-translate>About</uds-translate>
+</button>
+<button mat-button [matMenuTriggerFor]="appMenu">{{ lang.name }} <i
+class="material-icons">arrow_drop_down</i></button>
+@if (api.user.isLogged) {
+  <button mat-button [matMenuTriggerFor]="userMenu">{{api.user.user}} <i
+  class="material-icons">arrow_drop_down</i></button>
+}
+</div>
+<!-- button visible only when shrinked -->
+<div class="shrinked">
+  <button mat-button [matMenuTriggerFor]="shrink">
+    <i class="material-icons">menu</i>
+  </button>
+</div>
+</mat-toolbar>
+}

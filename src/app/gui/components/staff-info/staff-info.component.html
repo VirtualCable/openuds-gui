@@ -1,23 +1,24 @@
-<div *ngIf="api.staffInfo" class="staff-info">
-  <h1><uds-translate>Information</uds-translate></h1>
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header class="staff-panel">
-        <mat-panel-title>
-          IPs
-        </mat-panel-title>
-        <mat-panel-description>
-          <uds-translate>Client IP</uds-translate>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <ol>
-        <li><uds-translate>Client IP</uds-translate>: {{ api.staffInfo.ip }}</li>
-        <li *ngIf="api.staffInfo.ip_proxy !== api.staffInfo.ip"><uds-translate>Detected proxy ip</uds-translate>: {{
+@if (api.staffInfo) {
+  <div class="staff-info">
+    <h1><uds-translate>Information</uds-translate></h1>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header class="staff-panel">
+          <mat-panel-title>
+            IPs
+          </mat-panel-title>
+          <mat-panel-description>
+            <uds-translate>Client IP</uds-translate>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ol>
+          <li><uds-translate>Client IP</uds-translate>: {{ api.staffInfo.ip }}</li>
+          @if (api.staffInfo.ip_proxy !== api.staffInfo.ip) {
+            <li><uds-translate>Detected proxy ip</uds-translate>: {{
           api.staffInfo.ip_proxy }}</li>
+        }
       </ol>
     </mat-expansion-panel>
-
-
     <mat-expansion-panel>
       <mat-expansion-panel-header class="staff-panel">
         <mat-panel-title>
@@ -28,10 +29,11 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ol>
-        <li *ngFor="let n of api.staffInfo.transports">{{ n }}</li>
+        @for (n of api.staffInfo.transports; track n) {
+          <li>{{ n }}</li>
+        }
       </ol>
     </mat-expansion-panel>
-
     <mat-expansion-panel>
       <mat-expansion-panel-header class="staff-panel">
         <mat-panel-title>
@@ -42,22 +44,26 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ol>
-        <li *ngFor="let n of api.staffInfo.networks">{{ n }}</li>&nbsp;
-      </ol>
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header class="staff-panel">
-      <mat-panel-title>
-        <uds-translate>Groups</uds-translate>
-      </mat-panel-title>
-      <mat-panel-description>
-        <uds-translate>UDS groups for this user</uds-translate>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <ol>
-      <li *ngFor="let g of api.staffInfo.groups">{{ g }}</li>&nbsp;
-    </ol>
-  </mat-expansion-panel>
-</div>
+        @for (n of api.staffInfo.networks; track n) {
+          <li>{{ n }}</li>
+          }&nbsp;
+        </ol>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="staff-panel">
+        <mat-panel-title>
+          <uds-translate>Groups</uds-translate>
+        </mat-panel-title>
+        <mat-panel-description>
+          <uds-translate>UDS groups for this user</uds-translate>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ol>
+        @for (g of api.staffInfo.groups; track g) {
+          <li>{{ g }}</li>
+          }&nbsp;
+        </ol>
+      </mat-expansion-panel>
+    </div>
+  }
