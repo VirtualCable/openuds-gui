@@ -57,12 +57,12 @@ i.material-icons {
 }
 
 .mat-mdc-dialog-container {
-  --mdc-dialog-supporting-text-font: $font-family;
-  --mdc-dialog-subhead-font: $font-family;
-  --mdc-dialog-title-font: $font-family;
-  --mdc-dialog-button-font: $font-family;
-  --mdc-dialog-supporting-text-size: 1rem;
-  --mdc-dialog-subhead-size: 1.25rem;
-  --mdc-dialog-supporting-text-weight: 400;
-  --mdc-dialog-supporting-text-color: rgba(0, 0, 0, 1.0);
+  --mat-dialog-supporting-text-font: $font-family;
+  --mat-dialog-subhead-font: $font-family;
+  --mat-dialog-title-font: $font-family;
+  --mat-dialog-button-font: $font-family;
+  --mat-dialog-supporting-text-size: 1rem;
+  --mat-dialog-subhead-size: 1.25rem;
+  --mat-dialog-supporting-text-weight: 400;
+  --mat-dialog-supporting-text-color: rgba(0, 0, 0, 1.0);
 }
