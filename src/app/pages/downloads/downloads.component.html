@@ -9,22 +9,24 @@
   </div>
 
   <div class="actors">
-    <div [class]="css(p)" *ngFor="let p of actors" (click)="api.download(p.url)">
-      <div class="image">
-        <img [src]="img(p.name)">
-      </div>       
-      <div class="name" [innerHTML]="p.name | safeHtml">
+    @for (p of actors; track p) {
+      <div [class]="css(p)" (click)="api.download(p.url)">
+        <div class="image">
+          <img [src]="img(p.name)">
+        </div>
+        <div class="name" [innerHTML]="p.name | safeHtml">
+        </div>
+        <div class="description" [innerHTML]="p.description | safeHtml ">
+        </div>
       </div>
-      <div class="description" [innerHTML]="p.description | safeHtml ">
-      </div>
-    </div>
+    }
   </div>
 
   <div class="info">
     <ul>
       <li><uds-translate>Always download the UDS actor matching your platform</uds-translate></li>
     </ul>
-    
+
   </div>
-  
+
 </div>

@@ -33,18 +33,22 @@
         </mat-form-field>
       </div>
 
-      <div class="login-field" *ngIf="auths.length > 1">
-        <mat-form-field appaerance="standard">
-          <mat-label>
-            <uds-translate>Authenticator</uds-translate>
-          </mat-label>
-          <mat-select [value]="auths[0].id" (selectionChange)="changeAuth($event.value)">
-            <mat-option *ngFor="let a of auths" [value]="a.id">
-              {{ a.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      @if (auths.length > 1) {
+        <div class="login-field">
+          <mat-form-field appaerance="standard">
+            <mat-label>
+              <uds-translate>Authenticator</uds-translate>
+            </mat-label>
+            <mat-select [value]="auths[0].id" (selectionChange)="changeAuth($event.value)">
+              @for (a of auths; track a) {
+                <mat-option [value]="a.id">
+                  {{ a.name }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
 
       <div class="login-button">
         <button mat-stroked-button color="primary" type="submit">
