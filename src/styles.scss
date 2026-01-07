@@ -54,6 +54,14 @@ i.material-icons {
   body {
     background-color: $bg-dark;
   }
+
+  .menu .mat-mdc-icon-button {
+    background-color: transparent !important;
+  }
+
+  uds-staff-info h1{
+    color: white;
+  } 
 }
 
 .mat-mdc-dialog-container {
@@ -65,4 +73,8 @@ i.material-icons {
   --mat-dialog-subhead-size: 1.25rem;
   --mat-dialog-supporting-text-weight: 400;
   --mat-dialog-supporting-text-color: rgba(0, 0, 0, 1.0);
+}
+
+.mat-mdc-menu-trigger.service-menu.mdc-icon-button.mat-mdc-icon-button.mat-unthemed.mat-mdc-button-base.ng-star-inserted {
+  padding-top: 5px;
 }
