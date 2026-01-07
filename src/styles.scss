@@ -75,6 +75,6 @@ i.material-icons {
   --mat-dialog-supporting-text-color: rgba(0, 0, 0, 1.0);
 }
 
-.mat-mdc-menu-trigger.service-menu.mdc-icon-button.mat-mdc-icon-button.mat-unthemed.mat-mdc-button-base.ng-star-inserted {
-  padding-top: 5px;
+.service-menu {
+  padding-top: 5px !important;
 }
