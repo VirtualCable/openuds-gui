@@ -124,22 +124,23 @@ export class ServicesComponent implements OnInit {
         return 0;
       })
       .forEach((element) => {
+        // Add to favorites if applicable
         if (favs.includes(element.id)) {
           this.favoritesGroup.services.push(element);
-        } else {
-          if (current === null || element.group.id !== current.group.id) {
-            if (current !== null) {
-              this.group.push(current);
-            }
-            current = new GroupedServices(element.group);
-          }
-          current.services.push(element);
         }
+        // ALWAYS add to original group
+        if (current === null || element.group.id !== current.group.id) {
+          if (current !== null) {
+            this.group.push(current);
+          }
+          current = new GroupedServices(element.group);
+        }
+        current.services.push(element);
       });
     if (current !== null) {
       this.group.push(current);
     }
-    // Insert favorites group at the top if it has services
+    // Insert favorites group at the top if you have services
     if (this.favoritesGroup.services.length > 0) {
       this.group.unshift(this.favoritesGroup);
     }
