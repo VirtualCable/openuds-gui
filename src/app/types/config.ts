@@ -78,6 +78,7 @@ export interface UDSConfig {
     readonly urls: UDSUrls;
     readonly min_for_filter: number;
     readonly cookies_consent: CookiesConsent;
+    readonly enable_favorite_services: boolean;
 }
 
 export interface Downloadable {
