@@ -16,6 +16,12 @@ export class ServiceComponent implements OnInit {
   isFavorite: boolean = false;
   @Output() favoriteChanged = new EventEmitter<{serviceId: string, isFavorite: boolean}>();
 
+  get favoriteEnabled(): boolean {
+    // Change 'favoriteEnabled' to the actual property name in config if different
+    return (this.api.config as any).enable_favorite_services === true;
+
+  }
+
   constructor(private api: UDSApiService) {}
 
   get serviceImage() {
