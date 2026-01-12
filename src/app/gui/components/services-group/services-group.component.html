@@ -9,8 +9,8 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="services-group">
-      @for (s of sortedServices; track s) {
-        <uds-service [service]="s"></uds-service>
+      @for (s of sortedServices; track s.id) {
+        <uds-service [service]="s" (favoriteChanged)="onFavoriteChanged($event)"></uds-service>
       }
     </div>
   </mat-expansion-panel>

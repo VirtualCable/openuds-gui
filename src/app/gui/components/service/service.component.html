@@ -38,6 +38,11 @@
     </mat-menu>
     <div [ngClass]="serviceClass" [matTooltipDisabled]="serviceTooltip===''"
       [matTooltip]="serviceTooltip" matTooltipShowDelay="1000" matTooltipPosition="above">
+      <div class="favorite_button">
+        <button mat-icon-button disableRipple (click)="toggleFavorite()" [attr.aria-label]="isFavorite ? 'Remove from favorites' : 'Add to favorites'">
+          <i class="material-icons" [ngClass]="{'favorite': isFavorite}">{{ isFavorite ? 'star' : 'star_border' }}</i>
+        </button>
+      </div>
       <div class="icon" (click)="launch(null)">
         <img [src]="serviceImage">
       </div>
