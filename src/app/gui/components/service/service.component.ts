@@ -101,9 +101,9 @@ export class ServiceComponent implements OnInit {
     // Emit event so parent can react
     this.favoriteChanged.emit({serviceId: this.service.id, isFavorite: this.isFavorite});
     // Refresh screen if added or removed from favorites
-    if (this.isFavorite || !this.isFavorite) {
-      window.location.reload();
-    }
+    // if (this.isFavorite || !this.isFavorite) {
+    //   window.location.reload();
+    // }
   }
 
   getTransportIcon(transId: string) {
