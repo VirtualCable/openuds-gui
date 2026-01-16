@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { JSONService, JSONTransport } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
 
@@ -12,6 +12,14 @@ const MAX_NAME_LENGTH = 32;
 })
 export class ServiceComponent implements OnInit {
   @Input() service: JSONService = {} as JSONService;
+
+  isFavorite: boolean = false;
+  @Output() favoriteChanged = new EventEmitter<{serviceId: string, isFavorite: boolean}>();
+
+  get favoriteEnabled(): boolean {
+    // Change 'favoriteEnabled' to the actual property name in config if different
+    return (this.api.config as any).enable_favorite_services === true;
+  }
 
   constructor(private api: UDSApiService) {}
 
@@ -52,10 +60,12 @@ export class ServiceComponent implements OnInit {
     } else if (this.service.in_use) {
       klass.push('inuse');
     }
+    if (this.isFavorite) {
+      klass.push('favorite');
+    }
     if (klass.length > 1) {
       klass.push('alert');
     }
-
     return klass;
   }
 
@@ -68,7 +78,33 @@ export class ServiceComponent implements OnInit {
     return klass;
   }
 
-  ngOnInit() {}
+
+  ngOnInit() {
+    // Initialize the favorite state from localStorage
+    const favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
+    this.isFavorite = favs.includes(this.service.id);
+  }
+
+  toggleFavorite() {
+    this.isFavorite = !this.isFavorite;
+    // Persist in localStorage
+    let favs: string[] = [];
+    try {
+      favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
+    } catch {}
+    if (this.isFavorite) {
+      if (!favs.includes(this.service.id)) favs.push(this.service.id);
+    } else {
+      favs = favs.filter(id => id !== this.service.id);
+    }
+    localStorage.setItem('favoriteServices', JSON.stringify(favs));
+    // Emit event so parent can react
+    this.favoriteChanged.emit({serviceId: this.service.id, isFavorite: this.isFavorite});
+    // Refresh screen if added or removed from favorites
+    // if (this.isFavorite || !this.isFavorite) {
+    //   window.location.reload();
+    // }
+  }
 
   getTransportIcon(transId: string) {
     return this.api.transportIconURL(transId);

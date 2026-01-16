@@ -8,11 +8,18 @@ import {
 
 class GroupedServices {
   services: JSONService[];
-
   constructor(public group: JSONGroup) {
     this.services = [];
   }
 }
+
+const FAVORITES_GROUP: JSONGroup = {
+  id: 'favorites',
+  name: 'Favorites',
+  comments: '',
+  imageUuid: '',
+  priority: -1
+};
 
 @Component({
     selector: 'uds-services-page',
@@ -27,6 +34,7 @@ export class ServicesComponent implements OnInit {
   };
 
   group: GroupedServices[] = [];
+  favoritesGroup: GroupedServices = new GroupedServices(FAVORITES_GROUP);
 
   constructor(public api: UDSApiService) {}
 
@@ -66,7 +74,7 @@ export class ServicesComponent implements OnInit {
       }
     }
 
-    // TODO: remove this
+    // TODO remove this
     // this.plugin.launchURL(this.servicesInformation.services[0].transports[0].link);
     return false;
   }
@@ -91,8 +99,11 @@ export class ServicesComponent implements OnInit {
   private updateServices(filter: string = '') {
     // Fill up groupedServices
     this.group = [];
+    this.favoritesGroup = new GroupedServices(FAVORITES_GROUP);
 
     let current: GroupedServices|null = null;
+    const favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
+
     this.servicesInformation.services
       .filter(
         (value) =>
@@ -113,6 +124,11 @@ export class ServicesComponent implements OnInit {
         return 0;
       })
       .forEach((element) => {
+        // Add to favorites if applicable
+        if (favs.includes(element.id)) {
+          this.favoritesGroup.services.push(element);
+        }
+        // ALWAYS add to original group
         if (current === null || element.group.id !== current.group.id) {
           if (current !== null) {
             this.group.push(current);
@@ -123,6 +139,10 @@ export class ServicesComponent implements OnInit {
       });
     if (current !== null) {
       this.group.push(current);
+    }
+    // Insert favorites group at the top if you have services
+    if (this.favoritesGroup.services.length > 0) {
+      this.group.unshift(this.favoritesGroup);
     }
   }
 }

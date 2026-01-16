@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { JSONGroup, JSONService } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
 
@@ -14,9 +14,13 @@ export class ServicesGroupComponent implements OnInit {
   @Input() group: JSONGroup = {} as JSONGroup;
   @Input() expanded = false;
 
-  constructor(private api: UDSApiService) { }
+  constructor(private api: UDSApiService, private cdr: ChangeDetectorRef) { }
 
   get groupImage() {
+    // If the group is favorites, use the special image
+    if (this.group.name && this.group.name.toLowerCase().includes('favorites')) {
+      return '/uds/webapi/img/gallery/x';
+    }
     return this.api.galleryImageURL(this.group.imageUuid);
   }
 
@@ -43,6 +47,12 @@ export class ServicesGroupComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onFavoriteChanged(event: {serviceId: string, isFavorite: boolean}) {
+    // Forzar refresco de la vista
+    this.services = [...this.services];
+    this.cdr.detectChanges();
   }
 
 }
