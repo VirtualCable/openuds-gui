@@ -43,7 +43,7 @@ export class ServicesComponent implements OnInit {
   }
 
     /**
-     * Actualiza la lista de favoritos cuando cambia el estado de un servicio
+     * Updates the favorites list when the status of a service changes
      */
     onFavoriteChanged(event: {serviceId: string, isFavorite: boolean}) {
       this.api.getFavorites().then(favs => {
@@ -56,7 +56,11 @@ export class ServicesComponent implements OnInit {
     if (this.api.config.urls.launch) {
       this.api.logout();
     } else {
-      this.loadServices(); // Loads service related data
+      // First we get the favorites from the backend and then we load the services
+      this.api.getFavorites().then(favs => {
+        localStorage.setItem('favoriteServices', JSON.stringify(favs));
+        this.loadServices(); // Loads service related data
+      });
     }
   }
 
@@ -112,6 +116,7 @@ export class ServicesComponent implements OnInit {
     this.favoritesGroup = new GroupedServices(FAVORITES_GROUP);
 
     let current: GroupedServices|null = null;
+    // Oalways get favorites from backend (synced to localStorage by ngOnInit and onFavoriteChanged)
     const favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
 
     this.servicesInformation.services
