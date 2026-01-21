@@ -246,4 +246,25 @@ export class UDSApiService implements UDSApiServiceType {
     // eslint-disable-next-line no-eval
     EVAL_FNC(data);
   }
+
+  /** Favoritos: obtiene lista de favoritos del usuario */
+  getFavorites(): Promise<string[]> {
+    return this.http.get<{favorites: string[]}>(`/api/user/favorites/`).pipe(
+      timeout(TIMEOUT)
+    ).toPromise().then(res => res ? res.favorites : []);
+  }
+
+  /** Favoritos: añade un favorito */
+  addFavorite(serviceId: string): Promise<any> {
+    return this.http.post(`/api/user/favorites/`, { service_id: serviceId }).pipe(
+      timeout(TIMEOUT)
+    ).toPromise();
+  }
+
+  /** Favoritos: elimina un favorito */
+  removeFavorite(serviceId: string): Promise<any> {
+    return this.http.delete(`/api/user/favorites/${serviceId}/`).pipe(
+      timeout(TIMEOUT)
+    ).toPromise();
+  }
 }

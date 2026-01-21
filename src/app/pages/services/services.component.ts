@@ -42,6 +42,16 @@ export class ServicesComponent implements OnInit {
     this.updateServices(filter);
   }
 
+    /**
+     * Actualiza la lista de favoritos cuando cambia el estado de un servicio
+     */
+    onFavoriteChanged(event: {serviceId: string, isFavorite: boolean}) {
+      this.api.getFavorites().then(favs => {
+        localStorage.setItem('favoriteServices', JSON.stringify(favs));
+        this.updateServices();
+      });
+    }
+
   ngOnInit() {
     if (this.api.config.urls.launch) {
       this.api.logout();

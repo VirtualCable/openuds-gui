@@ -79,31 +79,27 @@ export class ServiceComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-    // Initialize the favorite state from localStorage
-    const favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
-    this.isFavorite = favs.includes(this.service.id);
+  async ngOnInit() {
+    // Inicializa el estado de favorito desde la API
+    try {
+      const favs = await this.api.getFavorites();
+      this.isFavorite = favs.includes(this.service.id);
+    } catch {
+      this.isFavorite = false;
+    }
   }
 
-  toggleFavorite() {
+  async toggleFavorite() {
     this.isFavorite = !this.isFavorite;
-    // Persist in localStorage
-    let favs: string[] = [];
     try {
-      favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
+      if (this.isFavorite) {
+        await this.api.addFavorite(this.service.id);
+      } else {
+        await this.api.removeFavorite(this.service.id);
+      }
     } catch {}
-    if (this.isFavorite) {
-      if (!favs.includes(this.service.id)) favs.push(this.service.id);
-    } else {
-      favs = favs.filter(id => id !== this.service.id);
-    }
-    localStorage.setItem('favoriteServices', JSON.stringify(favs));
     // Emit event so parent can react
     this.favoriteChanged.emit({serviceId: this.service.id, isFavorite: this.isFavorite});
-    // Refresh screen if added or removed from favorites
-    // if (this.isFavorite || !this.isFavorite) {
-    //   window.location.reload();
-    // }
   }
 
   getTransportIcon(transId: string) {
