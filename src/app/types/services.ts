@@ -36,6 +36,7 @@ export interface JSONService {
     custom_message_text: string|null;
     in_use: boolean;
     transports: JSONTransport[];
+    favorite: boolean;
 }
 
 export interface JSONServicesInformation {

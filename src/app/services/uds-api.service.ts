@@ -100,7 +100,7 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Services resetter */
-  async action(action: string, serviceId: string): Promise<JSONService> {
+  async action(serviceId: string, action: string): Promise<JSONService> {
     const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
     return toPromise(this.http.get<JSONService>(actionURL));
   }

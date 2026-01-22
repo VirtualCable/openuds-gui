@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { JSONGroup, JSONService } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
 
@@ -13,6 +13,8 @@ export class ServicesGroupComponent implements OnInit {
   @Input() services: JSONService[] = [];
   @Input() group: JSONGroup = {} as JSONGroup;
   @Input() expanded = false;
+
+  @Output() favoriteChanged = new EventEmitter<{serviceId: string, isFavorite: boolean}>();
 
   constructor(private api: UDSApiService, private cdr: ChangeDetectorRef) { }
 
@@ -49,10 +51,6 @@ export class ServicesGroupComponent implements OnInit {
   ngOnInit() {
   }
 
-  onFavoriteChanged(event: {serviceId: string, isFavorite: boolean}) {
-    // Forzar refresco de la vista
-    this.services = [...this.services];
-    this.cdr.detectChanges();
-  }
+    // Ya no es necesario manejar el evento aquí, se propaga al padre
 
 }

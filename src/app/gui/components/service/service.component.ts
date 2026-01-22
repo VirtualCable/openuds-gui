@@ -79,31 +79,19 @@ export class ServiceComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-    // Initialize the favorite state from localStorage
-    const favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
-    this.isFavorite = favs.includes(this.service.id);
+  async ngOnInit() {
+    // Initialize the favorite status from the service field
+    this.isFavorite = !!this.service.favorite;
   }
 
-  toggleFavorite() {
-    this.isFavorite = !this.isFavorite;
-    // Persist in localStorage
-    let favs: string[] = [];
+  async toggleFavorite() {
+    const action = this.isFavorite ? 'unfavorite' : 'favorite';
     try {
-      favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
+      await this.api.action(this.service.id, action);
+      this.isFavorite = !this.isFavorite;
     } catch {}
-    if (this.isFavorite) {
-      if (!favs.includes(this.service.id)) favs.push(this.service.id);
-    } else {
-      favs = favs.filter(id => id !== this.service.id);
-    }
-    localStorage.setItem('favoriteServices', JSON.stringify(favs));
     // Emit event so parent can react
     this.favoriteChanged.emit({serviceId: this.service.id, isFavorite: this.isFavorite});
-    // Refresh screen if added or removed from favorites
-    // if (this.isFavorite || !this.isFavorite) {
-    //   window.location.reload();
-    // }
   }
 
   getTransportIcon(transId: string) {
