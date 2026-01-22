@@ -43,24 +43,18 @@ export class ServicesComponent implements OnInit {
   }
 
     /**
-     * Updates the favorites list when the status of a service changes
+     * Updates the favorites list when favorite status changes
      */
     onFavoriteChanged(event: {serviceId: string, isFavorite: boolean}) {
-      this.api.getFavorites().then(favs => {
-        localStorage.setItem('favoriteServices', JSON.stringify(favs));
-        this.updateServices();
-      });
+      // Reloads the list of services from the backend to reflect changes to favorites
+      this.loadServices();
     }
 
   ngOnInit() {
     if (this.api.config.urls.launch) {
       this.api.logout();
     } else {
-      // First we get the favorites from the backend and then we load the services
-      this.api.getFavorites().then(favs => {
-        localStorage.setItem('favoriteServices', JSON.stringify(favs));
-        this.loadServices(); // Loads service related data
-      });
+      this.loadServices(); // Loads service related data
     }
   }
 
@@ -111,13 +105,11 @@ export class ServicesComponent implements OnInit {
   }
 
   private updateServices(filter: string = '') {
-    // Fill up groupedServices
+    // Group services and favorites using the backend 'favorite' field
     this.group = [];
     this.favoritesGroup = new GroupedServices(FAVORITES_GROUP);
 
-    let current: GroupedServices|null = null;
-    // Oalways get favorites from backend (synced to localStorage by ngOnInit and onFavoriteChanged)
-    const favs = JSON.parse(localStorage.getItem('favoriteServices') || '[]');
+    let current: GroupedServices | null = null;
 
     this.servicesInformation.services
       .filter(
@@ -139,8 +131,8 @@ export class ServicesComponent implements OnInit {
         return 0;
       })
       .forEach((element) => {
-        // Add to favorites if applicable
-        if (favs.includes(element.id)) {
+        // Add to favorites if 'favorite' field is true
+        if (element.favorite) {
           this.favoritesGroup.services.push(element);
         }
         // ALWAYS add to original group
@@ -155,7 +147,7 @@ export class ServicesComponent implements OnInit {
     if (current !== null) {
       this.group.push(current);
     }
-    // Insert favorites group at the top if you have services
+    // Insert favorite group at the beginning if there are favorites
     if (this.favoritesGroup.services.length > 0) {
       this.group.unshift(this.favoritesGroup);
     }

@@ -80,23 +80,15 @@ export class ServiceComponent implements OnInit {
 
 
   async ngOnInit() {
-    // Inicializa el estado de favorito desde la API
-    try {
-      const favs = await this.api.getFavorites();
-      this.isFavorite = favs.includes(this.service.id);
-    } catch {
-      this.isFavorite = false;
-    }
+    // Initialize the favorite status from the service field
+    this.isFavorite = !!this.service.favorite;
   }
 
   async toggleFavorite() {
-    this.isFavorite = !this.isFavorite;
+    const action = this.isFavorite ? 'unfavorite' : 'favorite';
     try {
-      if (this.isFavorite) {
-        await this.api.addFavorite(this.service.id);
-      } else {
-        await this.api.removeFavorite(this.service.id);
-      }
+      await this.api.action(this.service.id, action);
+      this.isFavorite = !this.isFavorite;
     } catch {}
     // Emit event so parent can react
     this.favoriteChanged.emit({serviceId: this.service.id, isFavorite: this.isFavorite});

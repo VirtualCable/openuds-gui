@@ -100,7 +100,7 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /* Services resetter */
-  async action(action: string, serviceId: string): Promise<JSONService> {
+  async action(serviceId: string, action: string): Promise<JSONService> {
     const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
     return toPromise(this.http.get<JSONService>(actionURL));
   }
@@ -245,26 +245,5 @@ export class UDSApiService implements UDSApiServiceType {
   eval(data: string): void {
     // eslint-disable-next-line no-eval
     EVAL_FNC(data);
-  }
-
-  /** Favoritos: obtiene lista de favoritos del usuario */
-  getFavorites(): Promise<string[]> {
-    return this.http.get<{favorites: string[]}>(`/api/user/favorites/`).pipe(
-      timeout(TIMEOUT)
-    ).toPromise().then(res => res ? res.favorites : []);
-  }
-
-  /** Favoritos: añade un favorito */
-  addFavorite(serviceId: string): Promise<any> {
-    return this.http.post(`/api/user/favorites/`, { service_id: serviceId }).pipe(
-      timeout(TIMEOUT)
-    ).toPromise();
-  }
-
-  /** Favoritos: elimina un favorito */
-  removeFavorite(serviceId: string): Promise<any> {
-    return this.http.delete(`/api/user/favorites/${serviceId}/`).pipe(
-      timeout(TIMEOUT)
-    ).toPromise();
   }
 }
