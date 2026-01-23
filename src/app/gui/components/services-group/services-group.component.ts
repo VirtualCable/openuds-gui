@@ -13,6 +13,7 @@ export class ServicesGroupComponent implements OnInit {
   @Input() services: JSONService[] = [];
   @Input() group: JSONGroup = {} as JSONGroup;
   @Input() expanded = false;
+  @Input() enableFavoriteServices = true;
 
   @Output() favoriteChanged = new EventEmitter<{serviceId: string, isFavorite: boolean}>();
 
@@ -20,13 +21,20 @@ export class ServicesGroupComponent implements OnInit {
 
   get groupImage() {
     // If the group is favorites, use the special image
-    if (this.group.name && this.group.name.toLowerCase().includes('favorites')) {
+    if (typeof this.group.name === 'string' && this.group.name.toLowerCase().includes('favorites')) {
       return '/uds/webapi/img/gallery/x';
     }
     return this.api.galleryImageURL(this.group.imageUuid);
   }
 
+  get isFavoritesGroup(): boolean {
+    return typeof this.group.name === 'string' && this.group.name.toLowerCase().includes('favorites');
+  }
+
   get hasVisibleServices(): boolean {
+    if (this.isFavoritesGroup && !this.enableFavoriteServices) {
+        return false;
+    }
     return this.services.length > 0;
   }
 
