@@ -147,8 +147,8 @@ export class ServicesComponent implements OnInit {
     if (current !== null) {
       this.group.push(current);
     }
-    // Insert favorite group at the beginning if there are favorites
-    if (this.favoritesGroup.services.length > 0) {
+    // Insert favorite group at the beginning if there are favorites and favorites are enabled
+    if (this.favoritesGroup.services.length > 0 && this.api.config.enable_favorite_services) {
       this.group.unshift(this.favoritesGroup);
     }
   }
