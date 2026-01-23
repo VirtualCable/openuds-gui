@@ -4,7 +4,7 @@ import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/ser
 
 const FAVORITES_GROUP: JSONGroup = {
   id: 'favorites',
-  name: 'Favorites',
+  name: django.gettext('Favorites'),
   comments: '',
   imageUuid: 'x',
   priority: -1,
@@ -14,6 +14,10 @@ class GroupedServices {
   services: JSONService[];
   constructor(public group: JSONGroup) {
     this.services = [];
+  }
+
+  isFavoritesGroup(): boolean {
+    return this.group.id === FAVORITES_GROUP.id;
   }
 }
 
