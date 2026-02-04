@@ -1,31 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
-import {
-  JSONServicesInformation,
-  JSONGroup,
-  JSONService,
-} from '../../types/services';
+import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
+
+const FAVORITES_GROUP: JSONGroup = {
+  id: 'favorites',
+  name: django.gettext('Favorites'),
+  comments: '',
+  imageUuid: 'x',
+  priority: -1,
+};
 
 class GroupedServices {
   services: JSONService[];
   constructor(public group: JSONGroup) {
     this.services = [];
   }
+
+  isFavoritesGroup(): boolean {
+    return this.group.id === FAVORITES_GROUP.id;
+  }
 }
 
-const FAVORITES_GROUP: JSONGroup = {
-  id: 'favorites',
-  name: 'Favorites',
-  comments: '',
-  imageUuid: '',
-  priority: -1
-};
-
 @Component({
-    selector: 'uds-services-page',
-    templateUrl: './services.component.html',
-    styleUrls: ['./services.component.css'],
-    standalone: false
+  selector: 'uds-services-page',
+  templateUrl: './services.component.html',
+  styleUrls: ['./services.component.css'],
+  standalone: false,
 })
 export class ServicesComponent implements OnInit {
   servicesInformation: JSONServicesInformation = {
@@ -34,7 +34,6 @@ export class ServicesComponent implements OnInit {
   };
 
   group: GroupedServices[] = [];
-  favoritesGroup: GroupedServices = new GroupedServices(FAVORITES_GROUP);
 
   constructor(public api: UDSApiService) {}
 
@@ -42,13 +41,13 @@ export class ServicesComponent implements OnInit {
     this.updateServices(filter);
   }
 
-    /**
-     * Updates the favorites list when favorite status changes
-     */
-    onFavoriteChanged(event: {serviceId: string, isFavorite: boolean}) {
-      // Reloads the list of services from the backend to reflect changes to favorites
-      this.loadServices();
-    }
+  /**
+   * Updates the favorites list when favorite status changes
+   */
+  onFavoriteChanged(event: { serviceId: string; isFavorite: boolean }) {
+    // Reloads the list of services from the backend to reflect changes to favorites
+    this.loadServices();
+  }
 
   ngOnInit() {
     if (this.api.config.urls.launch) {
@@ -63,21 +62,16 @@ export class ServicesComponent implements OnInit {
    */
   private autorun(): boolean {
     // If autorun, and there is only one service, launch it
-    if (
-      this.servicesInformation.autorun &&
-      this.servicesInformation.services.length === 1
-    ) {
+    if (this.servicesInformation.autorun && this.servicesInformation.services.length === 1) {
       if (!this.servicesInformation.services[0].maintenance) {
         this.api.executeCustomJSForServiceLaunch();
         // Launch url
-        this.api.launchURL(
-          this.servicesInformation.services[0].transports[0].link
-        );
+        this.api.launchURL(this.servicesInformation.services[0].transports[0].link);
         return true;
       } else {
         this.api.gui.alert(
           django.gettext('Warning'),
-          django.gettext('Service is in maintenance and cannot be executed')
+          django.gettext('Service is in maintenance and cannot be executed'),
         );
       }
     }
@@ -94,20 +88,18 @@ export class ServicesComponent implements OnInit {
     }
 
     // Obtain services list
-    this.api
-      .getServicesInformation()
-      .then((result: JSONServicesInformation) => {
-        this.servicesInformation = result;
-        this.autorun();
+    this.api.getServicesInformation().then((result: JSONServicesInformation) => {
+      this.servicesInformation = result;
+      this.autorun();
 
-        this.updateServices();
-      });
+      this.updateServices();
+    });
   }
 
   private updateServices(filter: string = '') {
     // Group services and favorites using the backend 'favorite' field
+    let favoritesGroup: GroupedServices = new GroupedServices(FAVORITES_GROUP);
     this.group = [];
-    this.favoritesGroup = new GroupedServices(FAVORITES_GROUP);
 
     let current: GroupedServices | null = null;
 
@@ -116,7 +108,7 @@ export class ServicesComponent implements OnInit {
         (value) =>
           !filter ||
           value.visual_name.toLowerCase().includes(filter) ||
-          value.group.name.toLowerCase().includes(filter)
+          value.group.name.toLowerCase().includes(filter),
       )
       .sort((a, b) => {
         if (a.group.priority !== b.group.priority) {
@@ -133,7 +125,7 @@ export class ServicesComponent implements OnInit {
       .forEach((element) => {
         // Add to favorites if 'favorite' field is true
         if (element.favorite) {
-          this.favoritesGroup.services.push(element);
+          favoritesGroup.services.push(element);
         }
         // ALWAYS add to original group
         if (current === null || element.group.id !== current.group.id) {
@@ -147,9 +139,9 @@ export class ServicesComponent implements OnInit {
     if (current !== null) {
       this.group.push(current);
     }
-    // Insert favorite group at the beginning if there are favorites and favorites are enabled
-    if (this.favoritesGroup.services.length > 0 && this.api.config.enable_favorite_services) {
-      this.group.unshift(this.favoritesGroup);
+    // Insert favorite group at the beginning if there are favorites
+    if (favoritesGroup.services.length > 0) {
+      this.group.unshift(favoritesGroup);
     }
   }
 }

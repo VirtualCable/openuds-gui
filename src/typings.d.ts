@@ -1,6 +1,6 @@
 /* SystemJS module definition */
 // eslint-disable-next-line no-var
-declare var module: NodeModule;
+declare var module: NodeJS.Module;
 interface NodeModule {
   id: string;
 }
