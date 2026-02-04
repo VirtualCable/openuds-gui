@@ -101,7 +101,7 @@ export class ServicesComponent implements OnInit {
     let favoritesGroup: GroupedServices = new GroupedServices(FAVORITES_GROUP);
     this.group = [];
 
-    let current: GroupedServices | null = null;
+    let groupedMap = new Map<string, GroupedServices>();
 
     this.servicesInformation.services
       .filter(
@@ -110,6 +110,21 @@ export class ServicesComponent implements OnInit {
           value.visual_name.toLowerCase().includes(filter) ||
           value.group.name.toLowerCase().includes(filter),
       )
+      .forEach((element) => {
+        // Add to favorites if 'favorite' field is true
+        if (element.favorite) {
+          favoritesGroup.services.push(element);
+        }
+        // Group by group.id
+        if (!groupedMap.has(element.group.id)) {
+          groupedMap.set(element.group.id, new GroupedServices(element.group));
+        }
+        groupedMap.get(element.group.id)!.services.push(element);
+      });
+
+    // Convert map to array, sort by group priority and id, y filtrar grupos vacíos
+    this.group = Array.from(groupedMap.values())
+      .filter(g => g.services.length > 0)
       .sort((a, b) => {
         if (a.group.priority !== b.group.priority) {
           return a.group.priority - b.group.priority;
@@ -121,24 +136,8 @@ export class ServicesComponent implements OnInit {
           }
         }
         return 0;
-      })
-      .forEach((element) => {
-        // Add to favorites if 'favorite' field is true
-        if (element.favorite) {
-          favoritesGroup.services.push(element);
-        }
-        // ALWAYS add to original group
-        if (current === null || element.group.id !== current.group.id) {
-          if (current !== null) {
-            this.group.push(current);
-          }
-          current = new GroupedServices(element.group);
-        }
-        current.services.push(element);
       });
-    if (current !== null) {
-      this.group.push(current);
-    }
+
     // Insert favorite group at the beginning if there are favorites
     if (favoritesGroup.services.length > 0 && this.api.config.enable_favorite_services) {
       this.group.unshift(favoritesGroup);

@@ -23,9 +23,6 @@ export class ServicesGroupComponent implements OnInit {
     return this.api.galleryImageURL(this.group.imageUuid);
   }
 
-  get hasVisibleServices(): boolean {
-    return this.services.length > 0;
-  }
 
   get sortedServices() {
     return this.services.sort((a, b) => {
