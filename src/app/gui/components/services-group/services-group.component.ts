@@ -20,21 +20,10 @@ export class ServicesGroupComponent implements OnInit {
   constructor(private api: UDSApiService, private cdr: ChangeDetectorRef) { }
 
   get groupImage() {
-    // If the group is favorites, use the special image
-    if (typeof this.group.name === 'string' && this.group.name.toLowerCase().includes('favorites')) {
-      return '/uds/webapi/img/gallery/x';
-    }
     return this.api.galleryImageURL(this.group.imageUuid);
   }
 
-  get isFavoritesGroup(): boolean {
-    return typeof this.group.name === 'string' && this.group.name.toLowerCase().includes('favorites');
-  }
-
   get hasVisibleServices(): boolean {
-    if (this.isFavoritesGroup && !this.enableFavoriteServices) {
-        return false;
-    }
     return this.services.length > 0;
   }
 
