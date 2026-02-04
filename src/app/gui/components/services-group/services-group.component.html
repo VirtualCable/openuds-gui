@@ -1,17 +1,15 @@
-@if (hasVisibleServices) {
-  <mat-expansion-panel [expanded]="expanded">
-    <mat-expansion-panel-header [collapsedHeight]="'3rem'" [expandedHeight]="'5rem'">
-      <mat-panel-title>
-        <div class="services-group-title"><img [src]="groupImage"> {{group.name}}</div>
-      </mat-panel-title>
-      <mat-panel-description fxShow="false" fxShow.gt-sm>
-        {{group.comments}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="services-group">
-      @for (s of sortedServices; track s.id) {
-        <uds-service [service]="s" (favoriteChanged)="$event && favoriteChanged.emit($event)"></uds-service>
-      }
-    </div>
-  </mat-expansion-panel>
-}
+<mat-expansion-panel [expanded]="expanded">
+  <mat-expansion-panel-header [collapsedHeight]="'3rem'" [expandedHeight]="'5rem'">
+    <mat-panel-title>
+      <div class="services-group-title"><img [src]="groupImage"> {{group.name}}</div>
+    </mat-panel-title>
+    <mat-panel-description fxShow="false" fxShow.gt-sm>
+      {{group.comments}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="services-group">
+    @for (s of sortedServices; track s.id) {
+      <uds-service [service]="s" (favoriteChanged)="$event && favoriteChanged.emit($event)"></uds-service>
+    }
+  </div>
+</mat-expansion-panel>
