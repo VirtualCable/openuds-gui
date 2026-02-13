@@ -5,7 +5,7 @@
 <div class="services-groups">
   <mat-accordion>
     @for (g of group; track g; let i = $index) {
-      <uds-services-group [services]="g.services" [group]="g.group" [expanded]="i===0" (favoriteChanged)="onFavoriteChanged($event)"></uds-services-group>
+      <uds-services-group [services]="g.services" [group]="g.group" [expanded]="i===0" [enableFavoriteServices]="api.config.enable_favorite_services" (favoriteChanged)="onFavoriteChanged($event)"></uds-services-group>
     }
   </mat-accordion>
 </div>

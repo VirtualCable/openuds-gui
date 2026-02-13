@@ -13,22 +13,16 @@ export class ServicesGroupComponent implements OnInit {
   @Input() services: JSONService[] = [];
   @Input() group: JSONGroup = {} as JSONGroup;
   @Input() expanded = false;
+  @Input() enableFavoriteServices = true;
 
   @Output() favoriteChanged = new EventEmitter<{serviceId: string, isFavorite: boolean}>();
 
   constructor(private api: UDSApiService, private cdr: ChangeDetectorRef) { }
 
   get groupImage() {
-    // If the group is favorites, use the special image
-    if (this.group.name && this.group.name.toLowerCase().includes('favorites')) {
-      return '/uds/webapi/img/gallery/x';
-    }
     return this.api.galleryImageURL(this.group.imageUuid);
   }
 
-  get hasVisibleServices(): boolean {
-    return this.services.length > 0;
-  }
 
   get sortedServices() {
     return this.services.sort((a, b) => {
