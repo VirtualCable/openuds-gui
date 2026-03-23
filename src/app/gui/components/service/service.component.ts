@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { JSONService, JSONTransport } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
 
@@ -10,7 +10,7 @@ const MAX_NAME_LENGTH = 32;
     styleUrls: ['./service.component.scss'],
     standalone: false
 })
-export class ServiceComponent implements OnInit {
+export class ServiceComponent implements OnInit, OnChanges {
   @Input() service: JSONService = {} as JSONService;
 
   isFavorite: boolean = false;
@@ -79,8 +79,13 @@ export class ServiceComponent implements OnInit {
   }
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['service']) {
+      this.isFavorite = !!this.service.favorite;
+    }
+  }
+
   async ngOnInit() {
-    // Initialize the favorite status from the service field
     this.isFavorite = !!this.service.favorite;
   }
 
