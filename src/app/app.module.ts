@@ -32,6 +32,7 @@ import { ServiceComponent } from './gui/components/service/service.component';
 import { ServicesGroupComponent } from './gui/components/services-group/services-group.component';
 
 import { StaffInfoComponent } from './gui/components/staff-info/staff-info.component';
+import { BackgroundComponent } from './gui/components/background/background.component';
 
 import { ModalComponent } from './gui/modal/modal.component';
 import { SafeHtmlPipe } from './helpers/safe-html.pipe';
@@ -62,6 +63,7 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
         StaffInfoComponent,
         FilterComponent,
         MfaComponent,
+        BackgroundComponent,
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         LayoutModule,

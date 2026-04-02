@@ -16,12 +16,13 @@ $font-size: 14px;
   --bg-accent: #f0f2f5;
   --text-primary: #121212;
   --text-secondary: #5f6368;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.4);
-  --glass-shadow: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-hover-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-shadow: rgba(0, 0, 0, 0.16);
   --warning-color: #d32f2f;
   --bg-button: linear-gradient(135deg, #1976d2, #1565c0);
-  --glass-backdrop-filter: blur(12px);
+  --glass-backdrop-filter: blur(20px);
 }
 
 html,
@@ -30,17 +31,6 @@ body {
   font-family: $font-family;
   font-size: $font-size;
   height: 100%;
-  background-color: var(--bg-surface);
-  
-  /* Safe Mesh Gradient Background */
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(186, 230, 253, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(221, 214, 254, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(186, 230, 253, 0.1) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, var(--bg-accent) 0px, var(--bg-surface) 100%);
-  background-attachment: fixed;
-  background-size: cover;
-  
   color: var(--text-primary);
   transition: all 0.4s ease;
 }
@@ -81,9 +71,10 @@ i.material-icons {
   --bg-accent: #1e2235;
   --text-primary: #ffffff;
   --text-secondary: #9aa0a6;
-  --glass-bg: rgba(30, 32, 45, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: rgba(0, 0, 0, 0.8);
+  --glass-bg: rgba(16, 25, 45, 0.35);
+  --glass-hover-bg: rgba(16, 25, 45, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
   --warning-color: #ff5252;
   --bg-button: linear-gradient(135deg, #3f51b5, #1a237e);
 
