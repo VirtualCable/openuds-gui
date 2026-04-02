@@ -3,11 +3,21 @@
 }
 
 <div class="services-groups">
-  <mat-accordion>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="modern-tabs">
     @for (g of group; track g; let i = $index) {
-      <uds-services-group [services]="g.services" [group]="g.group" [expanded]="i===0" [enableFavoriteServices]="api.config.enable_favorite_services" (favoriteChanged)="onFavoriteChanged($event)"></uds-services-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="tab-label">
+            <img [src]="api.galleryImageURL(g.group.imageUuid)" class="tab-icon">
+            <span>{{ g.group.name }}</span>
+          </div>
+        </ng-template>
+        <div class="tab-content">
+          <uds-services-group [services]="g.services" [group]="g.group" [expanded]="true" [enableFavoriteServices]="api.config.enable_favorite_services" (favoriteChanged)="onFavoriteChanged($event)"></uds-services-group>
+        </div>
+      </mat-tab>
     }
-  </mat-accordion>
+  </mat-tab-group>
 </div>
 
 @if (servicesInformation.services.length >= api.config.min_for_filter && !api.config.site_filter_on_top) {

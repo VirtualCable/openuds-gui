@@ -1,54 +1,7 @@
 .services-group {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 280px));
   gap: 24px;
-  padding: 1rem 0;
-}
-.services-group-title {
-  display: flex;
-  align-items: center;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.services-group-title img {
-  height: 2.2em; /* By using em, will also inherit font size & font size animations */
-  margin: 0 9px 0 0;
-  flex: 0 0 auto;
-}
-
-.mat-expansion-panel-header {
-  display: flex;
-  align-items: center;
-}
-
-/* .mat-expansion-panel-header-description */
-.mat-expansion-panel-header-title {
-  flex: 1; 
-  //white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.mat-expansion-panel-header-description {
-  flex-shrink: 0; /* Evita que la descripción se reduzca o sea empujada */
-  margin-left: 8px; /* Agrega espacio entre el título y la descripción */
-  font-size: 1em;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.mat-expanded .mat-expansion-panel-header-description {
-  flex-shrink: 0; /* Evita que la descripción se reduzca o sea empujada */
-  margin-left: 8px; /* Agrega espacio entre el título y la descripción */
-  font-size: 1.1em;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.mat-expanded .services-group-title {
-  font-size: 1.5em;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-@media only screen and (max-width: 744px) {
-  .services-group {
-    justify-content: center;
-  }
+  padding: 1.5rem 0;
+  justify-content: center;
 }

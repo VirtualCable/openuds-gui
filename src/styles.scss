@@ -31,6 +31,8 @@ body {
   font-size: $font-size;
   height: 100%;
   background-color: var(--bg-surface);
+  background-image: radial-gradient(circle at 50% 50%, var(--bg-accent) 0%, var(--bg-surface) 100%);
+  background-attachment: fixed;
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -104,4 +106,53 @@ i.material-icons {
 
 .service-menu {
   padding-top: 5px !important;
+}
+
+/* Modern Tab Styles */
+.modern-tabs {
+  margin-top: 1rem;
+  
+  .mat-mdc-tab-header {
+    background: var(--bg-surface);
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 20px;
+  }
+
+  .mat-mdc-tab-body-wrapper {
+    padding: 10px 0;
+  }
+
+  .tab-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px;
+    font-weight: 500;
+    
+    .tab-icon {
+      height: 24px;
+      width: auto;
+      border-radius: 4px;
+    }
+  }
+
+  /* Active state */
+  .mdc-tab--active .mdc-tab__text-label {
+    color: var(--mat-sys-primary) !important;
+  }
+
+  /* Ink bar */
+  .mat-mdc-tab-group.mat-primary .mat-mdc-tab-header .mat-mdc-tab-ink-bar {
+    height: 4px;
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+.tab-content {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
