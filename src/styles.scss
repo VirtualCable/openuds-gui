@@ -31,10 +31,18 @@ body {
   font-size: $font-size;
   height: 100%;
   background-color: var(--bg-surface);
-  background-image: radial-gradient(circle at 50% 50%, var(--bg-accent) 0%, var(--bg-surface) 100%);
+  
+  /* Safe Mesh Gradient Background */
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(186, 230, 253, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(221, 214, 254, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(186, 230, 253, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, var(--bg-accent) 0px, var(--bg-surface) 100%);
   background-attachment: fixed;
+  background-size: cover;
+  
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: all 0.4s ease;
 }
 
 /* App loading logo */
@@ -82,7 +90,10 @@ i.material-icons {
   html,
   body {
     background-color: var(--bg-surface);
-    background-image: radial-gradient(circle at 20% 20%, var(--bg-accent) 0%, var(--bg-surface) 100%);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(67, 56, 202, 0.25) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(88, 28, 135, 0.2) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, var(--bg-accent) 0px, var(--bg-surface) 100%);
   }
 
   .menu .mat-mdc-icon-button {
@@ -157,11 +168,14 @@ i.material-icons {
   }
 }
 
-.tab-content {
-  animation: fadeIn 0.4s ease-out;
+/* Selective transparency for Glassmorphism */
+.mat-mdc-tab-body-wrapper,
+.mat-mdc-tab-header {
+  background-color: transparent !important;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.mat-mdc-tab-header {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-bottom: 1px solid var(--glass-border);
 }
