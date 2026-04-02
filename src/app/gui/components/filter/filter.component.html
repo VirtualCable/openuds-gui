@@ -3,7 +3,13 @@
     <mat-label>
       <uds-translate>Filter</uds-translate>
     </mat-label>
-    <input matInput type="text" #input>
-    <i class="material-icons" matSuffix>search</i>
+    <input matInput type="text" #input (input)="update(input.value)">
+    @if (input.value) {
+      <button mat-icon-button matSuffix (click)="input.value=''; update('')">
+        <i class="material-icons">close</i>
+      </button>
+    } @else {
+      <i class="material-icons" matSuffix>search</i>
+    }
   </mat-form-field>
 </div>

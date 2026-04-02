@@ -69,19 +69,20 @@ i.material-icons {
   @include mat.all-component-colors($angular-dark-theme);
 
   // Mapeamos los tokens de :root a oscuros
-  --bg-surface: #121212;
-  --bg-accent: #1e1e1e;
+  --bg-surface: #0f111a;
+  --bg-accent: #1e2235;
   --text-primary: #ffffff;
   --text-secondary: #9aa0a6;
-  --glass-bg: rgba(30, 30, 30, 0.7);
+  --glass-bg: rgba(30, 32, 45, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --glass-shadow: rgba(0, 0, 0, 0.8);
   --warning-color: #ff5252;
-  --bg-button: linear-gradient(135deg, #424242, #303030);
+  --bg-button: linear-gradient(135deg, #3f51b5, #1a237e);
 
   html,
   body {
     background-color: var(--bg-surface);
+    background-image: radial-gradient(circle at 20% 20%, var(--bg-accent) 0%, var(--bg-surface) 100%);
   }
 
   .menu .mat-mdc-icon-button {
@@ -128,11 +129,19 @@ i.material-icons {
     gap: 12px;
     padding: 0 8px;
     font-weight: 500;
+    max-width: 200px;
+    
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     
     .tab-icon {
       height: 24px;
       width: auto;
       border-radius: 4px;
+      flex-shrink: 0;
     }
   }
 

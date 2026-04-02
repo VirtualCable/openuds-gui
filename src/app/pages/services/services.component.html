@@ -9,7 +9,9 @@
         <ng-template mat-tab-label>
           <div class="tab-label">
             <img [src]="api.galleryImageURL(g.group.imageUuid)" class="tab-icon">
-            <span>{{ g.group.name }}</span>
+            <span [matTooltip]="g.group.name" 
+                  matTooltipShowDelay="1000"
+                  [matTooltipDisabled]="g.group.name.length < 20">{{ g.group.name }}</span>
           </div>
         </ng-template>
         <div class="tab-content">
