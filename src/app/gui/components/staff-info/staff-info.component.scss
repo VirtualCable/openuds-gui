@@ -1,26 +1,63 @@
 .staff-info {
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: rgb(235, 235, 235);
-}
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-backdrop-filter) !important;
+    -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--glass-shadow) !important;
+    border-radius: 20px !important;
+    color: var(--text-primary);
 
-.staff-info h1 {
-    text-align: center;
-}
-
-.staff-panel {
-    background-color:rgb(212, 212, 212);
-}
-
-::ng-deep .dark-theme {
-    .staff-info {
-        margin-top: 1rem;
-        padding: 1rem;
-        background-color: rgb(15, 15, 15);
+    h1 {
+        margin-bottom: 1.25rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-align: center;
     }
-    
-    .staff-panel {
-        background-color:rgb(43, 43, 43);
+
+    ::ng-deep {
+        .mat-accordion {
+            background-color: transparent !important;
+        }
+
+        .mat-expansion-panel {
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid var(--glass-border) !important;
+            border-radius: 0 !important;
+            color: var(--text-primary) !important;
+
+            &:last-child {
+                border-bottom: none !important;
+            }
+        }
+
+        .mat-expansion-panel-header {
+            background-color: transparent !important;
+            padding: 0 8px !important;
+            
+            &:hover {
+                background-color: var(--glass-hover-bg) !important;
+            }
+        }
+
+        .mat-expansion-panel-header-title,
+        .mat-expansion-panel-header-description {
+            color: var(--text-primary) !important;
+            opacity: 0.9;
+        }
+
+        .mat-expansion-panel-body {
+            padding: 16px !important;
+            ol {
+                margin: 0;
+                padding-left: 20px;
+                li {
+                    margin-bottom: 8px;
+                    opacity: 0.85;
+                }
+            }
+        }
     }
-        
 }

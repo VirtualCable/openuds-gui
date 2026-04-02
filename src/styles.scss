@@ -52,16 +52,7 @@ i.material-icons {
   color: red;
 }
 
-.mat-mdc-menu-content {
-  .mat-mdc-menu-item:hover {
-    background-color: #e8e8e8;
-  }
-}
-
-.mat-mdc-option:hover:not(.mat-mdc-option-disabled) {
-  background: #648cb0 !important;
-  color: white !important;
-}
+/* Estilos de menús antiguos eliminados para evitar conflictos con Glassmorphism */
 
 .dark-theme {
   @include mat.all-component-colors($angular-dark-theme);
@@ -169,4 +160,32 @@ i.material-icons {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-bottom: 1px solid var(--glass-border);
+}
+
+/* Material Menu Glassmorphism */
+.mat-mdc-menu-panel {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-backdrop-filter) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-radius: 12px !important;
+  padding: 4px !important;
+  overflow: hidden !important;
+}
+
+.mat-mdc-menu-item {
+  color: var(--text-primary) !important;
+  border-radius: 8px !important;
+  margin: 2px 0 !important;
+  transition: all 0.2s ease !important;
+  
+  &:hover {
+    background-color: var(--glass-hover-bg) !important;
+    transform: translateX(4px);
+  }
+}
+
+.mat-mdc-menu-content {
+  background-color: transparent !important;
 }
