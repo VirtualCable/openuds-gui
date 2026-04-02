@@ -260,3 +260,30 @@ i.material-icons {
     }
   }
 }
+
+/* Material Select Glassmorphism */
+.mat-mdc-select-panel {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-backdrop-filter) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-radius: 12px !important;
+  padding: 8px 0 !important;
+}
+
+.mat-mdc-option {
+  color: var(--text-primary) !important;
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+  transition: all 0.2s ease !important;
+
+  &:hover:not(.mdc-list-item--disabled),
+  &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background-color: var(--glass-hover-bg) !important;
+  }
+  
+  .mdc-list-item__primary-text {
+    color: var(--text-primary) !important;
+  }
+}

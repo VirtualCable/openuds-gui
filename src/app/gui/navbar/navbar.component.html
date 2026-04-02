@@ -22,21 +22,16 @@
     <uds-translate>Downloads</uds-translate>
   </button>
 }
-@if (api.isDarkTheme) {
-  <button mat-menu-item (click)="toggleTheme()"><i class="material-icons">wb_sunny</i>
-    <uds-translate>Light theme</uds-translate>
-  </button>
-} @else {
-  <button mat-menu-item (click)="toggleTheme()"><i class="material-icons">brightness_2</i>
-    <uds-translate>Dark theme</uds-translate>
-  </button>
-}
 <button mat-menu-item (click)='logout()'><i class="material-icons highlight">exit_to_app</i>
 <uds-translate>Logout</uds-translate>
 </button>
 </mat-menu>
 <!-- shriked menu -->
-<mat-menu x-position="before" #shrink="matMenu">
+  <mat-menu x-position="before" #shrink="matMenu">
+    <button mat-menu-item (click)="toggleTheme()">
+      <i class="material-icons">{{ api.isDarkTheme ? 'wb_sunny' : 'brightness_2' }}</i>
+      <uds-translate>{{ api.isDarkTheme ? 'Light theme' : 'Dark theme' }}</uds-translate>
+    </button>
   @if (api.user.isLogged) {
     <button mat-menu-item [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
   }
@@ -59,6 +54,9 @@
   <span class="fill-remaining-space"></span>
   <!-- elements only visible when expanded -->
   <div class="expanded">
+      <button mat-button (click)="toggleTheme()" [title]="api.isDarkTheme ? 'Light theme' : 'Dark theme'">
+        <i class="material-icons">{{ api.isDarkTheme ? 'wb_sunny' : 'brightness_2' }}</i>
+      </button>
     <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>
     <uds-translate>UDS Client</uds-translate>
   </button>
