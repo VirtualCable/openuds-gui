@@ -1,29 +1,29 @@
-@if (servicesInformation.services.length >= api.config.min_for_filter && api.config.site_filter_on_top) {
-  <uds-filter (updateEvent)="update($event)"></uds-filter>
-}
+<div class="services-container">
+  @if (servicesInformation.services.length >= api.config.min_for_filter) {
+    <div [class]="api.config.site_filter_on_top ? 'filter-top' : 'filter-bottom'">
+      <uds-filter (updateEvent)="update($event)"></uds-filter>
+    </div>
+  }
 
-<div class="services-groups">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="modern-tabs">
-    @for (g of group; track g; let i = $index) {
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <div class="tab-label">
-            <img [src]="api.galleryImageURL(g.group.imageUuid)" class="tab-icon">
-            <span [matTooltip]="g.group.name" 
-                  matTooltipShowDelay="1000"
-                  [matTooltipDisabled]="g.group.name.length < 20">{{ g.group.name }}</span>
+  <div class="services-groups">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="modern-tabs">
+      @for (g of group; track g; let i = $index) {
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="tab-label">
+              <img [src]="api.galleryImageURL(g.group.imageUuid)" class="tab-icon">
+              <span [matTooltip]="g.group.name" 
+                    matTooltipShowDelay="1000"
+                    [matTooltipDisabled]="g.group.name.length < 20">{{ g.group.name }}</span>
+            </div>
+          </ng-template>
+          <div class="tab-content">
+            <uds-services-group [services]="g.services" [group]="g.group" [expanded]="true" [enableFavoriteServices]="api.config.enable_favorite_services" (favoriteChanged)="onFavoriteChanged($event)"></uds-services-group>
           </div>
-        </ng-template>
-        <div class="tab-content">
-          <uds-services-group [services]="g.services" [group]="g.group" [expanded]="true" [enableFavoriteServices]="api.config.enable_favorite_services" (favoriteChanged)="onFavoriteChanged($event)"></uds-services-group>
-        </div>
-      </mat-tab>
-    }
-  </mat-tab-group>
+        </mat-tab>
+      }
+    </mat-tab-group>
+  </div>
+  
+  <uds-staff-info></uds-staff-info>
 </div>
-
-@if (servicesInformation.services.length >= api.config.min_for_filter && !api.config.site_filter_on_top) {
-  <uds-filter (updateEvent)="update($event)"></uds-filter>
-}
-
-<uds-staff-info></uds-staff-info>
