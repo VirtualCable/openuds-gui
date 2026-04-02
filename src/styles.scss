@@ -52,12 +52,12 @@ i.material-icons {
   color: red;
 }
 
-/* Estilos de menús antiguos eliminados para evitar conflictos con Glassmorphism */
+/* Old menu styles removed to avoid conflicts with Glassmorphism */
 
 .dark-theme {
   @include mat.all-component-colors($angular-dark-theme);
 
-  // Mapeamos los tokens de :root a oscuros
+  // Map :root tokens to dark values
   --bg-surface: #0f111a;
   --bg-accent: #1e2235;
   --text-primary: #ffffff;

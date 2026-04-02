@@ -87,9 +87,9 @@ export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
       this.waves.push({
         points: [],
         yBase: h * (0.3 + i * 0.15),
-        amplitude: h * (0.05 + Math.random() * 0.05), // Amplitud proporcional al alto
+        amplitude: h * (0.05 + Math.random() * 0.05),
         speed: 0.01 + Math.random() * 0.02,
-        thickness: h * (0.1 + Math.random() * 0.1), // Grosor proporcional al alto
+        thickness: h * (0.1 + Math.random() * 0.1),
         offset: Math.random() * Math.PI * 2,
         opacity: 0.06 + Math.random() * 0.08
       });
@@ -100,11 +100,11 @@ export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.ctx) return;
 
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.time += 0.25; // Paz total: reducido de nuevo a la mitad
+    this.time += 0.25; // Global pace: reduced again by half
 
     const isDark = document.documentElement.classList.contains('dark-theme');
     
-    // Colores base para las cuerdas
+    // Base colors for the lines
     const mainColor = isDark ? '100, 140, 255' : '60, 100, 200';
     const accentColor = isDark ? '160, 100, 255' : '100, 60, 180';
 
@@ -125,8 +125,8 @@ export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
       const step = 20;
 
       for (x = -step; x <= this.ctx!.canvas.width + step; x += step) {
-        // Movimiento de onda sinusoidal combinada
-        // Aumentamos los multiplicadores de frecuencia para que las ondas sean más visibles
+        // Combined sinusoidal wave movement
+        // Increase frequency multipliers to make waves more visible
         const y = wave.yBase + 
                   Math.sin(x * 0.001 + (this.time * wave.speed) + wave.offset) * wave.amplitude +
                   Math.cos(x * 0.003 + (this.time * wave.speed * 0.5)) * (wave.amplitude * 0.4);

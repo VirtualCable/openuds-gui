@@ -277,9 +277,9 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   /**
-   * Inyecta código al DOM sin inseguridades de CSP o eval
-   * @param data Javascript data o URL
-   * @param isUrl Si es verdadero data se trata como src
+   * Injects code into the DOM without CSP or eval vulnerabilities
+   * @param data Javascript content or URL
+   * @param isUrl If true, data is treated as the src URL
    */
   injectScript(data: string, isUrl: boolean = false): void {
     const script = document.createElement('script');

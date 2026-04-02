@@ -45,6 +45,6 @@ export class ServicesGroupComponent implements OnInit {
   ngOnInit() {
   }
 
-    // Ya no es necesario manejar el evento aquí, se propaga al padre
+    // Not required to handle the event here anymore; it is propagated to parent
 
 }

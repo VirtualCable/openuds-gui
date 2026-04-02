@@ -173,12 +173,12 @@ export class Plugin {
     if (!url.includes('&creds=')) return null;
 
     try {
-      // Usamos utilidades modernas para extraer campos de una url querystring
+      // Use modern utilities to extract querystring fields from a URL
       const urlObj = new URL(url.startsWith('udsa://') ? url.replace('udsa://', 'http://') : url);
       const creds = urlObj.searchParams.get('creds') || '';
       const ticketScrambler = urlObj.searchParams.get('data') || '';
 
-      // Limpiamos la url origen (sin los creds insertados a la fuerza)
+      // Clean the source URL (remove forced credentials)
       data.url = url.split('&creds=')[0];
 
       const [ticket, scrambler] = ticketScrambler.split('.');
