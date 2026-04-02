@@ -33,13 +33,14 @@ $angular-dark-theme: mat.m2-define-dark-theme(
   )
 );
 
-$bg-default: map.get(map.get($angular-default-theme, background), background);
-$fg-default: map.get(map.get($angular-default-theme, foreground), base);
+// Modern Glassmorphism & Token setup (Managed in styles.scss through variables)
+$bg-default: var(--bg-surface);
+$fg-default: var(--text-primary);
 
-$bg-dark: map.get(map.get($angular-dark-theme, background), background);
-$fg-dark: map.get(map.get($angular-dark-theme, foreground), base);
+$bg-dark: var(--bg-surface);
+$fg-dark: var(--text-primary);
 
-// Set variables for several backgrounds
-$bg-title: linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156));
-$bg-button: linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156));
-$bg-tab: linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156));
+// Set variables for backgrounds (Replaced with CSS tokens to support theme switching)
+$bg-title: var(--bg-accent, linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156)));
+$bg-button: var(--bg-button, linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156)));
+$bg-tab: var(--bg-accent, linear-gradient(60deg, rgb(75, 82, 102), rgb(70, 93, 156)));

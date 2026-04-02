@@ -83,26 +83,23 @@ export class Plugin {
 
       while (!cancel) {
         const data = await this.api.status(serviceId, transportId);
-        // Wait 5 times the default delay before notifying that client is not installed
+        
         if (readySinceTime > 0 && Date.now() - readySinceTime > this.delay * 5) {
-          dialog.componentInstance.data.title =
-            django.gettext('Service ready') + ' - ' + django.gettext('UDS Client not launching');
-          dialog.componentInstance.data.body =
-            '<span style="color: red; ">' +
-            django.gettext("It seems that you don't have UDS Client installed. Please, install it from here:") +
-            '&nbsp;</span>' +
-            '<a href="' +
-            this.api.config.urls.client_download +
-            '">' +
-            django.gettext('UDS Client Download') +
-            '</a>';
+          dialog.componentInstance.data.title = django.gettext('Service ready') + ' - ' + django.gettext('UDS Client not launching');
+          dialog.componentInstance.data.body = `
+            <div class="client-warning">
+              <span>${django.gettext("It seems that you don't have UDS Client installed. Please, install it from here:")}</span>
+              <a href="${this.api.config.urls.client_download}" class="download-link">${django.gettext('UDS Client Download')}</a>
+            </div>
+          `;
         }
+        
         if (data.status === 'ready') {
           if (readySinceTime === -1) {
             // Service is ready, wait for client, update dialog text
-            readySinceTime = Date.now(); // Milisecodns
+            readySinceTime = Date.now();
             dialog.componentInstance.data.title = django.gettext('Service ready');
-            dialog.componentInstance.data.body = django.gettext('Launching UDS Client, almost done.');
+            dialog.componentInstance.data.body = django.gettext('Launching UDS Client...</br>Please wait.');
           }
         } else if (data.status === 'accessed') {
           // stop checking
@@ -173,23 +170,23 @@ export class Plugin {
 
   private async processCredentials(data: JSONTransportURLService): Promise<any> {
     const url = data.url || '';
-    if (url.indexOf('&creds=') !== -1) {
-      const creds = url.split('&creds=')[1];
-      let username = '';
-      let domain = '';
-      // Remove credentials from data.url input
-      data.url = url.split('&creds=')[0];
-      // From "data=..." extract ticket and scrambler that is ticket.scrambler
-      const values = url.split('data=')[1].split('&')[0].split('.');
-      const ticket = values[0];
-      const scrambler = values[1];
+    if (!url.includes('&creds=')) return null;
 
-      if (creds.indexOf('@') !== -1) {
-        username = creds.split('@')[0];
-        domain = creds.split('@')[1];
-      } else {
-        username = creds;
-      }
+    try {
+      // Usamos utilidades modernas para extraer campos de una url querystring
+      const urlObj = new URL(url.startsWith('udsa://') ? url.replace('udsa://', 'http://') : url);
+      const creds = urlObj.searchParams.get('creds') || '';
+      const ticketScrambler = urlObj.searchParams.get('data') || '';
+
+      // Limpiamos la url origen (sin los creds insertados a la fuerza)
+      data.url = url.split('&creds=')[0];
+
+      const [ticket, scrambler] = ticketScrambler.split('.');
+      const [usernameRaw, domainRaw] = creds.split('@');
+      
+      const username = usernameRaw || creds;
+      const domain = domainRaw || '';
+
       const result = await this.api.gui.askCredentials(username, domain);
       if (result.success === false) {
         throw new Error('User canceled credentials dialog');
@@ -201,8 +198,10 @@ export class Plugin {
         password: result.password,
         domain: result.domain,
       };
+    } catch (e) {
+      console.error('Error procesando las credenciales de transporte', e);
+      return null;
     }
-    return null;
   }
 
   private openWindow(location: string): void {

@@ -24,8 +24,6 @@ const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
 const TIMEOUT = 10000;
 
-const EVAL_FNC = eval;
-
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
@@ -164,7 +162,7 @@ export class UDSApiService implements UDSApiServiceType {
     // Executes a defined JS on launch servic event if defined
     // this is in fact a hook
     if (udsData.custom_js_for_service_launch !== undefined) {
-      this.eval(udsData.custom_js_for_service_launch);
+      this.injectScript(udsData.custom_js_for_service_launch, false);
     }
   }
 
@@ -242,8 +240,20 @@ export class UDSApiService implements UDSApiServiceType {
     }
   }
 
-  eval(data: string): void {
-    // eslint-disable-next-line no-eval
-    EVAL_FNC(data);
+  /**
+   * Inyecta código al DOM sin inseguridades de CSP o eval
+   * @param data Javascript data o URL
+   * @param isUrl Si es verdadero data se trata como src
+   */
+  injectScript(data: string, isUrl: boolean = false): void {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    if (isUrl) {
+      script.src = data;
+    } else {
+      script.text = data;
+    }
+    document.body.appendChild(script);
+    document.body.removeChild(script);
   }
 }

@@ -1,8 +1,8 @@
 .services-group {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  /* margin: 0 10%; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 1rem 0;
 }
 .services-group-title {
   display: flex;

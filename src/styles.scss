@@ -11,12 +11,28 @@ $font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 $font-size: 14px;
 
 
+:root {
+  --bg-surface: #ffffff;
+  --bg-accent: #f0f2f5;
+  --text-primary: #121212;
+  --text-secondary: #5f6368;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-shadow: rgba(0, 0, 0, 0.1);
+  --warning-color: #d32f2f;
+  --bg-button: linear-gradient(135deg, #1976d2, #1565c0);
+  --glass-backdrop-filter: blur(12px);
+}
+
 html,
 body {
   margin: 0;
   font-family: $font-family;
   font-size: $font-size;
   height: 100%;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* App loading logo */
@@ -50,9 +66,20 @@ i.material-icons {
 .dark-theme {
   @include mat.all-component-colors($angular-dark-theme);
 
+  // Mapeamos los tokens de :root a oscuros
+  --bg-surface: #121212;
+  --bg-accent: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #9aa0a6;
+  --glass-bg: rgba(30, 30, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --warning-color: #ff5252;
+  --bg-button: linear-gradient(135deg, #424242, #303030);
+
   html,
   body {
-    background-color: $bg-dark;
+    background-color: var(--bg-surface);
   }
 
   .menu .mat-mdc-icon-button {
@@ -60,7 +87,7 @@ i.material-icons {
   }
 
   uds-staff-info h1{
-    color: white;
+    color: var(--text-primary);
   } 
 }
 
