@@ -60,4 +60,9 @@ export interface UDSApiServiceType {
   // Storage related
   putOnStorage(key: string, value: string): void;
   getFromStorage(key: string): string | null;
+
+  // Theme related
+  isDarkTheme: boolean;
+  initTheme(): void;
+  toggleTheme(): void;
 }

@@ -12,27 +12,16 @@ export class AppComponent implements OnInit {
 
   constructor(private api: UDSApiService) {}
 
-  // blackTheme property, get value from Storage
-  get blackTheme(): boolean {
-    return this.api.getFromStorage('blackTheme') === 'true';
-  }
-
-  // blackTheme property, set value to Storage
-  set blackTheme(value: boolean) {
-    this.api.putOnStorage('blackTheme', value.toString());
-  }
-
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.altKey && event.ctrlKey && event.key === 'b') {
-      this.blackTheme = !this.blackTheme;
-      this.api.switchTheme(this.blackTheme);
+      this.api.toggleTheme();
     }
   }
 
   ngOnInit() {
-    // Swith theme if needed
-    this.api.switchTheme(this.blackTheme);
+    // Switch theme if needed
+    this.api.initTheme();
 
     const message =
       this.api.config.cookies_consent.text ||

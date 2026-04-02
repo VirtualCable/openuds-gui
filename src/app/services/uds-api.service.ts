@@ -29,6 +29,11 @@ export class UDSApiService implements UDSApiServiceType {
   readonly user: User;
   transportsWindow: Window | null = null;
   plugin: Plugin;
+  private _isDarkTheme = false;
+
+  get isDarkTheme(): boolean {
+    return this._isDarkTheme;
+  }
 
   constructor(
     private http: HttpClient,
@@ -38,6 +43,37 @@ export class UDSApiService implements UDSApiServiceType {
     this.user = new User(udsData.profile);
     this.plugin = new Plugin(this);
   }
+
+  /**
+   * Initializes theme from storage or default
+   */
+  initTheme(): void {
+    this._isDarkTheme = this.getFromStorage('blackTheme') === 'true';
+    this.applyTheme();
+  }
+
+  /**
+   * Toggles theme and saves it to storage
+   */
+  toggleTheme(): void {
+    this._isDarkTheme = !this._isDarkTheme;
+    this.putOnStorage('blackTheme', this._isDarkTheme.toString());
+    this.applyTheme();
+  }
+
+  /**
+   * Applies the theme to the body
+   */
+  private applyTheme(): void {
+    const body = document.getElementsByTagName('html')[0];
+    [DARK_THEME, LIGHT_THEME].forEach((cls) => {
+      if (body.classList.contains(cls)) {
+        body.classList.remove(cls);
+      }
+    });
+    body.classList.add(this._isDarkTheme ? DARK_THEME : LIGHT_THEME);
+  }
+
   /**
    * Gets configuration data from uds.js file
    */
@@ -215,7 +251,7 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   // Switch dark/light theme
-  switchTheme(dark: boolean): void {
+  private applyThemeLegacy(dark: boolean): void {
     const body = document.getElementsByTagName('html')[0];
     [DARK_THEME, LIGHT_THEME].forEach((cls) => {
       if (body.classList.contains(cls)) {

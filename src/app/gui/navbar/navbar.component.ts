@@ -53,4 +53,8 @@ export class NavbarComponent implements OnInit {
     this.api.logout();
   }
 
+  toggleTheme(): void {
+    this.api.toggleTheme();
+  }
+
 }

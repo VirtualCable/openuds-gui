@@ -22,6 +22,15 @@
     <uds-translate>Downloads</uds-translate>
   </button>
 }
+@if (api.isDarkTheme) {
+  <button mat-menu-item (click)="toggleTheme()"><i class="material-icons">wb_sunny</i>
+    <uds-translate>Light theme</uds-translate>
+  </button>
+} @else {
+  <button mat-menu-item (click)="toggleTheme()"><i class="material-icons">brightness_2</i>
+    <uds-translate>Dark theme</uds-translate>
+  </button>
+}
 <button mat-menu-item (click)='logout()'><i class="material-icons highlight">exit_to_app</i>
 <uds-translate>Logout</uds-translate>
 </button>
