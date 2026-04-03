@@ -287,3 +287,21 @@ i.material-icons {
     color: var(--text-primary) !important;
   }
 }
+
+/* Tooltip Glassmorphism */
+.mat-mdc-tooltip {
+  --mdc-plain-tooltip-container-color: transparent !important;
+  
+  .mdc-tooltip__surface {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-backdrop-filter) !important;
+    -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--glass-shadow) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+    color: var(--text-primary) !important;
+  }
+}
