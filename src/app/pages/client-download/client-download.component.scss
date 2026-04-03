@@ -1,131 +1,129 @@
 .plugins-container {
-  margin: 0 2%;
-  padding-top: 100px;
+    display: flex;
+    flex-flow: column;
+    margin: 0 2%;
+    padding-top: 100px;
+    color: var(--text-primary);
 }
 
 .banner {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .banner-text h1 {
-  font-size: 3rem;
-  text-align: center;
-}
-
-.banner-text h2 {
-  font-size: 1rem;
+    font-size: 2.5em;
+    text-align: center;
+    font-weight: 500;
 }
 
 .plugins {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  gap: 1.5rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: auto;
+    width: 100%;
 }
 
 .plugin {
-  margin: 0;
-  padding: 2rem;
-  border-radius: 20px;
-  background-color: var(--glass-bg) !important;
-  backdrop-filter: var(--glass-backdrop-filter) !important;
-  -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
-  border: 1px solid var(--glass-border) !important;
-  box-shadow: var(--glass-shadow) !important;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  flex: 1 0 220px;
-  max-width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    margin-top: 1rem;
+    padding: 1.5rem;
+    border-radius: 20px;
+    background-color: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--glass-backdrop-filter);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+    flex: 1 1 300px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .plugin.legacy {
-  opacity: 0.75;
-  filter: grayscale(0.4);
-  position: relative;
-  overflow: hidden;
-  
-  &::after {
-    content: "LEGACY";
-    position: absolute;
-    top: 12px;
-    right: -25px;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    padding: 2px 30px;
-    font-size: 0.6rem;
-    font-weight: 700;
-    transform: rotate(45deg);
-    border: 1px solid var(--glass-border);
-  }
-}
+    background-color: rgba(0, 0, 0, 0.1);
+    border-style: dashed;
+    filter: grayscale(0.9);
+    opacity: 0.7;
+    
+    &::after {
+        content: 'LEGACY';
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(0,0,0,0.2);
+        color: white;
+        font-size: 0.6rem;
+        padding: 4px 8px;
+        border-radius: 0 0 0 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
 
-.plugin.legacy img {
-  max-width: 4rem;
-  opacity: 0.6;
+    &:hover {
+        filter: grayscale(0.5);
+        opacity: 0.9;
+    }
 }
 
 .plugin:hover {
-  cursor: pointer;
-  transform: translateY(-8px) scale(1.02);
-  background-color: var(--glass-hover-bg) !important;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
+    cursor: pointer;
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    background-color: var(--glass-hover-bg);
 }
 
 .image {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  
-  img {
+    width: 80px;
     height: 80px;
-    width: auto;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-  }
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
 }
 
-.platform {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--text-primary);
+.name {
+    font-size: 1.4em;
+    margin-bottom: 0.75em;
+    font-weight: 600;
 }
 
 .description {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.85;
 }
 
 .info {
-  margin-top: 3rem;
-  text-align: center;
-  opacity: 0.8;
-  
-  ul {
-    list-style: none;
-    padding: 0;
-  }
+    margin-top: 3rem;
+    text-align: center;
+    opacity: 0.7;
+    font-style: italic;
+    
+    ul {
+        list-style: none;
+        padding: 0;
+    }
 }
 
 ::ng-deep .dark-theme {
-  uds-client-download {
-    color: var(--text-primary) !important;
-  }
-
-  .plugin.legacy {
-    opacity: 0.6;
-    
-    &::after {
-      background: rgba(0,0,0,0.3);
+    .plugin.legacy {
+        background-color: rgba(255, 255, 255, 0.05);
+        &::after {
+            background: rgba(255,255,255,0.1);
+        }
     }
-  }
 }

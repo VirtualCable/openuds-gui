@@ -305,3 +305,69 @@ i.material-icons {
     color: var(--text-primary) !important;
   }
 }
+
+/* Modal & Dialog Glassmorphism */
+.glass-dialog {
+  .mdc-dialog__surface {
+    background-color: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-backdrop-filter) !important;
+    -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--glass-shadow) !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
+
+  .mat-mdc-dialog-title {
+    color: var(--text-primary) !important;
+    padding: 24px 24px 16px !important;
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    
+    &::after {
+      display: none !important;
+    }
+  }
+
+  .mat-mdc-dialog-content {
+    color: var(--text-secondary) !important;
+    padding: 0 24px 24px !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 16px 24px 24px !important;
+    gap: 12px !important;
+    
+    button {
+      border-radius: 12px !important;
+      padding: 8px 24px !important;
+      font-weight: 500 !important;
+      text-transform: none !important;
+      letter-spacing: 0.5px !important;
+      transition: all 0.3s ease !important;
+      
+      &.mat-mdc-raised-button {
+        background: var(--bg-button) !important;
+        color: white !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0,0,0,0.3) !important;
+        }
+      }
+      
+      &.mat-mdc-button {
+        color: var(--text-primary) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid var(--glass-border) !important;
+        
+        &:hover {
+          background: var(--glass-hover-bg) !important;
+        }
+      }
+    }
+  }
+}

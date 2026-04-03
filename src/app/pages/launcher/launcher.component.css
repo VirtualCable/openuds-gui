@@ -1,26 +1,53 @@
 .launcher {
     justify-content: center;
     display: flex;
-    margin-top: 1rem;
+    padding-top: 100px;
     font-size: larger;
+    color: var(--text-primary);
 }
 
 .launcher-box {
-    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    padding: 2.5rem;
+    border-radius: 20px;
+    background-color: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-backdrop-filter) !important;
+    -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--glass-shadow) !important;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-    border: 1px;
-    border-style: solid;
-    border-radius: 0.5rem;
-    border-color: rgb(0, 0, 0, 0.22);
-    padding: 1rem;  
+    max-width: 600px;
+    margin: 0 1rem;
 }
 
-.launcher-box h1, h4 {
+.launcher-box h1 {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
     text-align: center;
+    font-weight: 500;
 }
 
-.launcher-box h5, h6 {
-    margin-top: 0.6rem;
-    margin-bottom: 0.6rem;
+.launcher-box h4 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.launcher-box h5, .launcher-box h6 {
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
     font-weight: normal;
+    text-align: center;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.launcher-box a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    font-weight: 500;
+    
+    &:hover {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
 }

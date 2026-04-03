@@ -24,6 +24,7 @@ export class UDSGuiService {
         type: DialogType.alert,
       },
       disableClose: true,
+      panelClass: 'glass-dialog',
     });
     return dialogRef;
   }
@@ -34,6 +35,7 @@ export class UDSGuiService {
       width,
       data: { title, body: message, type: DialogType.yesno },
       disableClose: true,
+      panelClass: 'glass-dialog',
     });
 
     return dialogRef.componentInstance.yesno;
@@ -45,6 +47,7 @@ export class UDSGuiService {
         username,
         domain,
       },
+      panelClass: 'glass-dialog',
     });
     return toPromise(dialogRef.afterClosed());
   }
