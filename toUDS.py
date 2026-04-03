@@ -79,24 +79,38 @@ def fix_index_html() -> None:
     jsdata = '<script type="text/javascript" src="{% url \'utility.js\' %}"></script>'
     csrfData = "var csrf = {  csrfToken: '{{ csrf_token }}',  csrfField: '{{ csrf_field }}' };"
     csrfRE = re.compile(r'// CSRF.*// ENDCSRF', re.MULTILINE | re.DOTALL)
+    
     # Change index.html, to include django required stuff
     translatePattern = re.compile(
         '<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)
+    
     with open(os.path.join(DIST, 'index.html'), 'r', encoding='utf8') as f:
         html = f.read()
+    
     # include django headers
     html = '{% load i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
+    
     # Change <html lang="en"> with {{ LANGUAGE_CODE }}
     html = re.sub('<html lang="en">',
                   '<html lang="{{ LANGUAGE_CODE }}">', html)
+    
+    # Remap base href
+    html = re.sub(r'<base href="/">', r'<base href="/uds/page">', html)
+    
+    # Remap scripts and styles to /uds/res/modern/ IF they don't have it already
+    # Matches src="name.js" or href="name.css" that don't start with / or {% (django tags)
+    html = re.sub(r'src="(?![/{])([^"]+\.js)"', r'src="/uds/res/modern/\1"', html)
+    html = re.sub(r'href="(?![/{])([^"]+\.css)"', r'href="/uds/res/modern/\1"', html)
+    
     # Add link rel style.. to our theme stylesheet AFTER all index styles
     html = re.sub('</head>',
                   '<link rel="stylesheet" href="{% url \'custom\' \'styles.css\' %}"></head>', html)
+    
     html = csrfRE.sub(csrfData, html)
     html = translatePattern.sub(translations + jsdata, html)
 
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
-        f.write(translatePattern.sub(translations + jsdata, html))
+        f.write(html)
 
 
 def extract_translations():
