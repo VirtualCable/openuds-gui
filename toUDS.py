@@ -31,6 +31,7 @@ import os
 import shutil
 import glob
 import re
+import collections.abc
 import typing
 
 DIST = 'dist/browser'
@@ -41,7 +42,7 @@ STATIC = 'static/modern'
 TEMPLATE = 'templates/uds/modern'
 
 
-def make_path(path) -> None:
+def make_path(path: str) -> None:
     folder = ''
     for p in path.split(os.path.sep):
         folder = os.path.join(folder, p)
@@ -51,8 +52,8 @@ def make_path(path) -> None:
             pass  # Already exits, ignore
 
 
-def locate_files(files: typing.List[str], folder: str, extension: str) -> None:
-    for f in glob.glob(folder+"/*"):
+def locate_files(files: list[str], folder: str, extension: str) -> None:
+    for f in glob.glob(folder + "/*"):
         if os.path.isdir(f):
             # Recurse
             locate_files(files, os.path.join(f), extension)
@@ -61,51 +62,50 @@ def locate_files(files: typing.List[str], folder: str, extension: str) -> None:
                 files.append(f)
 
 
-def locate_html_files() -> typing.List[str]:
-    files: typing.List[str] = []
+def locate_html_files() -> list[str]:
+    files: list[str] = []
     locate_files(files, SRC, 'html')
     return files
 
 
-def locate_typescript_files() -> typing.List[str]:
-    files: typing.List[str] = []
+def locate_typescript_files() -> list[str]:
+    files: list[str] = []
     locate_files(files, SRC, 'ts')
     return files
 
 
 def fix_index_html() -> None:
     print('Fixing index.html...')
-    translations = '<script type="text/javascript" src="{% url \'utility.jsCatalog\' LANGUAGE_CODE %}"></script>'
+    translations = (
+        '<script type="text/javascript" src="{% url \'utility.jsCatalog\' LANGUAGE_CODE %}"></script>'
+    )
     jsdata = '<script type="text/javascript" src="{% url \'utility.js\' %}"></script>'
     csrfData = "var csrf = {  csrfToken: '{{ csrf_token }}',  csrfField: '{{ csrf_field }}' };"
     csrfRE = re.compile(r'// CSRF.*// ENDCSRF', re.MULTILINE | re.DOTALL)
-    
+
     # Change index.html, to include django required stuff
-    translatePattern = re.compile(
-        '<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)
-    
+    translatePattern = re.compile('<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)
+
     with open(os.path.join(DIST, 'index.html'), 'r', encoding='utf8') as f:
         html = f.read()
-    
+
     # include django headers
     html = '{% load i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
-    
+
     # Change <html lang="en"> with {{ LANGUAGE_CODE }}
-    html = re.sub('<html lang="en">',
-                  '<html lang="{{ LANGUAGE_CODE }}">', html)
-    
+    html = re.sub('<html lang="en">', '<html lang="{{ LANGUAGE_CODE }}">', html)
+
     # Remap base href
     html = re.sub(r'<base href="/">', r'<base href="/uds/page">', html)
-    
+
     # Remap scripts and styles to /uds/res/modern/ IF they don't have it already
     # Matches src="name.js" or href="name.css" that don't start with / or {% (django tags)
     html = re.sub(r'src="(?![/{])([^"]+\.js)"', r'src="/uds/res/modern/\1"', html)
     html = re.sub(r'href="(?![/{])([^"]+\.css)"', r'href="/uds/res/modern/\1"', html)
-    
+
     # Add link rel style.. to our theme stylesheet AFTER all index styles
-    html = re.sub('</head>',
-                  '<link rel="stylesheet" href="{% url \'custom\' \'styles.css\' %}"></head>', html)
-    
+    html = re.sub('</head>', '<link rel="stylesheet" href="{% url \'custom\' \'styles.css\' %}"></head>', html)
+
     html = csrfRE.sub(csrfData, html)
     html = translatePattern.sub(translations + jsdata, html)
 
@@ -117,7 +117,7 @@ def extract_translations():
     print('Extracting translations from HTML')
     # Generate "fake" translations file (just to use django translator)
 
-    def getTranslations(locator, pattern, output, strip=True):
+    def getTranslations(locator: collections.abc.Callable[[], list[str]], pattern: re.Pattern[str], output: typing.TextIO, strip: bool=True):
         for fileName in locator():
             with open(fileName, 'r', encoding='utf8') as f:
                 data = f.read()
@@ -131,7 +131,9 @@ def extract_translations():
                     # print('Found string {}'.format(s))
                     print('gettext("{}");'.format(s), file=output)
 
-    with open(os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8') as output:
+    with open(
+        os.path.join(os.path.join(UDS, STATIC), 'translations-fakejs.js'), 'w', encoding='utf8'
+    ) as output:
         print('// "Fake" javascript file for translations', file=output)
 
         # First, extract translations from typescript
@@ -140,7 +142,9 @@ def extract_translations():
         getTranslations(locate_typescript_files, typeScriptTranslationPattern, output, strip=False)
 
         # Now extract translations from html
-        htmlTranslationPattern = re.compile(r'<uds-translate[^>]*>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL)
+        htmlTranslationPattern = re.compile(
+            r'<uds-translate[^>]*>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL
+        )
         print('// HTML', file=output)
         getTranslations(locate_html_files, htmlTranslationPattern, output)
 
@@ -152,17 +156,19 @@ def copy_images():
     for f in glob.glob(DIST + '/static/modern/img/*'):
         shutil.copy(f, outputPath)
 
+
 def copy_third_party_licenses() -> None:
     print('Copying third party licenses')
     shutil.copy(THIRD_PARTY_LICENSES, os.path.join(UDS, STATIC))
+
 
 def organize():
     print('Organizing content')
     for f in glob.glob(DIST + '/*'):
         if os.path.isdir(f):
-            continue    # Skip folders
+            continue  # Skip folders
         if os.path.splitext(f)[1] == '.html':
-            continue    # Also skip html
+            continue  # Also skip html
         shutil.copy(f, os.path.join(UDS, STATIC))
 
 
@@ -184,6 +190,7 @@ def create_output_folders():
     # Static folders
     make_path(os.path.join(UDS, STATIC))
     make_path(os.path.join(UDS, TEMPLATE))
+
 
 #
 # def buildSource():
