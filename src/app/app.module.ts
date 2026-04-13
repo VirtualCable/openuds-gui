@@ -16,6 +16,7 @@ import { TranslateDirective } from './helpers/translate.directive';
 // Service providers
 import { UDSApiService } from './services/uds-api.service';
 import { UDSGuiService } from './services/uds-gui.service';
+import { BiometricService } from './services/biometric.service';
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
@@ -72,6 +73,7 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
         AppMaterialModule], providers: [
         UDSApiService,
         UDSGuiService,
+        BiometricService,
         provideHttpClient(withInterceptorsFromDi()),
     ] })
 export class AppModule { }

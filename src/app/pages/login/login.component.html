@@ -1,4 +1,4 @@
-<form id="loginform" method="post" (ngSubmit)="launch()">
+<form id="loginform" method="post" (ngSubmit)="launch($event)">
   <input name="" id="token" value="" type="hidden">
   <input name="logouturl" id="id_logouturl" value="" type="hidden">
   <input name="authenticator" id="authenticator" value="" type="hidden">
@@ -19,7 +19,7 @@
           <mat-label>
             <uds-translate>Username</uds-translate>
           </mat-label>
-          <input matInput id="id_user" name="user" value="" required autofocus>
+          <input matInput id="id_user" name="user" value="" required autofocus (keyup.enter)="launch($event)">
         </mat-form-field>
       </div>
 
@@ -28,7 +28,7 @@
           <mat-label>
             <uds-translate>Password</uds-translate>
           </mat-label>
-          <input matInput id="id_password" type="password" class="form-control" name="password" data-eye>
+          <input matInput id="id_password" type="password" class="form-control" name="password" data-eye (keyup.enter)="launch($event)">
         </mat-form-field>
       </div>
 
@@ -50,10 +50,18 @@
       }
 
       <div class="login-button">
-        <button mat-stroked-button color="primary" type="submit">
+        <button mat-stroked-button color="primary" type="button" (click)="launch($event)">
           <uds-translate>Login</uds-translate>
         </button>
       </div>
+
+      @if (biometric.hasStoredData() && api.config.allow_biometric_auth) {
+        <div class="login-button biometric-button">
+          <button mat-flat-button color="accent" type="button" (click)="checkBiometrics()">
+            <uds-translate>Login with Biometrics</uds-translate>
+          </button>
+        </div>
+      }
     </div>
     <div class="site-info" [innerHTML] = "api.config.site_information | safeHtml">
     </div>

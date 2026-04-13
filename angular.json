@@ -64,7 +64,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "uds:build"
+            "buildTarget": "uds:build",
+            "disableHostCheck": true
           },
           "configurations": {
             "production": {

@@ -73,6 +73,14 @@
 	}
 }
 
+.biometric-button {
+	margin-top: 1rem;
+	button {
+		background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; /* Premium green gradient */
+		box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+	}
+}
+
 .site-info {
 	margin-top: 2rem;
 	max-width: 400px;

@@ -80,6 +80,7 @@ export interface UDSConfig {
     readonly cookies_consent: CookiesConsent;
     readonly enable_favorite_services: boolean;
     readonly allow_animated_backgrounds: boolean;
+    readonly allow_biometric_auth: boolean;
 }
 
 export interface Downloadable {
