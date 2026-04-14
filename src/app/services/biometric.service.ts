@@ -8,6 +8,7 @@ export class BiometricService {
   private readonly DB_NAME = 'uds_biometrics_db';
   private readonly STORE_NAME = 'keys';
   private readonly KEY_ALIAS = 'encryption_key';
+  private readonly DECLINED_KEY = 'uds_biometric_declined';
 
   constructor() {}
 
@@ -39,6 +40,27 @@ export class BiometricService {
    */
   clearCredentials(): void {
     localStorage.removeItem(this.STORAGE_KEY);
+  }
+
+  /**
+   * Checks if the user has previously declined biometric registration.
+   */
+  isDeclined(): boolean {
+    return !!localStorage.getItem(this.DECLINED_KEY);
+  }
+
+  /**
+   * Marks biometric registration as declined to avoid prompting the user again.
+   */
+  setDeclined(): void {
+    localStorage.setItem(this.DECLINED_KEY, 'true');
+  }
+
+  /**
+   * Clears the declined status (e.g., if user successfully registers).
+   */
+  clearDeclined(): void {
+    localStorage.removeItem(this.DECLINED_KEY);
   }
 
   /**

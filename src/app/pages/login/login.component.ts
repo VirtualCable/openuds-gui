@@ -134,21 +134,22 @@ export class LoginComponent implements OnInit {
       // The user requested: "Login Correcto -> Pregunta si guarda".
       // To implement this correctly with a redirecting form, we'd need to intercept the submit.
       
-      // Only ask to save if not already saved
-      if (user && pass && await this.biometric.isSupported() && !this.biometric.hasStoredData()) {
+      // Only ask to save if not already saved and not previously declined
+      if (user && pass && await this.biometric.isSupported() && !this.biometric.hasStoredData() && !this.biometric.isDeclined()) {
         const save = await this.api.gui.yesno(
           django.gettext('Biometric Login'),
           django.gettext('Would you like to save your credentials for future biometric login?')
         );
         if (save) {
           try {
-            console.log('Attempting to register biometrics...');
+            this.biometric.clearDeclined(); // Clear declined flag if they said yes
             await this.biometric.registerBiometrics(user, pass, auth);
-            console.log('Biometric registration successful');
           } catch (err) {
             console.error('Biometric registration error:', err);
             this.api.gui.alert(django.gettext('Error'), django.gettext('Could not register biometrics'));
           }
+        } else {
+          this.biometric.setDeclined(); // Remember the user declined
         }
       }
     }
