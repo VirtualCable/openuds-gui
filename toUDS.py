@@ -157,6 +157,14 @@ def copy_images():
         shutil.copy(f, outputPath)
 
 
+def copy_fonts():
+    print('Copying fonts')
+    outputPath = os.path.join(UDS, STATIC, 'fonts')
+    make_path(outputPath)
+    for f in glob.glob(DIST + '/static/modern/fonts/*'):
+        shutil.copy(f, outputPath)
+
+
 def copy_third_party_licenses() -> None:
     print('Copying third party licenses')
     shutil.copy(THIRD_PARTY_LICENSES, os.path.join(UDS, STATIC))
@@ -204,6 +212,7 @@ def main():
     extract_translations()
     fix_index_html()
     copy_images()
+    copy_fonts()
     organize()
     clean_up()
 
