@@ -75,7 +75,7 @@ export class BiometricService {
       challenge,
       rp: {
         name: 'UDS',
-        ...(window.location.hostname.match(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/) 
+        ...(window.location.hostname.match(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/) || window.location.hostname.includes(':')
             ? {} 
             : { id: window.location.hostname })
       },
@@ -123,7 +123,19 @@ export class BiometricService {
       return null;
     }
 
-    const { credentialId, payload } = JSON.parse(stored);
+    let credentialId: string;
+    let payload: string;
+    try {
+      const parsed = JSON.parse(stored);
+      credentialId = parsed.credentialId;
+      payload = parsed.payload;
+      if (!credentialId || !payload) {
+        return null;
+      }
+    } catch {
+      return null;
+    }
+
     const options: PublicKeyCredentialRequestOptions = {
       challenge: window.crypto.getRandomValues(new Uint8Array(32)),
       allowCredentials: [{

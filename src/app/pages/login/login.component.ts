@@ -128,12 +128,9 @@ export class LoginComponent implements OnInit {
       const pass = (document.getElementById('id_password') as HTMLInputElement).value;
       const auth = (document.getElementById('authenticator') as HTMLInputElement).value;
 
-      // Check if we should ask to save
-      // We don't have the "success" yet because of the redirect.
-      // But we can show the prompt now or use a different approach.
-      // The user requested: "Login Correcto -> Pregunta si guarda".
-      // To implement this correctly with a redirecting form, we'd need to intercept the submit.
-      
+      // Credentials are saved before form submission because after the redirect
+      // we no longer have access to the plaintext credentials. If login fails,
+      // the stored credentials will be cleared on the next page load via udsData.errors.
       // Only ask to save if not already saved and not previously declined
       if (user && pass && await this.biometric.isSupported() && !this.biometric.hasStoredData() && !this.biometric.isDeclined()) {
         const save = await this.api.gui.yesno(
