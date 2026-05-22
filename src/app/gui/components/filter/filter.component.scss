@@ -13,7 +13,7 @@
             padding: 0 16px !important;
             
             &::before {
-                display: none !important; /* Quitar línea base Material */
+                display: none !important; /* Remove Material baseline */
             }
         }
         
@@ -30,12 +30,17 @@
             padding-bottom: 12px !important;
             min-height: auto !important;
         }
-        
+
+        /* Remove the empty subscript wrapper (hint/error) that leaves a gap below the filter */
+        .mat-mdc-form-field-subscript-wrapper {
+            display: none !important;
+        }
+
         input {
             color: var(--text-primary) !important;
         }
 
-        /* Ocultar el label al flotar/foco para evitar solapamientos */
+        /* Hide the label on float/focus to avoid overlap */
         .mdc-floating-label--float-above {
             opacity: 0 !important;
             transition: opacity 0.2s ease !important;
@@ -54,6 +59,6 @@
 ::ng-deep .dark-theme .nav-input-field {
     &.mat-focused .mdc-floating-label,
     &.mat-form-field-should-float .mdc-floating-label {
-        color: rgba(255, 255, 255, 0.9) !important; /* Blanco claro en dark mode */
+        color: rgba(255, 255, 255, 0.9) !important; /* Light white in dark mode */
     }
 }

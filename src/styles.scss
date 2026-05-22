@@ -52,7 +52,7 @@ $font-size: 14px;
   --text-secondary: #5f6368;
   --glass-bg: rgba(255, 255, 255, 0.35);
   --glass-hover-bg: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(0, 0, 0, 0.14);
   --glass-shadow: rgba(0, 0, 0, 0.16);
   --warning-color: #d32f2f;
   --bg-button: linear-gradient(135deg, #1976d2, #1565c0);
@@ -106,10 +106,12 @@ i.material-icons {
   html,
   body {
     background-color: var(--bg-surface);
-    background-image: 
+    background-image:
       radial-gradient(at 0% 0%, rgba(67, 56, 202, 0.25) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(88, 28, 135, 0.2) 0px, transparent 50%),
       radial-gradient(at 50% 50%, var(--bg-accent) 0px, var(--bg-surface) 100%);
+    background-attachment: fixed; /* Pinned to viewport: no seam when scrolling */
+    background-repeat: no-repeat;
   }
 
   .menu .mat-mdc-icon-button {
@@ -143,7 +145,7 @@ i.material-icons {
   .mat-mdc-tab-header {
     background: var(--bg-surface);
     border-radius: 12px 12px 0 0;
-    margin-bottom: 20px;
+    padding-bottom: 1rem;
   }
 
   .mat-mdc-tab-body-wrapper {

@@ -12,7 +12,7 @@
 .login-brand {
 	margin-bottom: 1.5rem;
 	img {
-		max-width: 160px;
+		max-width: 130px;
 		filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
 	}
 }
