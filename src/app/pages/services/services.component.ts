@@ -122,7 +122,7 @@ export class ServicesComponent implements OnInit {
         groupedMap.get(element.group.id)!.services.push(element);
       });
 
-    // Convert map to array, sort by group priority and id, y filtrar grupos vacíos
+    // Convert map to array, sort by group priority and id, and filter out empty groups
     this.group = Array.from(groupedMap.values())
       .filter(g => g.services.length > 0)
       .sort((a, b) => {
