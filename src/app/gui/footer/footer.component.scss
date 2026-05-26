@@ -1,0 +1,12 @@
+a {
+	color: var(--text-primary);
+	opacity: 0.6;
+	text-decoration: none;
+	font-size: 0.85rem;
+	transition: opacity 0.2s ease;
+
+	&:hover {
+		opacity: 1;
+		text-decoration: underline;
+	}
+}

@@ -1,13 +1,13 @@
 .services-container {
     position: relative;
-    padding-top: 110px; /* Espacio para el navbar flotante en desktop */
+    padding-top: 30px; /* .content already adds margin-top 64px; 64+30 clears navbar (79) + ~15 margin */
     padding-left: 2%;
     padding-right: 2%;
 }
 
 @media only screen and (max-width: 744px) {
     .services-container {
-        padding-top: 85px; /* Espacio para el navbar flotante en móvil */
+        padding-top: 25px; /* .content adds margin-top 64px; mobile navbar reaches 74px */
         padding-left: 10px;
         padding-right: 10px;
     }
@@ -19,31 +19,35 @@
     z-index: 1;
 }
 
-/* Integración del filtro como capa */
-.filter-top {
+/* Filter overlays the tab bar, right-aligned on the same row as the tabs */
+.filter-top,
+.filter-bottom {
     position: absolute;
-    top: 110px; /* Alineado con el inicio del contenido */
+    top: 44px; /* On the tab bar: padding-top 30 + tabs margin-top 1rem */
     right: 2%;
     z-index: 10;
-    pointer-events: none; /* Deja pasar clicks si es necesario */
+    pointer-events: none; /* Let clicks pass through to the rest */
 }
 
-.filter-top ::ng-deep uds-filter {
-    pointer-events: auto; /* El filtro sí recibe clicks */
+/* Push cards down: gap between filter/tabs and services */
+.tab-content {
+    padding-top: 1rem;
+}
+
+.filter-top ::ng-deep uds-filter,
+.filter-bottom ::ng-deep uds-filter {
+    pointer-events: auto; /* Filter itself receives clicks */
 }
 
 @media only screen and (max-width: 744px) {
-    .filter-top {
+    .filter-top,
+    .filter-bottom {
         position: relative;
         top: 0;
         right: 0;
         margin-bottom: 1rem;
         pointer-events: auto;
+        display: flex;
+        justify-content: flex-end;
     }
-}
-
-.filter-bottom {
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: flex-end;
 }
