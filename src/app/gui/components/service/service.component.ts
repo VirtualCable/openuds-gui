@@ -92,7 +92,7 @@ export class ServiceComponent implements OnInit, OnChanges {
   async toggleFavorite() {
     const action = this.isFavorite ? 'unfavorite' : 'favorite';
     try {
-      await this.api.action(this.service.id, action);
+      await this.api.action(action, this.service.id);
       this.isFavorite = !this.isFavorite;
     } catch {}
     // Emit event so parent can react
@@ -157,18 +157,18 @@ export class ServiceComponent implements OnInit, OnChanges {
     }
   }
 
-  async action(type: string) {
+  async action(action: string) {
     const title =
-      (type === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ')) +
+      (action === 'release' ? django.gettext('Release service: ') : django.gettext('Reset service: ')) +
       ' ' +
       this.serviceName;
-    const action = type === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
+    const action_name = action === 'release' ? django.gettext('Service released') : django.gettext('Service reseted');
     if ((await this.api.gui.yesno(title, django.gettext('Are you sure?'))) === false) {
       return;
     }
-    this.api.action(type, this.service.id).then((service) => {
+    this.api.action(action, this.service.id).then((service) => {
       if (service) {
-        this.api.gui.alert(title, action);
+        this.api.gui.alert(title, action_name);
       }
     });
   }
