@@ -100,6 +100,7 @@ export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.time += 0.25;  // Global parameter to control wave movement speed
 
+    // Theme class is applied to <html> (see UDSApiService.applyTheme)
     const isDark = document.documentElement.classList.contains('dark-theme');
 
     // Base colors for the lines

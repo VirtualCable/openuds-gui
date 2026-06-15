@@ -6,7 +6,8 @@
   }
 
   <div class="services-groups">
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="modern-tabs">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="modern-tabs"
+      [class.has-filter]="servicesInformation.services.length >= api.config.min_for_filter">
       @for (g of group; track g; let i = $index) {
         <mat-tab>
           <ng-template mat-tab-label>

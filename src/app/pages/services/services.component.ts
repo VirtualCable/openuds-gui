@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, NgZone } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
 
@@ -27,7 +27,7 @@ class GroupedServices {
   styleUrls: ['./services.component.css'],
   standalone: false,
 })
-export class ServicesComponent implements OnInit {
+export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
   servicesInformation: JSONServicesInformation = {
     autorun: false,
     services: [],
@@ -35,7 +35,45 @@ export class ServicesComponent implements OnInit {
 
   group: GroupedServices[] = [];
 
-  constructor(public api: UDSApiService) {}
+  constructor(public api: UDSApiService, private host: ElementRef<HTMLElement>, private zone: NgZone) {}
+
+  ngAfterViewInit() {
+    // Mouse wheel over the group tab bar scrolls the tab strip left/right,
+    // reusing Material's own pagination so the side arrow buttons keep working.
+    this.zone.runOutsideAngular(() => {
+      this.host.nativeElement.addEventListener('wheel', this.onTabsWheel, { passive: false });
+    });
+  }
+
+  ngOnDestroy() {
+    this.host.nativeElement.removeEventListener('wheel', this.onTabsWheel);
+  }
+
+  private onTabsWheel = (ev: WheelEvent) => {
+    const header = (ev.target as HTMLElement).closest('.mat-mdc-tab-header');
+    if (!header) {
+      return; // not over the group selector: let the page scroll normally
+    }
+
+    const delta =
+      Math.abs(ev.deltaX) > Math.abs(ev.deltaY) ? ev.deltaX : ev.deltaY;
+    if (delta === 0) {
+      return;
+    }
+
+    const dir = delta > 0 ? 'after' : 'before';
+    const btn = header.querySelector(
+      `.mat-mdc-tab-header-pagination-${dir}`,
+    ) as HTMLElement | null;
+
+    // No overflow (no pagination shown / nothing to scroll): don't hijack the wheel
+    if (!btn || btn.classList.contains('mat-mdc-tab-header-pagination-disabled')) {
+      return;
+    }
+
+    ev.preventDefault();
+    btn.click();
+  };
 
   update(filter: string) {
     this.updateServices(filter);
