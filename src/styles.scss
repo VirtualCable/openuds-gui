@@ -66,7 +66,15 @@ body {
   font-size: $font-size;
   height: 100%;
   color: var(--text-primary);
+  background-color: transparent !important;
   transition: all 0.4s ease;
+}
+
+body {
+  background-image:
+    radial-gradient(at 0% 0%, rgba(70, 93, 156, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(75, 82, 102, 0.1) 0px, transparent 50%);
+  background-attachment: fixed;
 }
 
 /* App loading logo */
@@ -103,15 +111,15 @@ i.material-icons {
   --warning-color: #ff5252;
   --bg-button: linear-gradient(135deg, #3f51b5, #1a237e);
 
-  html,
+  /* Same approach as the admin GUI: keep html/body background-color transparent
+     (the dark base #0f111a comes from <html> via index.html, which paints below
+     the fixed z-index:-1 wave canvas) and put the gradients on <body> only, so
+     the animated waves stay visible in dark mode. */
   body {
-    background-color: var(--bg-surface);
     background-image:
       radial-gradient(at 0% 0%, rgba(67, 56, 202, 0.25) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(88, 28, 135, 0.2) 0px, transparent 50%),
       radial-gradient(at 50% 50%, var(--bg-accent) 0px, var(--bg-surface) 100%);
-    background-attachment: fixed; /* Pinned to viewport: no seam when scrolling */
-    background-repeat: no-repeat;
   }
 
   .menu .mat-mdc-icon-button {

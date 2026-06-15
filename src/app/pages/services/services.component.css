@@ -3,6 +3,7 @@
     padding-top: 30px; /* .content already adds margin-top 64px; 64+30 clears navbar (79) + ~15 margin */
     padding-left: 2%;
     padding-right: 2%;
+    --filter-w: 260px; /* reserved width for the absolute filter overlay */
 }
 
 @media only screen and (max-width: 744px) {
@@ -25,8 +26,21 @@
     position: absolute;
     top: 44px; /* On the tab bar: padding-top 30 + tabs margin-top 1rem */
     right: 2%;
+    width: var(--filter-w);
     z-index: 10;
     pointer-events: none; /* Let clicks pass through to the rest */
+}
+
+/* Make the filter input fill its reserved width (no internal gap) */
+.filter-top ::ng-deep .nav-input-field,
+.filter-bottom ::ng-deep .nav-input-field {
+    width: 100%;
+}
+
+/* Reserve space on the tab header so tabs and the overflow pagination arrows
+   never slide under the filter overlay (which would make them unclickable). */
+.services-groups ::ng-deep .modern-tabs.has-filter .mat-mdc-tab-header {
+    padding-right: calc(var(--filter-w) + 12px);
 }
 
 /* Push cards down: gap between filter/tabs and services */
@@ -45,9 +59,20 @@
         position: relative;
         top: 0;
         right: 0;
+        width: auto;
         margin-bottom: 1rem;
         pointer-events: auto;
         display: flex;
         justify-content: flex-end;
+    }
+
+    /* Filter flows above the tabs on mobile; no reserved space needed */
+    .services-groups ::ng-deep .modern-tabs.has-filter .mat-mdc-tab-header {
+        padding-right: 0;
+    }
+
+    .filter-top ::ng-deep .nav-input-field,
+    .filter-bottom ::ng-deep .nav-input-field {
+        width: auto;
     }
 }
