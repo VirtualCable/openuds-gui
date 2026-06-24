@@ -4,7 +4,7 @@
       @for (trans of service.transports; track trans) {
         <button mat-menu-item (click)="launch(trans)">
           <div class="transport-item">
-            <img [src]="getTransportIcon(trans.id)">
+            <img [src]="getTransportIcon(trans.id)" />
             {{ trans.name }}
           </div>
         </button>
@@ -36,22 +36,36 @@
         </button>
       }
     </mat-menu>
-    <div [ngClass]="serviceClass" [matTooltipDisabled]="serviceTooltip===''"
-      [matTooltip]="serviceTooltip" matTooltipShowDelay="1000" matTooltipPosition="above">
-      <div *ngIf="favoriteEnabled" class="favorite_button">
-        <button mat-icon-button disableRipple (click)="toggleFavorite()" [attr.aria-label]="isFavorite ? 'Remove from favorites' : 'Add to favorites'">
-          <i class="material-icons" [ngClass]="{'favorite': isFavorite}">{{ isFavorite ? 'star' : 'star_border' }}</i>
-        </button>
-      </div>
+    <div
+      [ngClass]="serviceClass"
+      [matTooltipDisabled]="serviceTooltip === ''"
+      [matTooltip]="serviceTooltip"
+      matTooltipShowDelay="1000"
+      matTooltipPosition="above"
+    >
+      @if (favoriteEnabled) {
+        <div class="favorite_button">
+          <button
+            mat-icon-button
+            disableRipple
+            (click)="toggleFavorite()"
+            [attr.aria-label]="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+          >
+            <i class="material-icons" [ngClass]="{ favorite: isFavorite }">{{ isFavorite ? 'star' : 'star_border' }}</i>
+          </button>
+        </div>
+      }
       <div class="icon" (click)="launch(null)">
-        <img [src]="serviceImage">
+        <img [src]="serviceImage" />
       </div>
       <div class="name">
         <span [ngClass]="serviceNameClass">{{ serviceName }}</span>
       </div>
       <div class="menu">
         @if (hasMenu()) {
-          <button mat-icon-button [matMenuTriggerFor]="menu" class="service-menu"><i class="material-icons">menu</i></button>
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="service-menu">
+            <i class="material-icons">menu</i>
+          </button>
         }
       </div>
     </div>
