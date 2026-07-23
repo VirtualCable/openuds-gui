@@ -43,41 +43,40 @@ import { LauncherComponent } from './pages/launcher/launcher.component';
 import { FilterComponent } from './gui/components/filter/filter.component';
 import { CredentialsModalComponent } from './gui/credentials-modal/credentials-modal.component';
 
-
-@NgModule({ declarations: [
-        AppComponent,
-        NavbarComponent,
-        TranslateDirective,
-        LoginComponent,
-        ClientDownloadComponent,
-        ServicesComponent,
-        ServiceComponent,
-        ServicesGroupComponent,
-        ModalComponent,
-        CredentialsModalComponent,
-        SafeHtmlPipe,
-        FooterComponent,
-        ErrorComponent,
-        AboutComponent,
-        DownloadsComponent,
-        LauncherComponent,
-        StaffInfoComponent,
-        FilterComponent,
-        MfaComponent,
-        BackgroundComponent,
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        LayoutModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        AppMaterialModule], providers: [
-        UDSApiService,
-        UDSGuiService,
-        BiometricService,
-        provideHttpClient(
-            withInterceptorsFromDi(),
-            // Django CSRF: cookie 'csrftoken' + header 'X-CSRFToken', not Angular's XSRF defaults
-            withXsrfConfiguration({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),
-        ),
-    ] })
-export class AppModule { }
+@NgModule({
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    TranslateDirective,
+    LoginComponent,
+    ClientDownloadComponent,
+    ServicesComponent,
+    ServiceComponent,
+    ServicesGroupComponent,
+    ModalComponent,
+    CredentialsModalComponent,
+    SafeHtmlPipe,
+    FooterComponent,
+    ErrorComponent,
+    AboutComponent,
+    DownloadsComponent,
+    LauncherComponent,
+    StaffInfoComponent,
+    FilterComponent,
+    MfaComponent,
+    BackgroundComponent,
+  ],
+  bootstrap: [AppComponent],
+  imports: [BrowserModule, LayoutModule, AppRoutingModule, BrowserAnimationsModule, AppMaterialModule],
+  providers: [
+    UDSApiService,
+    UDSGuiService,
+    BiometricService,
+    provideHttpClient(
+      withInterceptorsFromDi(),
+      // Django CSRF: cookie 'csrftoken' + header 'X-CSRFToken', not Angular's XSRF defaults
+      withXsrfConfiguration({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),
+    ),
+  ],
+})
+export class AppModule {}
