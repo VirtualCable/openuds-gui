@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 
 import { provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
 import { AppRoutingModule } from './modules/app-routing.module';
@@ -69,6 +69,7 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
   bootstrap: [AppComponent],
   imports: [BrowserModule, LayoutModule, AppRoutingModule, BrowserAnimationsModule, AppMaterialModule],
   providers: [
+    provideZoneChangeDetection(),
     UDSApiService,
     UDSGuiService,
     BiometricService,
