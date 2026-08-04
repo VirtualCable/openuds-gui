@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
-    selector: 'uds-mfa',
-    templateUrl: './mfa.component.html',
-    styleUrls: ['./mfa.component.scss'],
-    standalone: false
+  selector: 'uds-mfa',
+  templateUrl: './mfa.component.html',
+  styleUrls: ['./mfa.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MfaComponent implements OnInit {
   constructor(public api: UDSApiService) {}
@@ -22,10 +23,7 @@ export class MfaComponent implements OnInit {
     }
 
     if (this.api.errors.length > 0) {
-      this.api.gui.alert(
-        django.gettext('Errors found'),
-        '<div>' + this.api.errors.join('</div><div>') + '</div>'
-      );
+      this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>');
     }
   }
 

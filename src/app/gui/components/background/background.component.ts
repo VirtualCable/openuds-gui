@@ -1,4 +1,13 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { UDSApiService } from '../../../services/uds-api.service';
 
 interface SilkWave {
@@ -27,6 +36,7 @@ interface SilkWave {
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -98,7 +108,7 @@ export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.ctx) return;
 
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.time += 0.25;  // Global parameter to control wave movement speed
+    this.time += 0.25; // Global parameter to control wave movement speed
 
     // Theme class is applied to <html> (see UDSApiService.applyTheme)
     const isDark = document.documentElement.classList.contains('dark-theme');
@@ -131,7 +141,8 @@ export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
           Math.sin(x * 0.001 + this.time * wave.speed + wave.offset) * wave.amplitude +
           Math.cos(x * 0.003 + this.time * wave.speed * 0.5) * (wave.amplitude * 0.4);
 
-        if (x === -step) {  // first point
+        if (x === -step) {
+          // first point
           this.ctx!.moveTo(x, y);
         } else {
           this.ctx!.lineTo(x, y);

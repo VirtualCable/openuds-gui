@@ -3,13 +3,17 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
+    "ignoreDeprecations": "6.0",
     "types": []
   },
-  "files": [
-    "main.ts"
-  ],
-  "include": [
-    "app/**/*.d.ts",
-    "**/*.d.ts",
-  ]
+  "files": ["main.ts"],
+  "include": ["app/**/*.d.ts", "**/*.d.ts"],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

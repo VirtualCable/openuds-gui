@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../../services/uds-api.service';
 
 @Component({
-    selector: 'uds-staff-info',
-    templateUrl: './staff-info.component.html',
-    styleUrls: ['./staff-info.component.scss'],
-    standalone: false
+  selector: 'uds-staff-info',
+  templateUrl: './staff-info.component.html',
+  styleUrls: ['./staff-info.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class StaffInfoComponent implements OnInit {
+  constructor(public api: UDSApiService) {}
 
-  constructor(public api: UDSApiService) { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

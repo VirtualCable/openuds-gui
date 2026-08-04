@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval } from 'rxjs';
 import { Future } from '../../helpers/tools';
@@ -20,16 +20,20 @@ export interface ModalData {
 }
 
 @Component({
-    selector: 'uds-modal',
-    templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss'],
-    standalone: false
+  selector: 'uds-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ModalComponent implements OnInit {
   extra = '';
   yesno: Future<boolean> = new Future<boolean>();
 
-  constructor(public dialogRef: MatDialogRef<ModalComponent>, @Inject(MAT_DIALOG_DATA) public data: ModalData) {
+  constructor(
+    public dialogRef: MatDialogRef<ModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ModalData,
+  ) {
     // Notifies on case of yes or not to subscriber
   }
 
@@ -37,7 +41,7 @@ export class ModalComponent implements OnInit {
     this.yesno.resolve(value);
     this.close();
   }
-  
+
   close() {
     this.dialogRef.close();
   }

@@ -1,14 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/quotes
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
 
 @Component({
-    selector: 'uds-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    standalone: false
+  selector: 'uds-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class LoginComponent implements OnInit {
   auths: Authenticator[];
@@ -46,10 +47,7 @@ export class LoginComponent implements OnInit {
     if (this.api.errors.length > 0) {
       // Clear biometrics on any failure as requested
       this.biometric.clearCredentials();
-      this.api.gui.alert(
-        django.gettext('Errors found'),
-        '<div>' + this.api.errors.join('</div><div>') + '</div>'
-      );
+      this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>');
     } else {
       // If no errors, check if we should trigger biometrics automatically
       this.checkBiometrics();
@@ -98,12 +96,8 @@ export class LoginComponent implements OnInit {
         if (l.is_custom) {
           // If is custom, we should get the code from server to authentication
           // Instant hide form
-          document
-            .getElementsByClassName('login-form')[0]
-            .setAttribute('style', 'display: none;');
-          this.api
-            .getAuthCustomJavascript(l.id)
-            .then((result) => doCustomAuth(result));
+          document.getElementsByClassName('login-form')[0].setAttribute('style', 'display: none;');
+          this.api.getAuthCustomJavascript(l.id).then((result) => doCustomAuth(result));
         }
       }
     }
@@ -120,7 +114,7 @@ export class LoginComponent implements OnInit {
 
     console.log('Launch called with isBiometric:', isBiometric);
     console.log('allow_biometric_auth config value:', this.api.config.allow_biometric_auth);
-    
+
     // If manual login and biometrics are enabled, ask to save AFTER we verify success (optional but recommended)
     // However, since UDS login is a redirect, we capture data now.
     if (!isBiometric && this.api.config.allow_biometric_auth) {
@@ -132,10 +126,16 @@ export class LoginComponent implements OnInit {
       // we no longer have access to the plaintext credentials. If login fails,
       // the stored credentials will be cleared on the next page load via udsData.errors.
       // Only ask to save if not already saved and not previously declined
-      if (user && pass && await this.biometric.isSupported() && !this.biometric.hasStoredData() && !this.biometric.isDeclined()) {
+      if (
+        user &&
+        pass &&
+        (await this.biometric.isSupported()) &&
+        !this.biometric.hasStoredData() &&
+        !this.biometric.isDeclined()
+      ) {
         const save = await this.api.gui.yesno(
           django.gettext('Biometric Login'),
-          django.gettext('Would you like to save your credentials for future biometric login?')
+          django.gettext('Would you like to save your credentials for future biometric login?'),
         );
         if (save) {
           try {

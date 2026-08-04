@@ -1,23 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { Downloadable } from '../../types/config';
 
 @Component({
-    selector: 'uds-client-download',
-    templateUrl: './client-download.component.html',
-    styleUrls: ['./client-download.component.scss'],
-    standalone: false
+  selector: 'uds-client-download',
+  templateUrl: './client-download.component.html',
+  styleUrls: ['./client-download.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ClientDownloadComponent implements OnInit {
+  constructor(public api: UDSApiService) {}
 
-  constructor(public api: UDSApiService) {
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   img(image: string) {
-    return this.api.staticURL( 'modern/img/' + image + '.png');
+    return this.api.staticURL('modern/img/' + image + '.png');
   }
 
   css(client: Downloadable): string[] {
@@ -31,5 +29,4 @@ export class ClientDownloadComponent implements OnInit {
   legacy(client: Downloadable): string {
     return client.legacy ? 'Legacy' : '';
   }
-
 }
