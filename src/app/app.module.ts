@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
 import { AppRoutingModule } from './modules/app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,37 +43,41 @@ import { LauncherComponent } from './pages/launcher/launcher.component';
 import { FilterComponent } from './gui/components/filter/filter.component';
 import { CredentialsModalComponent } from './gui/credentials-modal/credentials-modal.component';
 
-
-@NgModule({ declarations: [
-        AppComponent,
-        NavbarComponent,
-        TranslateDirective,
-        LoginComponent,
-        ClientDownloadComponent,
-        ServicesComponent,
-        ServiceComponent,
-        ServicesGroupComponent,
-        ModalComponent,
-        CredentialsModalComponent,
-        SafeHtmlPipe,
-        FooterComponent,
-        ErrorComponent,
-        AboutComponent,
-        DownloadsComponent,
-        LauncherComponent,
-        StaffInfoComponent,
-        FilterComponent,
-        MfaComponent,
-        BackgroundComponent,
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        LayoutModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        AppMaterialModule], providers: [
-        UDSApiService,
-        UDSGuiService,
-        BiometricService,
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
-export class AppModule { }
+@NgModule({
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    TranslateDirective,
+    LoginComponent,
+    ClientDownloadComponent,
+    ServicesComponent,
+    ServiceComponent,
+    ServicesGroupComponent,
+    ModalComponent,
+    CredentialsModalComponent,
+    SafeHtmlPipe,
+    FooterComponent,
+    ErrorComponent,
+    AboutComponent,
+    DownloadsComponent,
+    LauncherComponent,
+    StaffInfoComponent,
+    FilterComponent,
+    MfaComponent,
+    BackgroundComponent,
+  ],
+  bootstrap: [AppComponent],
+  imports: [BrowserModule, LayoutModule, AppRoutingModule, BrowserAnimationsModule, AppMaterialModule],
+  providers: [
+    provideZoneChangeDetection(),
+    UDSApiService,
+    UDSGuiService,
+    BiometricService,
+    provideHttpClient(
+      withInterceptorsFromDi(),
+      // Django CSRF: cookie 'csrftoken' + header 'X-CSRFToken', not Angular's XSRF defaults
+      withXsrfConfiguration({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),
+    ),
+  ],
+})
+export class AppModule {}

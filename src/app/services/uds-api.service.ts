@@ -124,7 +124,7 @@ export class UDSApiService implements UDSApiServiceType {
   /* Client enabler */
   async enabler(serviceId: string, transportId: string): Promise<JSONEnabledService> {
     const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);
-    return toPromise(this.http.get<JSONEnabledService>(enabler));
+    return toPromise(this.http.post<JSONEnabledService>(enabler, null));
   }
 
   /* Check userService status */
@@ -136,11 +136,11 @@ export class UDSApiService implements UDSApiServiceType {
   /* Services resetter */
   async action(action: string, serviceId: string): Promise<JSONService> {
     const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
-    return toPromise(this.http.get<JSONService>(actionURL));
+    return toPromise(this.http.post<JSONService>(actionURL, null));
   }
 
   async transportUrl(url: string): Promise<JSONTransportURLService> {
-    return toPromise(this.http.get<JSONTransportURLService>(url));
+    return toPromise(this.http.post<JSONTransportURLService>(url, null));
   }
 
   async updateTransportTicket(
