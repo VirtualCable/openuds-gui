@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { Downloadable } from '../../types/config';
 
 @Component({
-    selector: 'uds-downloads',
-    templateUrl: './downloads.component.html',
-    styleUrls: ['./downloads.component.scss'],
-    standalone: false
+  selector: 'uds-downloads',
+  templateUrl: './downloads.component.html',
+  styleUrls: ['./downloads.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DownloadsComponent implements OnInit {
   actors: Downloadable[] = [];

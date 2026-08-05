@@ -1,20 +1,30 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { JSONService, JSONTransport } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
 
 const MAX_NAME_LENGTH = 32;
 
 @Component({
-    selector: 'uds-service',
-    templateUrl: './service.component.html',
-    styleUrls: ['./service.component.scss'],
-    standalone: false
+  selector: 'uds-service',
+  templateUrl: './service.component.html',
+  styleUrls: ['./service.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ServiceComponent implements OnInit, OnChanges {
   @Input() service: JSONService = {} as JSONService;
 
   isFavorite: boolean = false;
-  @Output() favoriteChanged = new EventEmitter<{serviceId: string, isFavorite: boolean}>();
+  @Output() favoriteChanged = new EventEmitter<{ serviceId: string; isFavorite: boolean }>();
 
   get favoriteEnabled(): boolean {
     // Change 'favoriteEnabled' to the actual property name in config if different
@@ -78,7 +88,6 @@ export class ServiceComponent implements OnInit, OnChanges {
     return klass;
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['service']) {
       this.isFavorite = !!this.service.favorite;
@@ -96,7 +105,7 @@ export class ServiceComponent implements OnInit, OnChanges {
       this.isFavorite = !this.isFavorite;
     } catch {}
     // Emit event so parent can react
-    this.favoriteChanged.emit({serviceId: this.service.id, isFavorite: this.isFavorite});
+    this.favoriteChanged.emit({ serviceId: this.service.id, isFavorite: this.isFavorite });
   }
 
   getTransportIcon(transId: string) {
@@ -135,7 +144,7 @@ export class ServiceComponent implements OnInit, OnChanges {
           '</p><p align="center"><b>' +
           calendarDeniedText +
           '</b></p><p align="center">' +
-          '</p>'
+          '</p>',
       );
     } else {
       if (transport === null || this.service.show_transports === false) {
@@ -145,7 +154,10 @@ export class ServiceComponent implements OnInit, OnChanges {
         if (
           (await this.api.gui.yesno(
             django.gettext('Service message'),
-            this.service.custom_message_text + '<br/><p>' + django.gettext('Press "Yes" to continue, or "No" to cancel') + '</p>'
+            this.service.custom_message_text +
+              '<br/><p>' +
+              django.gettext('Press "Yes" to continue, or "No" to cancel') +
+              '</p>',
           )) === false
         ) {
           return;

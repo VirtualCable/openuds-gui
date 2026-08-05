@@ -1,4 +1,12 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, NgZone } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  OnDestroy,
+  ElementRef,
+  NgZone,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
 
@@ -25,6 +33,7 @@ class GroupedServices {
   selector: 'uds-services-page',
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -35,7 +44,11 @@ export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   group: GroupedServices[] = [];
 
-  constructor(public api: UDSApiService, private host: ElementRef<HTMLElement>, private zone: NgZone) {}
+  constructor(
+    public api: UDSApiService,
+    private host: ElementRef<HTMLElement>,
+    private zone: NgZone,
+  ) {}
 
   ngAfterViewInit() {
     // Mouse wheel over the group tab bar scrolls the tab strip left/right,
@@ -55,16 +68,13 @@ export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
       return; // not over the group selector: let the page scroll normally
     }
 
-    const delta =
-      Math.abs(ev.deltaX) > Math.abs(ev.deltaY) ? ev.deltaX : ev.deltaY;
+    const delta = Math.abs(ev.deltaX) > Math.abs(ev.deltaY) ? ev.deltaX : ev.deltaY;
     if (delta === 0) {
       return;
     }
 
     const dir = delta > 0 ? 'after' : 'before';
-    const btn = header.querySelector(
-      `.mat-mdc-tab-header-pagination-${dir}`,
-    ) as HTMLElement | null;
+    const btn = header.querySelector(`.mat-mdc-tab-header-pagination-${dir}`) as HTMLElement | null;
 
     // No overflow (no pagination shown / nothing to scroll): don't hijack the wheel
     if (!btn || btn.classList.contains('mat-mdc-tab-header-pagination-disabled')) {
@@ -162,7 +172,7 @@ export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Convert map to array, sort by group priority and id, and filter out empty groups
     this.group = Array.from(groupedMap.values())
-      .filter(g => g.services.length > 0)
+      .filter((g) => g.services.length > 0)
       .sort((a, b) => {
         if (a.group.priority !== b.group.priority) {
           return a.group.priority - b.group.priority;

@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 import { NgModule, provideZoneChangeDetection } from '@angular/core';
 
-import { provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration, withXhr } from '@angular/common/http';
 import { AppRoutingModule } from './modules/app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -74,6 +74,7 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
     UDSGuiService,
     BiometricService,
     provideHttpClient(
+      withXhr(),
       withInterceptorsFromDi(),
       // Django CSRF: cookie 'csrftoken' + header 'X-CSRFToken', not Angular's XSRF defaults
       withXsrfConfiguration({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),

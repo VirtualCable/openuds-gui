@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { Lang } from '../../types/config';
 
 @Component({
-    selector: 'uds-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss'],
-    standalone: false
+  selector: 'uds-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class NavbarComponent implements OnInit {
   lang: Lang = {} as Lang; // Current language
@@ -14,7 +15,6 @@ export class NavbarComponent implements OnInit {
   style = ''; // Empty on start
 
   constructor(public api: UDSApiService) {
-
     const lang = api.config.language;
     // Add "non current lang" to list
     this.langs = [];
@@ -56,5 +56,4 @@ export class NavbarComponent implements OnInit {
   toggleTheme(): void {
     this.api.toggleTheme();
   }
-
 }
