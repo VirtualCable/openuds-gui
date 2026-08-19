@@ -1,4 +1,5 @@
 .login-container {
+	position: relative;
 	display: flex;
 	flex-flow: column wrap;
 	justify-content: center;
@@ -9,12 +10,41 @@
 	box-sizing: border-box;
 }
 
+/* The brand is a backdrop, not a block in the flow: taking it out of the
+   column stops it from pushing the form down the page, and the glass of the
+   card lets it show through, blurred, behind the fields. */
 .login-brand {
-	margin-bottom: 1.5rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	pointer-events: none;
+	user-select: none;
+
 	img {
-		max-width: 130px;
-		filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+		width: min(400px, 76vw);
+		opacity: 0.40;
+		/* The artwork sits on a solid slate plate: without the mask its edges
+		   would show as a grey rectangle crossing the page. */
+		-webkit-mask-image: radial-gradient(ellipse 62% 44% at 50% 50%, #000 40%, transparent 100%);
+		mask-image: radial-gradient(ellipse 62% 44% at 50% 50%, #000 40%, transparent 100%);
 	}
+}
+
+/* The same image reads fainter over a dark background. */
+:host-context(.dark-theme) .login-brand img {
+	opacity: 0.46;
+}
+
+.login-info,
+.login-form,
+.site-info {
+	position: relative;
+	z-index: 1;
 }
 
 .login-info {
