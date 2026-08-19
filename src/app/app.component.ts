@@ -36,16 +36,9 @@ export class AppComponent implements OnInit {
         '</a>.';
 
     // Initialize cookie consent
+    // No palette: the banner takes its colours from the glass theme tokens in
+    // styles.scss, so it follows the light/dark switch like the rest of the UI.
     cookieconsent.initialise({
-      palette: {
-        popup: {
-          background: '#343c66',
-          text: '#dfdfe8',
-        },
-        button: {
-          background: '#f71559',
-        },
-      },
       enabled: this.api.config.cookies_consent.enabled,
       layout: 'basic',
       position: 'bottom-right',
