@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from '../types/config';
 import { toPromise } from '../helpers/tools';
-import { timeout } from 'rxjs/operators';
 
 import {
   JSONServicesInformation,

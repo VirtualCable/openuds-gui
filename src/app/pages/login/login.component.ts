@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/quotes
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { BiometricService } from '../../services/biometric.service';
@@ -29,7 +28,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // We want to keep compatibility right now with previous UDS templates, so we
     // adapt form to post the correct values the correct way
-    const form = document.getElementById('loginform') as HTMLFormElement;
     // form.action = this.api.config.urls.login;  // Move to launch()
     const input = document.getElementById('token') as HTMLInputElement;
     input.name = this.api.csrfField;
