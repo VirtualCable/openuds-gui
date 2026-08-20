@@ -82,11 +82,11 @@ export class UDSApiService implements UDSApiServiceType {
   }
 
   get csrfField(): string {
-    return csrf.csrfField;
+    return this.config.csrf_field;
   }
 
   get csrfToken(): string {
-    return csrf.csrfToken;
+    return this.config.csrf_token;
   }
 
   /**

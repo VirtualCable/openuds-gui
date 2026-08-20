@@ -80,33 +80,20 @@ def fix_index_html() -> None:
         '<script type="text/javascript" src="{% url \'utility.jsCatalog\' LANGUAGE_CODE %}"></script>'
     )
     jsdata = '<script type="text/javascript" src="{% url \'utility.js\' %}"></script>'
-    csrfData = "var csrf = {  csrfToken: '{{ csrf_token }}',  csrfField: '{{ csrf_field }}' };"
-    csrfRE = re.compile(r'// CSRF.*// ENDCSRF', re.MULTILINE | re.DOTALL)
 
-    # Change index.html, to include django required stuff
     translatePattern = re.compile('<!-- DYNAMIC_DATA -->.*<!-- ENDDYNAMIC_DATA -->', re.MULTILINE | re.DOTALL)
 
     with open(os.path.join(DIST, 'index.html'), 'r', encoding='utf8') as f:
         html = f.read()
 
-    # include django headers
     html = '{% load i18n %}{% get_current_language as LANGUAGE_CODE %}' + html
-
-    # Change <html lang="en"> with {{ LANGUAGE_CODE }}
     html = re.sub('<html lang="en">', '<html lang="{{ LANGUAGE_CODE }}">', html)
-
-    # Remap base href
     html = re.sub(r'<base href="/">', r'<base href="/uds/page">', html)
 
-    # Remap scripts and styles to /uds/res/modern/ IF they don't have it already
-    # Matches src="name.js" or href="name.css" that don't start with / or {% (django tags)
     html = re.sub(r'src="(?![/{])([^"]+\.js)"', r'src="/uds/res/modern/\1"', html)
     html = re.sub(r'href="(?![/{])([^"]+\.css)"', r'href="/uds/res/modern/\1"', html)
-
-    # Add link rel style.. to our theme stylesheet AFTER all index styles
     html = re.sub('</head>', '<link rel="stylesheet" href="{% url \'custom\' \'styles.css\' %}"></head>', html)
 
-    html = csrfRE.sub(csrfData, html)
     html = translatePattern.sub(translations + jsdata, html)
 
     with open(os.path.join(os.path.join(UDS, TEMPLATE), 'index.html'), 'w', encoding='utf8') as f:
@@ -121,14 +108,12 @@ def extract_translations():
         for fileName in locator():
             with open(fileName, 'r', encoding='utf8') as f:
                 data = f.read()
-                # Locate pattern
                 for v in pattern.finditer(data):
                     s = v.groupdict()['data']
                     if strip:
                         s = s.replace('\n', ' ').replace('\r', ' ').strip()
                     s = s.replace('\n', '\\n').replace('\r', '\\r').replace('"', '\\"')
 
-                    # print('Found string {}'.format(s))
                     print('gettext("{}");'.format(s), file=output)
 
     with open(
@@ -136,12 +121,10 @@ def extract_translations():
     ) as output:
         print('// "Fake" javascript file for translations', file=output)
 
-        # First, extract translations from typescript
         typeScriptTranslationPattern = re.compile(r'django\.gettext\(\s*([\'"])(?P<data>.*?)\1\)')
         print('// Typescript', file=output)
         getTranslations(locate_typescript_files, typeScriptTranslationPattern, output, strip=False)
 
-        # Now extract translations from html
         htmlTranslationPattern = re.compile(
             r'<uds-translate[^>]*>(?P<data>.*?)</uds-translate>', re.MULTILINE | re.IGNORECASE | re.DOTALL
         )
@@ -200,14 +183,8 @@ def create_output_folders():
     make_path(os.path.join(UDS, TEMPLATE))
 
 
-#
-# def buildSource():
-#    os.system('ng build --prod --output-hashing=none --aot --deleteOutputPath --build-optimizer --deploy-url /uds/res/modern/ --base-href /uds/page')
-
-
 def main():
     print('Use "yarn build" to correctly build for UDS')
-    # buildSource()
     create_output_folders()
     extract_translations()
     fix_index_html()
@@ -217,6 +194,5 @@ def main():
     clean_up()
 
 
-# Updades index.html
 if __name__ == "__main__":
     main()
