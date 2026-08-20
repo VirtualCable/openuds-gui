@@ -58,7 +58,7 @@ export class ModalComponent implements OnInit {
   async initAlert() {
     const autoclose = this.data.autoclose || 0;
     if (autoclose > 0) {
-      this.dialogRef.afterClosed().subscribe((res) => {
+      this.dialogRef.afterClosed().subscribe(() => {
         this.close();
       });
       this.setExtra(autoclose);

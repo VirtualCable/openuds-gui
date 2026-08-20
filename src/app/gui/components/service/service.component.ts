@@ -103,7 +103,9 @@ export class ServiceComponent implements OnInit, OnChanges {
     try {
       await this.api.action(action, this.service.id);
       this.isFavorite = !this.isFavorite;
-    } catch {}
+    } catch {
+      // The toggle is best-effort: a failure leaves the previous state untouched.
+    }
     // Emit event so parent can react
     this.favoriteChanged.emit({ serviceId: this.service.id, isFavorite: this.isFavorite });
   }

@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from '../types/config';
 import { toPromise } from '../helpers/tools';
-import { timeout } from 'rxjs/operators';
 
 import {
   JSONServicesInformation,
@@ -263,13 +262,13 @@ export class UDSApiService implements UDSApiServiceType {
 
   // Storage related
   putOnStorage(key: string, value: string): void {
-    if (typeof Storage !== undefined) {
+    if (typeof Storage !== 'undefined') {
       localStorage.setItem(key, value);
     }
   }
 
   getFromStorage(key: string): string | null {
-    if (typeof Storage !== undefined) {
+    if (typeof Storage !== 'undefined') {
       return localStorage.getItem(key);
     } else {
       return null;

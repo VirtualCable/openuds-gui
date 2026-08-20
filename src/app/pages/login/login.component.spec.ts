@@ -13,7 +13,6 @@ import { SafeHtmlPipe } from '../../helpers/safe-html.pipe';
  * is wrong the server returns 403 Forbidden.
  */
 describe('LoginComponent CSRF handling', () => {
-  let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let apiStub: jasmine.SpyObj<UDSApiService>;
 
@@ -51,7 +50,6 @@ describe('LoginComponent CSRF handling', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
   });
 
   function setCsrfCookie(value: string | null): void {
