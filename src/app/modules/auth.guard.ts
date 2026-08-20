@@ -11,8 +11,8 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    _next: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     // Redirect, if not logged in, to login screen
     if (!this.api.user.isLogged) {
       this.api.router.navigate(['login']);

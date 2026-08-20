@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class SafeHtmlPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(value: any, args?: any): any {
+  transform(value: any, _args?: any): any {
     // Allow html, disallow scripts, onclick, etc.
     // if appears "script" tag, remove it and all following characters (to avoid XSS)
     value = value.replace(/<\s*script\s*/gi, '');
@@ -21,7 +21,7 @@ export class SafeHtmlPipe implements PipeTransform {
     value = value.replace(/(on|(on\w+\s*))=\s*['"]?[^'"]*['"]?/gi, '');
 
     // Remove if exists any javascript: reference
-    value = value.replace(/javascript\s*\:/gi, '');
+    value = value.replace(/javascript\s*:/gi, '');
 
     return this.sanitizer.bypassSecurityTrustHtml(value);
   }

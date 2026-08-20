@@ -92,7 +92,7 @@ export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Updates the favorites list when favorite status changes
    */
-  onFavoriteChanged(event: { serviceId: string; isFavorite: boolean }) {
+  onFavoriteChanged(_event: { serviceId: string; isFavorite: boolean }) {
     // Reloads the list of services from the backend to reflect changes to favorites
     this.loadServices();
   }
