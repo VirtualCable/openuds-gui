@@ -13,7 +13,6 @@ export class SafeHtmlPipe implements PipeTransform {
     // if appears "script" tag, remove it and all following characters (to avoid XSS)
     value = value.replace(/<\s*script\s*/gi, '');
     // Remove if exists any javascript event
-    // eslint-disable-next-line max-len
     // Remove all events: 'onclick', 'onmouseover', 'onmouseout',
     // 'onmousemove', 'onmouseenter', 'onmouseleave', 'onmouseup', 
     // 'onmousedown', 'onkeyup', 'onkeydown', 'onkeypress', 'onkeydown',

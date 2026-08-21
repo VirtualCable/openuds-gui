@@ -21,7 +21,6 @@ import { environment } from '../../environments/environment';
 
 const DARK_THEME = 'dark-theme';
 const LIGHT_THEME = 'light-theme';
-const TIMEOUT = 10000;
 
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
