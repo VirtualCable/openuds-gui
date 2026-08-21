@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -9,6 +9,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   standalone: false,
 })
 export class CredentialsModalComponent {
+  data = inject<{
+    username: string;
+    domain: string;
+  }>(MAT_DIALOG_DATA);
+
   username: string;
   password: string;
   domain: string;
@@ -18,7 +23,9 @@ export class CredentialsModalComponent {
     domain: django.gettext('Domain'),
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { username: string; domain: string }) {
+  constructor() {
+    const data = this.data;
+
     this.username = data.username;
     this.domain = data.domain;
     this.password = '';

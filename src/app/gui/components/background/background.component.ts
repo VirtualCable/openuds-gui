@@ -7,6 +7,7 @@ import {
   ViewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { UDSApiService } from '../../../services/uds-api.service';
 
@@ -40,14 +41,14 @@ interface SilkWave {
   standalone: false,
 })
 export class BackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
+  private api = inject(UDSApiService);
+
   @ViewChild('backgroundThumbnail', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D | null;
   private waves: SilkWave[] = [];
   private animationFrameId?: number;
   private time = 0;
-
-  constructor(private api: UDSApiService) {}
 
   get isEnabled(): boolean {
     return this.api.config.allow_animated_backgrounds === true;
