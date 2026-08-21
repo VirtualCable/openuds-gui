@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { Lang } from '../../types/config';
 
@@ -10,11 +10,15 @@ import { Lang } from '../../types/config';
   standalone: false,
 })
 export class NavbarComponent implements OnInit {
+  api = inject(UDSApiService);
+
   lang: Lang = {} as Lang; // Current language
   langs: Lang[] = []; // Available languages
   style = ''; // Empty on start
 
-  constructor(public api: UDSApiService) {
+  constructor() {
+    const api = this.api;
+
     const lang = api.config.language;
     // Add "non current lang" to list
     this.langs = [];

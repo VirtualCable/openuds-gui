@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { JSONService, JSONTransport } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
@@ -21,6 +22,8 @@ const MAX_NAME_LENGTH = 32;
   standalone: false,
 })
 export class ServiceComponent implements OnInit, OnChanges {
+  private api = inject(UDSApiService);
+
   @Input() service: JSONService = {} as JSONService;
 
   isFavorite: boolean = false;
@@ -30,8 +33,6 @@ export class ServiceComponent implements OnInit, OnChanges {
     // Change 'favoriteEnabled' to the actual property name in config if different
     return (this.api.config as any).enable_favorite_services === true;
   }
-
-  constructor(private api: UDSApiService) {}
 
   get serviceImage() {
     return this.api.galleryImageURL(this.service.imageId);

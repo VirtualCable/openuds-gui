@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval } from 'rxjs';
 import { Future } from '../../helpers/tools';
@@ -26,15 +26,11 @@ export interface ModalData {
   standalone: false,
 })
 export class ModalComponent implements OnInit {
+  dialogRef = inject<MatDialogRef<ModalComponent>>(MatDialogRef);
+  data = inject<ModalData>(MAT_DIALOG_DATA);
+
   extra = '';
   yesno: Future<boolean> = new Future<boolean>();
-
-  constructor(
-    public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ModalData,
-  ) {
-    // Notifies on case of yes or not to subscriber
-  }
 
   resolveAndClose(value: boolean): void {
     this.yesno.resolve(value);
