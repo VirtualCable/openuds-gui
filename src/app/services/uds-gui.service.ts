@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { ModalComponent, DialogType } from '../gui/modal/modal.component';
 import { CredentialsModalComponent } from '../gui/credentials-modal/credentials-modal.component';
@@ -7,13 +7,9 @@ import { toPromise } from '../helpers/tools';
 
 @Injectable()
 export class UDSGuiService {
-  constructor(public dialog: MatDialog) {}
+  dialog = inject(MatDialog);
 
-  async alert(
-    title: string,
-    message: string,
-    autoclose = 0,
-  ): Promise<MatDialogRef<ModalComponent>> {
+  async alert(title: string, message: string, autoclose = 0): Promise<MatDialogRef<ModalComponent>> {
     const width = window.innerWidth < 800 ? '80%' : '40%';
     const dialogRef = this.dialog.open(ModalComponent, {
       width,
@@ -41,7 +37,10 @@ export class UDSGuiService {
     return dialogRef.componentInstance.yesno;
   }
 
-  askCredentials(username: string, domain: string): Promise<{username: string; password: string; domain: string; success: boolean}> {
+  askCredentials(
+    username: string,
+    domain: string,
+  ): Promise<{ username: string; password: string; domain: string; success: boolean }> {
     const dialogRef = this.dialog.open(CredentialsModalComponent, {
       data: {
         username,
