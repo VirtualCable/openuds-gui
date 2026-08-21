@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { Downloadable } from '../../types/config';
 
@@ -10,9 +10,9 @@ import { Downloadable } from '../../types/config';
   standalone: false,
 })
 export class DownloadsComponent implements OnInit {
-  actors: Downloadable[] = [];
+  api = inject(UDSApiService);
 
-  constructor(public api: UDSApiService) {}
+  actors: Downloadable[] = [];
 
   ngOnInit() {
     // Sort legacy actors to the end of the list

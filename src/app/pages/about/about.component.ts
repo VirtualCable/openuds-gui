@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { UDSApiService } from '../../services/uds-api.service';
   standalone: false,
 })
 export class AboutComponent implements OnInit {
-  year = new Date().getFullYear();
+  api = inject(UDSApiService);
 
-  constructor(public api: UDSApiService) {}
+  year = new Date().getFullYear();
 
   ngOnInit() {
     if (this.year < 2021) {
