@@ -6,6 +6,7 @@ import {
   ElementRef,
   NgZone,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
@@ -37,18 +38,16 @@ class GroupedServices {
   standalone: false,
 })
 export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
+  api = inject(UDSApiService);
+  private host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private zone = inject(NgZone);
+
   servicesInformation: JSONServicesInformation = {
     autorun: false,
     services: [],
   };
 
   group: GroupedServices[] = [];
-
-  constructor(
-    public api: UDSApiService,
-    private host: ElementRef<HTMLElement>,
-    private zone: NgZone,
-  ) {}
 
   ngAfterViewInit() {
     // Mouse wheel over the group tab bar scrolls the tab strip left/right,

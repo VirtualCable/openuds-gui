@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { Downloadable } from '../../types/config';
 
@@ -10,7 +10,7 @@ import { Downloadable } from '../../types/config';
   standalone: false,
 })
 export class ClientDownloadComponent implements OnInit {
-  constructor(public api: UDSApiService) {}
+  api = inject(UDSApiService);
 
   ngOnInit() {}
 
