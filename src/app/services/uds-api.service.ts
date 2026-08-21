@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from '../types/config';
@@ -25,6 +25,10 @@ const TIMEOUT = 10000;
 
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
+  private http = inject(HttpClient);
+  gui = inject(UDSGuiService);
+  router = inject(Router);
+
   readonly user: User;
   transportsWindow: Window | null = null;
   plugin: Plugin;
@@ -34,11 +38,7 @@ export class UDSApiService implements UDSApiServiceType {
     return this._isDarkTheme;
   }
 
-  constructor(
-    private http: HttpClient,
-    public gui: UDSGuiService,
-    public router: Router,
-  ) {
+  constructor() {
     this.user = new User(udsData.profile);
     this.plugin = new Plugin(this);
   }
