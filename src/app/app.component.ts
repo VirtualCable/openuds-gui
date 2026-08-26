@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from './services/uds-api.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { UDSApiService } from './services/uds-api.service';
   standalone: false,
 })
 export class AppComponent implements OnInit {
-  title = 'UDS';
+  private api = inject(UDSApiService);
 
-  constructor(private api: UDSApiService) {}
+  title = 'UDS';
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

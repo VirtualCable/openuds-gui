@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UDSApiService } from '../../services/uds-api.service';
 
@@ -10,13 +10,11 @@ import { UDSApiService } from '../../services/uds-api.service';
   standalone: false,
 })
 export class ErrorComponent implements OnInit {
+  api = inject(UDSApiService);
+  private route = inject(ActivatedRoute);
+
   error = '';
   returnUrl = '/';
-
-  constructor(
-    public api: UDSApiService,
-    private route: ActivatedRoute,
-  ) {}
 
   async ngOnInit() {
     await this.getError();

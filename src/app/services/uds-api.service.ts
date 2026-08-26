@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User, UDSConfig, Downloadable, Info } from '../types/config';
@@ -25,6 +25,10 @@ const TIMEOUT = 10000;
 
 @Injectable()
 export class UDSApiService implements UDSApiServiceType {
+  private http = inject(HttpClient);
+  gui = inject(UDSGuiService);
+  router = inject(Router);
+
   readonly user: User;
   transportsWindow: Window | null = null;
   plugin: Plugin;
@@ -34,11 +38,7 @@ export class UDSApiService implements UDSApiServiceType {
     return this._isDarkTheme;
   }
 
-  constructor(
-    private http: HttpClient,
-    public gui: UDSGuiService,
-    public router: Router,
-  ) {
+  constructor() {
     this.user = new User(udsData.profile);
     this.plugin = new Plugin(this);
   }
@@ -123,23 +123,23 @@ export class UDSApiService implements UDSApiServiceType {
   /* Client enabler */
   async enabler(serviceId: string, transportId: string): Promise<JSONEnabledService> {
     const enabler = this.config.urls.enabler.replace('param1', serviceId).replace('param2', transportId);
-    return toPromise(this.http.post<JSONEnabledService>(enabler, null));
+    return toPromise(this.http.post<JSONEnabledService>(enabler, null), TIMEOUT);
   }
 
   /* Check userService status */
   async status(serviceId: string, transportId: string): Promise<JSONStatusService> {
     const status = this.config.urls.status.replace('param1', serviceId).replace('param2', transportId);
-    return toPromise(this.http.get<JSONStatusService>(status));
+    return toPromise(this.http.get<JSONStatusService>(status), TIMEOUT);
   }
 
   /* Services resetter */
   async action(action: string, serviceId: string): Promise<JSONService> {
     const actionURL = this.config.urls.action.replace('param1', serviceId).replace('param2', action);
-    return toPromise(this.http.post<JSONService>(actionURL, null));
+    return toPromise(this.http.post<JSONService>(actionURL, null), TIMEOUT);
   }
 
   async transportUrl(url: string): Promise<JSONTransportURLService> {
-    return toPromise(this.http.post<JSONTransportURLService>(url, null));
+    return toPromise(this.http.post<JSONTransportURLService>(url, null), TIMEOUT);
   }
 
   async updateTransportTicket(
@@ -156,6 +156,7 @@ export class UDSApiService implements UDSApiServiceType {
         password,
         domain,
       }),
+      TIMEOUT,
     );
   }
 
@@ -180,14 +181,14 @@ export class UDSApiService implements UDSApiServiceType {
    * Gets services information
    */
   async getServicesInformation(): Promise<JSONServicesInformation> {
-    return toPromise(this.http.get<JSONServicesInformation>(this.config.urls.services));
+    return toPromise(this.http.get<JSONServicesInformation>(this.config.urls.services), TIMEOUT);
   }
 
   /**
    * Gets error string from a code
    */
   async getErrorInformation(errorCode: string): Promise<JSONErrorInformation> {
-    return toPromise(this.http.get<JSONErrorInformation>(this.config.urls.error.replace('9999', errorCode)));
+    return toPromise(this.http.get<JSONErrorInformation>(this.config.urls.error.replace('9999', errorCode)), TIMEOUT);
   }
 
   /**
@@ -246,7 +247,7 @@ export class UDSApiService implements UDSApiServiceType {
    * @returns  Observable
    */
   async getAuthCustomJavascript(authId: string): Promise<string> {
-    return toPromise(this.http.get(this.config.urls.custom_auth + authId, { responseType: 'text' }));
+    return toPromise(this.http.get(this.config.urls.custom_auth + authId, { responseType: 'text' }), TIMEOUT);
   }
 
   // Switch dark/light theme

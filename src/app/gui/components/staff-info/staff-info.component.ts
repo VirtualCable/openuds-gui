@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from '../../../services/uds-api.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { UDSApiService } from '../../../services/uds-api.service';
   standalone: false,
 })
 export class StaffInfoComponent implements OnInit {
-  constructor(public api: UDSApiService) {}
+  api = inject(UDSApiService);
 
   ngOnInit(): void {}
 }
