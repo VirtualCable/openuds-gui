@@ -10,10 +10,13 @@ export class SafeHtmlPipe implements PipeTransform {
 
   transform(value: any, _args?: any): any {
     // Allow html, disallow scripts, onclick, etc.
-    // if appears "script" tag, remove it and all following characters (to avoid XSS)
-    value = value.replace(/<\s*script\s*/gi, '');
+    // Remove complete <script>...</script> elements, including their content.
+    // Note: \b and [^>]*> make nested/double tags like <script<script>...
+    // be consumed as a single opening tag, so they cannot survive the cleanup.
+    value = value.replace(/<\s*script\b[^>]*>[\s\S]*?<\/\s*script\s*>/gi, '');
+    // Remove any leftover opening/closing script tags (self-closed, unclosed, </script>)
+    value = value.replace(/<\s*\/?\s*script\b[^>]*>/gi, '');
     // Remove if exists any javascript event
-    // eslint-disable-next-line max-len
     // Remove all events: 'onclick', 'onmouseover', 'onmouseout',
     // 'onmousemove', 'onmouseenter', 'onmouseleave', 'onmouseup', 
     // 'onmousedown', 'onkeyup', 'onkeydown', 'onkeypress', 'onkeydown',
