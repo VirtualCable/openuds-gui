@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
@@ -11,16 +11,16 @@ import { Authenticator } from '../../types/config';
   standalone: false,
 })
 export class LoginComponent implements OnInit {
+  api = inject(UDSApiService);
+  biometric = inject(BiometricService);
+
   auths: Authenticator[];
   auth: HTMLInputElement = {} as HTMLInputElement;
   title = 'UDS Enterprise';
 
-  constructor(
-    public api: UDSApiService,
-    public biometric: BiometricService,
-  ) {
-    this.title = api.config.site_name;
-    this.auths = api.config.authenticators.slice(0);
+  constructor() {
+    this.title = this.api.config.site_name;
+    this.auths = this.api.config.authenticators.slice(0);
     // Sort array, so we can display it correctly
     this.auths.sort((a, b) => a.priority - b.priority);
   }

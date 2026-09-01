@@ -4,7 +4,10 @@
 	flex-flow: column wrap;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;
+	/* The shell is not free: .content clears the fixed navbar with a 64px top
+	   margin and the footer block takes 3em (app.component.scss). A full 100vh
+	   here pushes the document past the window and leaves a dead scrollbar. */
+	min-height: calc(100vh - 64px - 3em);
 	padding-top: 50px;
 	padding-bottom: 40px;
 	box-sizing: border-box;

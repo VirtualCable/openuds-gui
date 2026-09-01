@@ -6,6 +6,7 @@ import {
   EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { JSONGroup, JSONService } from '../../../types/services';
 import { UDSApiService } from '../../../services/uds-api.service';
@@ -18,17 +19,15 @@ import { UDSApiService } from '../../../services/uds-api.service';
   standalone: false,
 })
 export class ServicesGroupComponent implements OnInit {
+  private api = inject(UDSApiService);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() services: JSONService[] = [];
   @Input() group: JSONGroup = {} as JSONGroup;
   @Input() expanded = false;
   @Input() enableFavoriteServices = true;
 
   @Output() favoriteChanged = new EventEmitter<{ serviceId: string; isFavorite: boolean }>();
-
-  constructor(
-    private api: UDSApiService,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   get groupImage() {
     return this.api.galleryImageURL(this.group.imageUuid);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { timeout } from 'rxjs/operators';
 import { firstValueFrom, Observable } from 'rxjs';
 
