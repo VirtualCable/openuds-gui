@@ -21,7 +21,7 @@ import { BiometricService } from './services/biometric.service';
 // Pages
 import { LoginComponent } from './pages/login/login.component';
 import { MfaComponent } from './pages/mfa/mfa.component';
-import { ClientDownloadComponent } from './pages/client-download/client-download.component';
+import { LauncherDownloadComponent } from './pages/launcher-download/launcher-download.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { ErrorComponent } from './pages/error/error.component';
 
@@ -49,7 +49,7 @@ import { CredentialsModalComponent } from './gui/credentials-modal/credentials-m
     NavbarComponent,
     TranslateDirective,
     LoginComponent,
-    ClientDownloadComponent,
+    LauncherDownloadComponent,
     ServicesComponent,
     ServiceComponent,
     ServicesGroupComponent,

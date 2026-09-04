@@ -28,7 +28,7 @@ export interface UDSUrls {
     readonly action: string;
     readonly gallery_image: string;
     readonly transport_icon: string;
-    readonly client_download: string;
+    readonly launcher_download: string;
     readonly error: string;
     readonly update_transport_ticket: string;
 

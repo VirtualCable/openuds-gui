@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 
 import { LoginComponent } from '../pages/login/login.component';
-import { ClientDownloadComponent } from '../pages/client-download/client-download.component';
+import { LauncherDownloadComponent } from '../pages/launcher-download/launcher-download.component';
 import { DownloadsComponent } from '../pages/downloads/downloads.component';
 import { ServicesComponent } from '../pages/services/services.component';
 import { ErrorComponent } from '../pages/error/error.component';
@@ -20,7 +20,7 @@ const routes: Routes = [
 
   { path: 'mfa', component: MfaComponent },
 
-  { path: 'client-download', component: ClientDownloadComponent },
+  { path: 'launcher-download', component: LauncherDownloadComponent },
   { path: 'downloads', component: DownloadsComponent, canActivate: [AuthGuard]  },
 
   { path: 'error/:id', component: ErrorComponent },
