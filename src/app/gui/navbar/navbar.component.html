@@ -36,8 +36,8 @@
     <button mat-menu-item [matMenuTriggerFor]="userMenu">{{api.user.user}}</button>
   }
   <button mat-menu-item [matMenuTriggerFor]="appMenu">{{ lang.name }} </button>
-  <button mat-menu-item routerLink="/client-download">
-    <uds-translate>UDS Client</uds-translate>
+  <button mat-menu-item routerLink="/launcher-download">
+    <uds-translate>UDS Launcher</uds-translate>
   </button>
   <button mat-menu-item routerLink="/about">
     <uds-translate>About</uds-translate>
@@ -57,8 +57,8 @@
       <button mat-button (click)="toggleTheme()" [title]="api.isDarkTheme ? 'Light theme' : 'Dark theme'">
         <i class="material-icons">{{ api.isDarkTheme ? 'wb_sunny' : 'brightness_2' }}</i>
       </button>
-    <button mat-button routerLink="/client-download"><i class="material-icons">file_download</i>
-    <uds-translate>UDS Client</uds-translate>
+    <button mat-button routerLink="/launcher-download"><i class="material-icons">file_download</i>
+    <uds-translate>UDS Launcher</uds-translate>
   </button>
   <button mat-button routerLink="/about"><i class="material-icons">info</i>
   <uds-translate>About</uds-translate>
