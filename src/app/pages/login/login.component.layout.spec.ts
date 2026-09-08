@@ -86,6 +86,35 @@ describe('LoginComponent page height', () => {
     return parseFloat(getComputedStyle(box('.login-container')).minHeight);
   }
 
+  it('centers the brand artwork on the login card, not on the viewport', () => {
+    const brand = box('.login-brand').getBoundingClientRect();
+    const form = box('.login-form').getBoundingClientRect();
+
+    expect(Math.abs((brand.top + brand.bottom) / 2 - (form.top + form.bottom) / 2)).toBeLessThanOrEqual(1);
+    expect(Math.abs((brand.left + brand.right) / 2 - (form.left + form.right) / 2)).toBeLessThanOrEqual(1);
+  });
+
+  it('does not shrink the card to fit the stack', () => {
+    const form = box('.login-form').getBoundingClientRect();
+    const stack = box('.login-stack').getBoundingClientRect();
+    const padding = getComputedStyle(box('.login-form'));
+
+    const expected =
+      stack.width +
+      parseFloat(padding.paddingLeft) +
+      parseFloat(padding.paddingRight) +
+      parseFloat(padding.borderLeftWidth) +
+      parseFloat(padding.borderRightWidth);
+    expect(form.width).toBeCloseTo(expected, 0);
+  });
+
+  it('keeps the brand artwork inside the width of the card', () => {
+    const image = box('.login-brand img').getBoundingClientRect();
+    const form = box('.login-form').getBoundingClientRect();
+
+    expect(image.width).toBeLessThan(form.width);
+  });
+
   it('leaves room for the navbar offset and the footer', () => {
     const total = claimedByLogin() + reservedByShell();
     expect(total).toBeLessThanOrEqual(

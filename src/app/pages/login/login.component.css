@@ -13,6 +13,19 @@
 	box-sizing: border-box;
 }
 
+/* The stack is the positioning context the brand centers on, so the artwork
+   follows the card instead of the viewport. */
+.login-stack {
+	position: relative;
+	/* Centering the card keeps the padding it spills over the stack symmetric,
+	   so the card and the artwork share a center. */
+	display: flex;
+	justify-content: center;
+	min-width: 320px;
+	width: 90%;
+	max-width: 420px;
+}
+
 /* The brand is a backdrop, not a block in the flow: taking it out of the
    column stops it from pushing the form down the page, and the glass of the
    card lets it show through, blurred, behind the fields. */
@@ -29,7 +42,7 @@
 	user-select: none;
 
 	img {
-		width: min(400px, 76vw);
+		width: min(300px, 78%);
 		opacity: 0.40;
 		/* The artwork sits on a solid slate plate: without the mask its edges
 		   would show as a grey rectangle crossing the page. */
@@ -60,9 +73,10 @@
 }
 
 .login-form {
-	min-width: 320px;
-	width: 90%;
-	max-width: 420px;
+	width: 100%;
+	/* The card is wider than the stack (its padding is outside the 100%): without
+	   this it would shrink to fit and the fields would come out narrower. */
+	flex-shrink: 0;
     padding: 3rem 2.5rem;
 	background-color: var(--glass-bg) !important;
 	backdrop-filter: var(--glass-backdrop-filter) !important;
@@ -128,8 +142,11 @@
 		padding-top: 40px;
 	}
 	
-	.login-form {
+	.login-stack {
 		width: 92%;
+	}
+
+	.login-form {
 		padding: 2rem 1.5rem;
 	}
 }

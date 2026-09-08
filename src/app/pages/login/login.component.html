@@ -4,64 +4,66 @@
   <input name="authenticator" id="authenticator" value="" type="hidden">
 
   <div class="login-container">
-    <div class="login-brand" aria-hidden="true">
-      <img [src]="api.staticURL('modern/img/login-img.png')" alt="">
-    </div>
-
     <div class="login-info">
       {{ title }}
     </div>
 
-    <div class="login-form">
-
-      <div class="login-field">
-        <mat-form-field>
-          <mat-label>
-            <uds-translate>Username</uds-translate>
-          </mat-label>
-          <input matInput id="id_user" name="user" value="" required autofocus (keyup.enter)="launch($event)">
-        </mat-form-field>
+    <div class="login-stack">
+      <div class="login-brand" aria-hidden="true">
+        <img [src]="api.staticURL('modern/img/login-img.png')" alt="">
       </div>
 
-      <div class="login-field">
-        <mat-form-field>
-          <mat-label>
-            <uds-translate>Password</uds-translate>
-          </mat-label>
-          <input matInput id="id_password" type="password" class="form-control" name="password" data-eye (keyup.enter)="launch($event)">
-        </mat-form-field>
-      </div>
+      <div class="login-form">
 
-      @if (auths.length > 1) {
         <div class="login-field">
-          <mat-form-field appaerance="standard">
+          <mat-form-field>
             <mat-label>
-              <uds-translate>Authenticator</uds-translate>
+              <uds-translate>Username</uds-translate>
             </mat-label>
-            <mat-select [value]="auths[0].id" (selectionChange)="changeAuth($event.value)">
-              @for (a of auths; track a) {
-                <mat-option [value]="a.id">
-                  {{ a.name }}
-                </mat-option>
-              }
-            </mat-select>
+            <input matInput id="id_user" name="user" value="" required autofocus (keyup.enter)="launch($event)">
           </mat-form-field>
         </div>
-      }
 
-      <div class="login-button">
-        <button mat-stroked-button color="primary" type="button" (click)="launch($event)">
-          <uds-translate>Login</uds-translate>
-        </button>
-      </div>
+        <div class="login-field">
+          <mat-form-field>
+            <mat-label>
+              <uds-translate>Password</uds-translate>
+            </mat-label>
+            <input matInput id="id_password" type="password" class="form-control" name="password" data-eye (keyup.enter)="launch($event)">
+          </mat-form-field>
+        </div>
 
-      @if (biometric.hasStoredData() && api.config.allow_biometric_auth) {
-        <div class="login-button biometric-button">
-          <button mat-flat-button color="accent" type="button" (click)="checkBiometrics()">
-            <uds-translate>Login with Biometrics</uds-translate>
+        @if (auths.length > 1) {
+          <div class="login-field">
+            <mat-form-field appaerance="standard">
+              <mat-label>
+                <uds-translate>Authenticator</uds-translate>
+              </mat-label>
+              <mat-select [value]="auths[0].id" (selectionChange)="changeAuth($event.value)">
+                @for (a of auths; track a) {
+                  <mat-option [value]="a.id">
+                    {{ a.name }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+
+        <div class="login-button">
+          <button mat-stroked-button color="primary" type="button" (click)="launch($event)">
+            <uds-translate>Login</uds-translate>
           </button>
         </div>
-      }
+
+        @if (biometric.hasStoredData() && api.config.allow_biometric_auth) {
+          <div class="login-button biometric-button">
+            <button mat-flat-button color="accent" type="button" (click)="checkBiometrics()">
+              <uds-translate>Login with Biometrics</uds-translate>
+            </button>
+          </div>
+        }
+      </div>
     </div>
     <div class="site-info" [innerHTML] = "api.config.site_information | safeHtml">
     </div>
