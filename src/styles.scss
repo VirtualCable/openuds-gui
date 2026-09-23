@@ -50,8 +50,8 @@ $font-size: 14px;
   --bg-accent: #f0f2f5;
   --text-primary: #121212;
   --text-secondary: #5f6368;
-  --glass-bg: rgba(255, 255, 255, 0.35);
-  --glass-hover-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg: rgba(255, 255, 255, 0.80);
+  --glass-hover-bg: rgba(255, 255, 255, 0.92);
   --glass-border: rgba(0, 0, 0, 0.14);
   --glass-shadow: rgba(0, 0, 0, 0.16);
   --warning-color: #d32f2f;
@@ -73,7 +73,8 @@ body {
 body {
   background-image:
     radial-gradient(at 0% 0%, rgba(70, 93, 156, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(75, 82, 102, 0.1) 0px, transparent 50%);
+    radial-gradient(at 100% 100%, rgba(75, 82, 102, 0.1) 0px, transparent 50%),
+    linear-gradient(#eef1f5, #eef1f5);
   background-attachment: fixed;
 }
 
