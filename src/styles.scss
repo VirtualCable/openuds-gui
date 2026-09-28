@@ -57,6 +57,15 @@ $font-size: 14px;
   --warning-color: #d32f2f;
   --bg-button: linear-gradient(135deg, #1976d2, #1565c0);
   --glass-backdrop-filter: blur(8px);
+  --navbar-top: 15px;
+  --navbar-height: 64px;
+  --content-offset: calc(var(--navbar-top) + var(--navbar-height) + 16px);
+}
+
+@media only screen and (max-width: 744px) {
+  :root {
+    --navbar-top: 10px;
+  }
 }
 
 html,
