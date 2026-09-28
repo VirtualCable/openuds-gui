@@ -1,7 +1,6 @@
 .launcher {
     justify-content: center;
     display: flex;
-    padding-top: 100px;
     font-size: larger;
     color: var(--text-primary);
 }

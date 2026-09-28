@@ -16,7 +16,7 @@
 .content {
     flex: 1 0 auto;
     width: 80%;
-    margin: 64px auto 0 auto;
+    margin: var(--content-offset) auto 0 auto;
 }
 
 /* responsive part */
