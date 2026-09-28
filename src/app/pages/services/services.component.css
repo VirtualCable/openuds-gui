@@ -1,6 +1,6 @@
 .services-container {
     position: relative;
-    padding-top: 30px; /* .content already adds margin-top 64px; 64+30 clears navbar (79) + ~15 margin */
+    padding-top: 30px; /* .content already adds --content-offset; ~46px breathing room after the navbar */
     padding-left: 2%;
     padding-right: 2%;
     --filter-w: 260px; /* reserved width for the absolute filter overlay */
@@ -8,7 +8,7 @@
 
 @media only screen and (max-width: 744px) {
     .services-container {
-        padding-top: 25px; /* .content adds margin-top 64px; mobile navbar reaches 74px */
+        padding-top: 25px; /* .content adds --content-offset; mobile navbar bottom is 74px */
         padding-left: 10px;
         padding-right: 10px;
     }
