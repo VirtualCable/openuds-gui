@@ -26,38 +26,38 @@ import { SafeHtmlPipe } from '../../helpers/safe-html.pipe';
 })
 class ShellHostComponent {}
 
+async function configureShell(): Promise<void> {
+  const apiStub = jasmine.createSpyObj<UDSApiService>('UDSApiService', ['staticURL'], {
+    config: {
+      site_name: 'UDS',
+      site_information: '',
+      authenticators: [],
+      allow_biometric_auth: false,
+      urls: { login: '/uds/page/login' },
+    } as any,
+    errors: [],
+  });
+  (apiStub as any).csrfField = 'csrfmiddlewaretoken';
+  (apiStub as any).csrfToken = 'test-csrf-token-1234';
+  (apiStub as any).staticURL = (path: string) => `/uds/res/${path}`;
+
+  await TestBed.configureTestingModule({
+    declarations: [ShellHostComponent, LoginComponent, SafeHtmlPipe],
+    providers: [
+      { provide: UDSApiService, useValue: apiStub },
+      {
+        provide: BiometricService,
+        useValue: jasmine.createSpyObj('BiometricService', ['hasStoredData', 'clearCredentials']),
+      },
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+  }).compileComponents();
+}
+
 describe('LoginComponent page height', () => {
-  let fixture: ComponentFixture<ShellHostComponent>;
-
   beforeEach(async () => {
-    const apiStub = jasmine.createSpyObj<UDSApiService>('UDSApiService', ['staticURL'], {
-      config: {
-        site_name: 'UDS',
-        site_information: '',
-        authenticators: [],
-        allow_biometric_auth: false,
-        urls: { login: '/uds/page/login' },
-      } as any,
-      errors: [],
-    });
-    (apiStub as any).csrfField = 'csrfmiddlewaretoken';
-    (apiStub as any).csrfToken = 'test-csrf-token-1234';
-    (apiStub as any).staticURL = (path: string) => `/uds/res/${path}`;
-
-    await TestBed.configureTestingModule({
-      declarations: [ShellHostComponent, LoginComponent, SafeHtmlPipe],
-      providers: [
-        { provide: UDSApiService, useValue: apiStub },
-        {
-          provide: BiometricService,
-          useValue: jasmine.createSpyObj('BiometricService', ['hasStoredData', 'clearCredentials']),
-        },
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(ShellHostComponent);
-    fixture.detectChanges();
+    await configureShell();
+    TestBed.createComponent(ShellHostComponent).detectChanges();
   });
 
   function box(selector: string): HTMLElement {
@@ -122,5 +122,62 @@ describe('LoginComponent page height', () => {
       `login reserves ${claimedByLogin()}px plus ${reservedByShell()}px of shell, ` +
         `${total - window.innerHeight}px more than the ${window.innerHeight}px viewport`,
     );
+  });
+});
+
+/**
+ * The brand artwork is printed behind the login card, so this one card cannot
+ * take the near-opaque background the rest of the light theme needs to stay
+ * readable over the page. Both themes are checked here because the fix is a
+ * token pair and a theme could silently lose its override.
+ */
+describe('LoginComponent brand visibility', () => {
+  let fixture: ComponentFixture<ShellHostComponent>;
+
+  beforeEach(async () => {
+    await configureShell();
+    fixture = TestBed.createComponent(ShellHostComponent);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    document.body.classList.remove('dark-theme');
+  });
+
+  /** Alpha channel of a computed `rgb()`/`rgba()` colour; 1 when fully opaque. */
+  function alphaOf(color: string): number {
+    const parts = color.replace(/^rgba?\(|\)$/g, '').split(/[,/]/);
+    return parts.length > 3 ? parseFloat(parts[3]) : 1;
+  }
+
+  function cardAlpha(): number {
+    const card = document.querySelector('.login-form') as HTMLElement;
+    return alphaOf(getComputedStyle(card).backgroundColor);
+  }
+
+  function brandOpacity(): number {
+    const image = document.querySelector('.login-brand img') as HTMLElement;
+    return parseFloat(getComputedStyle(image).opacity);
+  }
+
+  function sharedGlassAlpha(): number {
+    const card = document.querySelector('.login-form') as HTMLElement;
+    return alphaOf(getComputedStyle(card).getPropertyValue('--glass-bg').trim());
+  }
+
+  it('keeps the light card translucent enough to show the artwork', () => {
+    expect(cardAlpha()).toBeLessThan(sharedGlassAlpha());
+    expect(cardAlpha()).toBeGreaterThan(0);
+  });
+
+  it('prints the light artwork strongly enough to read through the card', () => {
+    expect(brandOpacity()).toBeGreaterThan(0.5);
+  });
+
+  it('leaves the dark card on the shared glass background', () => {
+    document.body.classList.add('dark-theme');
+    fixture.detectChanges();
+
+    expect(cardAlpha()).toBeCloseTo(sharedGlassAlpha(), 2);
   });
 });
