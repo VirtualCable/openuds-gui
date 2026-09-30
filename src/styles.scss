@@ -57,6 +57,10 @@ $font-size: 14px;
   --warning-color: #d32f2f;
   --bg-button: linear-gradient(135deg, #1976d2, #1565c0);
   --glass-backdrop-filter: blur(8px);
+  /* The login card is the only glass surface with artwork behind it, so it
+     cannot take the near-opaque value the rest of the light theme needs. */
+  --login-card-bg: rgba(255, 255, 255, 0.58);
+  --login-brand-opacity: 0.55;
   --navbar-top: 15px;
   --navbar-height: 64px;
   --content-offset: calc(var(--navbar-top) + var(--navbar-height) + 16px);
@@ -120,6 +124,8 @@ i.material-icons {
   --glass-shadow: rgba(0, 0, 0, 0.45);
   --warning-color: #ff5252;
   --bg-button: linear-gradient(135deg, #3f51b5, #1a237e);
+  --login-card-bg: var(--glass-bg);
+  --login-brand-opacity: 0.46;
 
   /* Same approach as the admin GUI: keep html/body background-color transparent
      (the dark base #0f111a comes from <html> via index.html, which paints below
