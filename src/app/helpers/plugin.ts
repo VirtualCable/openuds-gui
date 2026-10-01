@@ -1,6 +1,7 @@
 import { UDSApiServiceType } from '../types/uds-api-service';
 import { toPromise } from '../helpers/tools';
 import { JSONTransportURLService } from '../types/services';
+import { withLauncherName } from './brand';
 
 /**
  * Plugin manipulation class
@@ -57,7 +58,9 @@ export class Plugin {
 
     const dialog = await this.showAlert(
       django.gettext('Please wait until the service is launched.'),
-      django.gettext('Remember that you will need the UDS launcher on your platform to access the service.'),
+      withLauncherName(
+        django.gettext('Remember that you will need %(launcher)s on your platform to access the service.')
+      ),
       0,
     );
     let cancel = false;
@@ -85,11 +88,17 @@ export class Plugin {
         const data = await this.api.status(serviceId, transportId);
         
         if (readySinceTime > 0 && Date.now() - readySinceTime > this.delay * 5) {
-          dialog.componentInstance.data.title = django.gettext('Service ready') + ' - ' + django.gettext('UDS Launcher not launching');
+          dialog.componentInstance.data.title = django.gettext('Service ready') +
+            ' - ' +
+            withLauncherName(django.gettext('%(launcher)s not launching'));
           dialog.componentInstance.data.body = `
             <div class="client-warning">
-              <span>${django.gettext("It seems that you don't have UDS Launcher installed. Please, install it from here:")}</span>
-              <a href="${this.api.config.urls.launcher_download}" class="download-link">${django.gettext('UDS Launcher Download')}</a>
+              <span>${withLauncherName(
+                django.gettext("It seems that you don't have %(launcher)s installed. Please, install it from here:")
+              )}</span>
+              <a href="${this.api.config.urls.launcher_download}" class="download-link">${withLauncherName(
+                django.gettext('%(launcher)s Download')
+              )}</a>
             </div>
           `;
         }
@@ -99,7 +108,9 @@ export class Plugin {
             // Service is ready, wait for client, update dialog text
             readySinceTime = Date.now();
             dialog.componentInstance.data.title = django.gettext('Service ready');
-            dialog.componentInstance.data.body = django.gettext('Launching UDS Launcher...</br>Please wait.');
+            dialog.componentInstance.data.body = withLauncherName(
+              django.gettext('Launching %(launcher)s...</br>Please wait.')
+            );
           }
         } else if (data.status === 'accessed') {
           // stop checking
@@ -125,7 +136,9 @@ export class Plugin {
   private async processExternalUrl(url: string) {
     const dialog = await this.showAlert(
       django.gettext('Please wait until the service is launched.'),
-      django.gettext('Remember that you will need the UDS launcher on your platform to access the service.'),
+      withLauncherName(
+        django.gettext('Remember that you will need %(launcher)s on your platform to access the service.')
+      ),
       0,
     );
     let cancel = false;
