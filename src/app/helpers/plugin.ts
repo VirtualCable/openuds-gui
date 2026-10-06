@@ -37,7 +37,11 @@ export class Plugin {
    * @param url uds url to be lauhcned
    */
   private launchUDSUrl(url: string) {
-    this.api.download(url);
+    if (/Android/i.test(navigator.userAgent)) {
+      window.location.href = url;
+    } else {
+      this.api.download(url);
+    }
   }
 
   /**
