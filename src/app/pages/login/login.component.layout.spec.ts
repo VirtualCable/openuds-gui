@@ -41,14 +41,20 @@ async function configureShell(): Promise<void> {
   (apiStub as any).csrfToken = 'test-csrf-token-1234';
   (apiStub as any).staticURL = (path: string) => `/uds/res/${path}`;
 
+  const biometricStub = jasmine.createSpyObj('BiometricService', [
+    'getHints',
+    'clearAllHints',
+    'addHint',
+    'removeHint',
+    'unlockVault',
+  ]);
+  biometricStub.getHints.and.returnValue([]);
+
   await TestBed.configureTestingModule({
     declarations: [ShellHostComponent, LoginComponent, SafeHtmlPipe],
     providers: [
       { provide: UDSApiService, useValue: apiStub },
-      {
-        provide: BiometricService,
-        useValue: jasmine.createSpyObj('BiometricService', ['hasStoredData', 'clearCredentials']),
-      },
+      { provide: BiometricService, useValue: biometricStub },
     ],
     schemas: [NO_ERRORS_SCHEMA],
   }).compileComponents();
