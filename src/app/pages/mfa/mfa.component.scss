@@ -1,54 +1,145 @@
 .mfa-container {
+  position: relative;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  /* The shell is not free: .content clears the fixed navbar and the footer
+     block takes 3em (app.component.scss). A full 100vh here pushes the
+     document past the window and leaves a dead scrollbar. */
+  min-height: calc(100vh - var(--content-offset) - 3em);
+  padding-top: 50px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+}
+
+/* The stack is the positioning context the brand centers on, so the artwork
+   follows the card instead of the viewport. */
+.mfa-stack {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-width: 320px;
+  width: 90%;
+  max-width: 420px;
+}
+
+/* The brand is a backdrop, not a block in the flow: taking it out of the
+   column stops it from pushing the form down the page, and the glass of the
+   card lets it show through, blurred, behind the field. */
+.mfa-brand {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+
+  img {
+    width: min(300px, 78%);
+    opacity: var(--login-brand-opacity);
+    /* The artwork sits on a solid slate plate: without the mask its edges
+       would show as a grey rectangle crossing the page. */
+    -webkit-mask-image: radial-gradient(ellipse 62% 44% at 50% 50%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 62% 44% at 50% 50%, #000 40%, transparent 100%);
+  }
+}
+
+.mfa-info,
+.mfa-form {
+  position: relative;
+  z-index: 1;
+}
+
+.mfa-info {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  opacity: 0.9;
 }
 
 .mfa-form {
-  margin: 0 1rem 2rem 0;
-  min-width: 32em;
-  padding: 1rem;
-  -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  flex: 1 0 auto;
-  justify-content: center;
-  flex-flow: column wrap;
-  align-items: center;
+  width: 100%;
+  /* The card is wider than the stack (its padding is outside the 100%): without
+     this it would shrink to fit and the field would come out narrower. */
+  flex-shrink: 0;
+  padding: 3rem 2.5rem;
+  background-color: var(--login-card-bg) !important;
+  backdrop-filter: var(--glass-backdrop-filter) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop-filter) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-radius: 28px !important;
+  transition: all 0.4s ease;
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .mfa-field {
-  width: 80%;
-  margin: 0.5rem;
-}
-
-.mfa-button {
-  margin: 2rem;
+  width: 100% !important;
+  margin-bottom: 1.5rem;
 }
 
 .mat-mdc-form-field {
   width: 100%;
 }
 
-.mfa-info {
-  margin: 1rem;
+.mfa-remember {
+  margin-bottom: 0;
+  color: var(--text-primary);
 }
 
-.mfa-html-container {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem;
+.mfa-button {
+  margin-top: 1.5rem;
+  width: 100%;
+
+  button {
+    width: 100% !important;
+    padding: 22px !important;
+    border-radius: 16px !important;
+    background: var(--bg-button) !important;
+    color: white !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+      filter: brightness(1.1);
+    }
+  }
+}
+
+.mfa-html {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  color: var(--text-primary);
 }
 
 /* responsive part */
-@media only screen and (max-width: 744px) {
+@media only screen and (max-width: 600px) {
+  .mfa-container {
+    padding-top: 40px;
+  }
+
+  .mfa-stack {
+    width: 92%;
+  }
+
   .mfa-form {
-    min-width: 80%;
+    padding: 2rem 1.5rem;
   }
 }
