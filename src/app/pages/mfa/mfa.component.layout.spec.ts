@@ -25,11 +25,11 @@ import { SafeHtmlPipe } from '../../helpers/safe-html.pipe';
 })
 class ShellHostComponent {}
 
-async function configureShell(): Promise<void> {
+async function configureShell(html = ''): Promise<void> {
   const apiStub = jasmine.createSpyObj<UDSApiService>('UDSApiService', ['staticURL'], {
     config: {
       site_name: 'UDS',
-      mfa: { label: 'Authentication Code', remember_device: '', html: '' },
+      mfa: { label: 'Authentication Code', remember_device: '', html },
       urls: { mfa: '/uds/page/mfa' },
     } as any,
     errors: [],
@@ -173,5 +173,24 @@ describe('MfaComponent card glass', () => {
     fixture.detectChanges();
 
     expect(cardAlpha()).toBeCloseTo(sharedGlassAlpha(), 2);
+  });
+});
+
+/**
+ * The TOTP enrollment page ships its QR code as mfa.html. A dimmed QR loses the
+ * contrast the camera needs to read it, so the block must render at full opacity.
+ */
+describe('MfaComponent extra html', () => {
+  beforeEach(async () => {
+    await configureShell('<img alt="qr" width="10" height="10">');
+    TestBed.createComponent(ShellHostComponent).detectChanges();
+  });
+
+  it('does not dim the html provided by the multi factor method', () => {
+    const extra = document.querySelector('.mfa-html') as HTMLElement | null;
+    if (extra === null) {
+      fail('Expected .mfa-html to be rendered');
+    }
+    expect(getComputedStyle(extra as HTMLElement).opacity).toBe('1');
   });
 });
