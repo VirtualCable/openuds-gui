@@ -6,8 +6,8 @@
 
 .footer {
     flex-shrink: 0;
-    margin: 1em 1em 1em 1em;
-    height: 1em;
+    margin: var(--footer-margin);
+    height: var(--footer-height);
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
