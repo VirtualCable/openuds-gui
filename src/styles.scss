@@ -64,6 +64,9 @@ $font-size: 14px;
   --navbar-top: 15px;
   --navbar-height: 64px;
   --content-offset: calc(var(--navbar-top) + var(--navbar-height) + 16px);
+  --footer-height: 1em;
+  --footer-margin: 1em;
+  --footer-block: calc(var(--footer-height) + var(--footer-margin) * 2);
 }
 
 @media only screen and (max-width: 744px) {
