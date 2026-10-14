@@ -13,6 +13,14 @@ export interface Authenticator {
     is_custom: string;
 }
 
+// WebAuthn endpoints, see uds/web/util/configjs.py
+export interface WebAuthnUrls {
+    readonly biometric_start: string;
+    readonly biometric_finish: string;
+    readonly save_start: string;
+    readonly save_finish: string;
+}
+
 // URLs related, remember that only NEEDED elements are declared, but more elements are available
 export interface UDSUrls {
     readonly static: string;
@@ -31,6 +39,7 @@ export interface UDSUrls {
     readonly launcher_download: string;
     readonly error: string;
     readonly update_transport_ticket: string;
+    readonly webauthn: WebAuthnUrls;
 
     readonly launch: string;
 }

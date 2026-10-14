@@ -2,6 +2,7 @@
   <input name="" id="token" value="" type="hidden">
   <input name="logouturl" id="id_logouturl" value="" type="hidden">
   <input name="authenticator" id="authenticator" value="" type="hidden">
+  <input name="webauthn" id="webauthn" value="" type="hidden">
 
   <div class="login-container">
     <div class="login-info">
@@ -56,12 +57,14 @@
           </button>
         </div>
 
-        @if (biometric.hasStoredData() && api.config.allow_biometric_auth) {
-          <div class="login-button biometric-button">
-            <button mat-flat-button color="accent" type="button" (click)="checkBiometrics()">
-              <uds-translate>Login with Biometrics</uds-translate>
-            </button>
-          </div>
+        @if (canUseBiometrics()) {
+          @for (hint of biometricHints; track hint.username + '/' + hint.auth_id) {
+            <div class="login-button biometric-button">
+              <button mat-flat-button color="accent" type="button" (click)="doBiometricLogin(hint.username, hint.auth_id)">
+                <uds-translate>Login with Biometrics</uds-translate>&nbsp;{{ hint.username }}
+              </button>
+            </div>
+          }
         }
       </div>
     </div>

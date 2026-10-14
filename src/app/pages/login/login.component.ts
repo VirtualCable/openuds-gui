@@ -3,6 +3,8 @@ import { UDSApiService } from '../../services/uds-api.service';
 import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
 
+const DECLINED_KEY = 'uds_biometric_declined';
+
 @Component({
   selector: 'uds-login',
   templateUrl: './login.component.html',
@@ -17,18 +19,24 @@ export class LoginComponent implements OnInit {
   auths: Authenticator[];
   auth: HTMLInputElement = {} as HTMLInputElement;
   title = 'UDS Enterprise';
+  // Hints (username + authenticator only) of users with a biometric vault on this browser
+  biometricHints: { username: string; auth_id: string }[];
+  // Marks biometric registration declined, so we do not prompt again
+  biometricDeclined = !!localStorage.getItem(DECLINED_KEY);
+  // Mutually exclusive biometric flows guard
+  biometricBusy = false;
 
   constructor() {
     this.title = this.api.config.site_name;
     this.auths = this.api.config.authenticators.slice(0);
     // Sort array, so we can display it correctly
     this.auths.sort((a, b) => a.priority - b.priority);
+    this.biometricHints = this.biometric.getHints();
   }
 
   ngOnInit() {
     // We want to keep compatibility right now with previous UDS templates, so we
     // adapt form to post the correct values the correct way
-    // form.action = this.api.config.urls.login;  // Move to launch()
     const input = document.getElementById('token') as HTMLInputElement;
     input.name = this.api.csrfField;
 
@@ -43,42 +51,89 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.api.errors.length > 0) {
-      // Clear biometrics on any failure as requested
-      this.biometric.clearCredentials();
+      // The last login attempt (biometric or hint-assisted) failed. There is no
+      // valid credential stored server side anymore (it is invalidated there too),
+      // so clean up the local hints and show the error.
+      this.biometric.clearAllHints();
+      this.biometricHints = [];
       this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>');
     } else {
-      // If no errors, check if we should trigger biometrics automatically
-      this.checkBiometrics();
-    }
-  }
-
-  async checkBiometrics() {
-    if (this.api.config.allow_biometric_auth && this.biometric.hasStoredData()) {
-      try {
-        const credentials = await this.biometric.authenticateAndDecrypt();
-        if (credentials) {
-          this.doBiometricLogin(credentials);
-        }
-      } catch (err) {
-        console.error('Biometric login failed:', err);
-        // If it failed (e.g. invalid), clear it
-        this.biometric.clearCredentials();
+      // If no errors, offer automatic biometric login when there is a single hint
+      if (this.biometricHints.length === 1 && this.canUseBiometrics()) {
+        this.doBiometricLogin(this.biometricHints[0].username, this.biometricHints[0].auth_id);
       }
     }
   }
 
-  async doBiometricLogin(creds: { user: string; pass: string; auth: string }) {
+  canUseBiometrics(): boolean {
+    return this.api.config.allow_biometric_auth && this.biometricHints.length > 0;
+  }
+
+  /**
+   * Biometric login: unlocks the server side vault (fingerprint verified by
+   * UDS), fills the login form with the decrypted password and submits it.
+   * If UDS provided a fresh PRF salt (rotation), it is attached to the POST
+   * so the server can rotate the vault as the login succeeds.
+   */
+  async doBiometricLogin(username: string, authId: string): Promise<void> {
+    if (this.biometricBusy) {
+      return;
+    }
+    this.biometricBusy = true;
+    try {
+      const unlocked = await this.biometric.unlockVault(username, authId);
+      if (!unlocked) {
+        return; // No vault available, hint removed by the service
+      }
+      this.setWebauthnPayload({
+        rotated_vault: unlocked.rotated_vault,
+        credential_id: unlocked.credential_id,
+      });
+      this.fillForm(unlocked.username, unlocked.password, unlocked.auth_id);
+      this.biometric.addHint({
+        username: unlocked.username,
+        auth_id: unlocked.auth_id,
+        credential_id: unlocked.credential_id,
+      });
+      this.launchSubmit();
+    } catch (err) {
+      // User cancelled, expired challenge, stale credentials... stay on login
+      console.error('Biometric login failed:', err);
+      this.biometric.removeHint(username, authId);
+      this.biometricHints = this.biometric.getHints().map((h) => ({ username: h.username, auth_id: h.auth_id }));
+    } finally {
+      this.biometricBusy = false;
+    }
+  }
+
+  /**
+   * Fills the login form fields. Used by the biometric flow just before the
+   * form submit, the same way as if the user had typed everything manually.
+   */
+  private fillForm(username: string, password: string, authId: string): void {
     const userField = document.getElementById('id_user') as HTMLInputElement;
     const passField = document.getElementById('id_password') as HTMLInputElement;
     const authField = document.getElementById('authenticator') as HTMLInputElement;
+    if (userField && passField) {
+      userField.value = username;
+      passField.value = password;
+      if (authField && authId) {
+        // Only select known authenticators on the form (id is the
+        // authenticator uuid, as served in the login page config)
+        if (this.auths.some((a) => String(a.id) === String(authId))) {
+          authField.value = String(authId);
+        }
+      }
+    }
+  }
 
-    if (userField && passField && authField) {
-      userField.value = creds.user;
-      passField.value = creds.pass;
-      authField.value = creds.auth;
-
-      // Submit the form
-      this.launch(true);
+  /**
+   * Attaches the biometric payload (rotation data) to the login POST.
+   */
+  private setWebauthnPayload(payload: { rotated_vault: string; credential_id: string } | null): void {
+    const field = document.getElementById('webauthn') as HTMLInputElement;
+    if (field) {
+      field.value = payload ? JSON.stringify(payload) : '';
     }
   }
 
@@ -101,57 +156,61 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  async launch(arg1?: Event | boolean, isBiometric = false): Promise<boolean> {
+  async launch(arg1?: Event | boolean): Promise<void> {
     if (arg1 instanceof Event) {
       arg1.preventDefault();
-    } else if (typeof arg1 === 'boolean') {
-      isBiometric = arg1;
     }
 
     const form = document.getElementById('loginform') as HTMLFormElement;
+    const user = (document.getElementById('id_user') as HTMLInputElement).value;
+    const pass = (document.getElementById('id_password') as HTMLInputElement).value;
+    const auth = (document.getElementById('authenticator') as HTMLInputElement).value;
 
-    console.log('Launch called with isBiometric:', isBiometric);
-    console.log('allow_biometric_auth config value:', this.api.config.allow_biometric_auth);
-
-    // If manual login and biometrics are enabled, ask to save AFTER we verify success (optional but recommended)
-    // However, since UDS login is a redirect, we capture data now.
-    if (!isBiometric && this.api.config.allow_biometric_auth) {
-      const user = (document.getElementById('id_user') as HTMLInputElement).value;
-      const pass = (document.getElementById('id_password') as HTMLInputElement).value;
-      const auth = (document.getElementById('authenticator') as HTMLInputElement).value;
-
-      // Credentials are saved before form submission because after the redirect
-      // we no longer have access to the plaintext credentials. If login fails,
-      // the stored credentials will be cleared on the next page load via udsData.errors.
-      // Only ask to save if not already saved and not previously declined
-      if (
-        user &&
-        pass &&
-        (await this.biometric.isSupported()) &&
-        !this.biometric.hasStoredData() &&
-        !this.biometric.isDeclined()
-      ) {
+    // Registration of the biometric vault happens BEFORE the form submit,
+    // because the password is only available in plaintext right now. The
+    // uploads are attached to this very login POST (pending server state), so
+    // if the login fails, no biometric data is stored at all.
+    if (
+      this.api.config.allow_biometric_auth &&
+      !this.biometricDeclined &&
+      this.biometricHints.every((h) => !(h.username === user && h.auth_id === auth))
+    ) {
+      const supported = await this.biometric.isSupported();
+      if (user && pass && supported) {
         const save = await this.api.gui.yesno(
           django.gettext('Biometric Login'),
           django.gettext('Would you like to save your credentials for future biometric login?'),
         );
         if (save) {
           try {
-            this.biometric.clearDeclined(); // Clear declined flag if they said yes
-            await this.biometric.registerBiometrics(user, pass, auth);
+            const credentialId = await this.biometric.registerVault(user, pass, auth);
+            this.biometric.addHint({ username: user, auth_id: auth, credential_id: credentialId });
+            this.biometricHints = this.biometric.getHints().map((h) => ({ username: h.username, auth_id: h.auth_id }));
           } catch (err) {
+            // Cancelled or unsupported; login continues normally
             console.error('Biometric registration error:', err);
             this.api.gui.alert(django.gettext('Error'), django.gettext('Could not register biometrics'));
           }
         } else {
-          this.biometric.setDeclined(); // Remember the user declined
+          this.biometricDeclined = true;
+          localStorage.setItem(DECLINED_KEY, 'true');
         }
       }
     }
 
+    // Registration finished (or skipped): clean up the payload field so a
+    // plain manual login does not carry stale biometric data.
+    this.setWebauthnPayload(null);
     form.action = this.api.config.urls.login;
     form.method = 'POST';
     form.submit();
-    return true;
+  }
+
+  /** Submits the login form directly (used by the biometric unlock flow). */
+  private launchSubmit(): void {
+    const form = document.getElementById('loginform') as HTMLFormElement;
+    form.action = this.api.config.urls.login;
+    form.method = 'POST';
+    form.submit();
   }
 }
