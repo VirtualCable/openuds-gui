@@ -1,44 +1,45 @@
 <form id="mfaform" method="post" (ngSubmit)="launch()">
   <div class="mfa-container">
-    <div class="mfa-brand">
-      <img [src]="api.staticURL('modern/img/login-img.png')" />
-    </div>
-
     <div class="mfa-info">
       <uds-translate>Login Verification</uds-translate>
     </div>
 
-    <div class="mfa-form">
-      <div class="mfa-field">
-        <mat-form-field>
-          <mat-label>
-            {{ api.config.mfa.label }}
-          </mat-label>
-          <input matInput id="code" name="code" value="" required autofocus />
-        </mat-form-field>
+    <div class="mfa-stack">
+      <div class="mfa-brand" aria-hidden="true">
+        <img [src]="api.staticURL('modern/img/login-img.png')" alt="">
       </div>
 
-
-      <!-- checkbox for remember -->
-      @if (api.config.mfa.remember_device !== '') {
+      <div class="mfa-form">
         <div class="mfa-field">
-          <mat-checkbox id="remember" name="remember">
-            <uds-translate>Remember me for</uds-translate> {{ api.config.mfa.remember_device }}
-          </mat-checkbox>
+          <mat-form-field>
+            <mat-label>
+              {{ api.config.mfa.label }}
+            </mat-label>
+            <input matInput id="code" name="code" value="" required autofocus />
+          </mat-form-field>
         </div>
-      }
-      @if (api.config.mfa.remember_device === '') {
-        <input type="hidden" name="remember" value="0"/>
-      }
 
-      <div class="mfa-button">
-        <button mat-stroked-button color="primary" type="submit">
-          <uds-translate>Submit</uds-translate>
-        </button>
+        @if (api.config.mfa.remember_device !== '') {
+          <div class="mfa-field mfa-remember">
+            <mat-checkbox id="remember" name="remember">
+              <uds-translate>Remember me for</uds-translate> {{ api.config.mfa.remember_device }}
+            </mat-checkbox>
+          </div>
+        }
+        @if (api.config.mfa.remember_device === '') {
+          <input type="hidden" name="remember" value="0"/>
+        }
+
+        <div class="mfa-button">
+          <button mat-stroked-button color="primary" type="submit">
+            <uds-translate>Submit</uds-translate>
+          </button>
+        </div>
+
+        @if (api.config.mfa.html) {
+          <div class="mfa-html" [innerHtml]="api.config.mfa.html | safeHtml"></div>
+        }
       </div>
     </div>
   </div>
 </form>
-<div class="mfa-html-container">
-  <div class="mfa-html" [innerHtml]="api.config.mfa.html| safeHtml"></div>
-</div>
