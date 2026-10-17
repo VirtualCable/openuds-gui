@@ -255,7 +255,8 @@ i.material-icons {
 
 /* Login Fields Glassmorphism */
 /* Moved to global styles to ensure priority over Material default theme */
-.login-field {
+.login-field,
+.mfa-field {
   .mat-mdc-form-field {
     min-width: 100% !important;
     width: 100% !important;

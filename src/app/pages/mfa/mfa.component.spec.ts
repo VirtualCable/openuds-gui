@@ -103,4 +103,21 @@ describe('MfaComponent form contract', () => {
     expect(brand.getAttribute('aria-hidden')).toBe('true');
     expect((brand.querySelector('img') as HTMLImageElement).getAttribute('alt')).toBe('');
   });
+
+  it('applies login-field class to mfa-field for portal glassmorphism styling', async () => {
+    await render({ label: 'Authentication Code', remember_device: '', html: '' });
+
+    const field = el('.mfa-field');
+    expect(field?.classList.contains('login-field')).toBe(true);
+  });
+
+  it('renders qr code or image inside mfa-html without breaking the card', async () => {
+    const qrHtml = '<div><img src="data:image/png;base64,fake" alt="QR Code" /></div><p>Scan me</p>';
+    await render({ label: 'Authentication Code', remember_device: '', html: qrHtml });
+
+    const img = el('.mfa-html img') as HTMLImageElement;
+    expect(img).not.toBeNull();
+    expect(img.getAttribute('alt')).toBe('QR Code');
+    expect((el('.mfa-html') as HTMLElement).textContent).toContain('Scan me');
+  });
 });
