@@ -121,7 +121,7 @@
   }
 }
 
-.mfa-html {
+:host ::ng-deep .mfa-html {
   margin-top: 1.5rem;
   width: 100%;
   text-align: center;
@@ -136,16 +136,17 @@
   }
 
   img {
-    display: inline-block;
-    width: 180px;
-    height: 180px;
-    max-width: 100%;
-    object-fit: contain;
-    padding: 10px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-    margin: 0.5rem auto 0.75rem auto;
+    display: inline-block !important;
+    width: 180px !important;
+    height: 180px !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    padding: 10px !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    margin: 0.5rem auto 0.75rem auto !important;
+    box-sizing: border-box !important;
   }
 }
 
