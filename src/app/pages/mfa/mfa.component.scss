@@ -121,35 +121,6 @@
   }
 }
 
-:host ::ng-deep .mfa-html {
-  margin-top: 1.5rem;
-  width: 100%;
-  text-align: center;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text-primary);
-  word-break: break-word;
-
-  p {
-    margin: 0.5rem 0;
-    opacity: 0.9;
-  }
-
-  img {
-    display: inline-block !important;
-    width: 180px !important;
-    height: 180px !important;
-    max-width: 100% !important;
-    object-fit: contain !important;
-    padding: 10px !important;
-    background: #ffffff !important;
-    border-radius: 16px !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
-    margin: 0.5rem auto 0.75rem auto !important;
-    box-sizing: border-box !important;
-  }
-}
-
 /* responsive part */
 @media only screen and (max-width: 600px) {
   .mfa-container {
