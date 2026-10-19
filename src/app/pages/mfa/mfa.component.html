@@ -38,8 +38,10 @@
 
         @if (api.config.mfa.html) {
           <div class="mfa-html-wrapper" [class.expanded]="qrExpanded">
-            <div class="mfa-html" [innerHtml]="api.config.mfa.html | safeHtml"></div>
-            <span class="mfa-qr-resize" (mousedown)="startResize($event)" (touchstart)="startResize($event)" aria-hidden="true"></span>
+            <div class="mfa-qr-anchor">
+              <div class="mfa-html" [innerHtml]="api.config.mfa.html | safeHtml"></div>
+              <span class="mfa-qr-resize" (mousedown)="startResize($event)" (touchstart)="startResize($event)" aria-hidden="true"></span>
+            </div>
           </div>
         }
       </div>

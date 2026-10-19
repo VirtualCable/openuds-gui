@@ -145,14 +145,19 @@
   margin-top: 1.5rem;
 }
 
+.mfa-qr-anchor {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+
 .mfa-qr-resize {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: 6px;
+  bottom: 6px;
   width: 22px;
   height: 22px;
   cursor: nwse-resize;
-  /* Three diagonal strokes pointing toward the lower-right corner. */
   background-image:
     linear-gradient(135deg,
       transparent 0%, transparent 38%,
@@ -177,12 +182,23 @@
 }
 
 .mfa-html {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  display: block;
+  width: auto;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  word-break: break-word;
+  margin: 0 auto;
+  padding: 0;
+
+  > p {
+    margin: 0.5rem 0;
+    opacity: 0.9;
+  }
 
   > img {
-    display: inline-block !important;
+    display: block !important;
     width: 180px !important;
     height: 180px !important;
     max-width: 100% !important;
@@ -191,7 +207,12 @@
     background: #ffffff !important;
     border-radius: 16px !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
-    margin: 0 auto !important;
+    margin: 0.5rem auto 0.75rem auto !important;
     box-sizing: border-box !important;
   }
+}
+
+.mfa-html-wrapper.expanded .mfa-html > img {
+  width: 360px !important;
+  height: 360px !important;
 }

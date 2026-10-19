@@ -347,13 +347,22 @@ i.material-icons {
 
 /* MFA Dynamic HTML (innerHtml) styles - in global styles to bypass Angular view encapsulation */
 .mfa-html {
-  margin-top: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text-primary);
-  word-break: break-word;
+  display: block !important;
+  width: auto !important;
+  text-align: center !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+  color: var(--text-primary) !important;
+  word-break: break-word !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  > div,
+  > p,
+  > span {
+    display: block;
+    text-align: center;
+  }
 
   p {
     margin: 0.5rem 0;
@@ -361,7 +370,7 @@ i.material-icons {
   }
 
   img {
-    display: inline-block !important;
+    display: block !important;
     width: 180px !important;
     height: 180px !important;
     max-width: 100% !important;
@@ -373,6 +382,11 @@ i.material-icons {
     margin: 0.5rem auto 0.75rem auto !important;
     box-sizing: border-box !important;
   }
+}
+
+.mfa-html-wrapper.expanded .mfa-html img {
+  width: 360px !important;
+  height: 360px !important;
 }
 
 /* Material Select Glassmorphism */
