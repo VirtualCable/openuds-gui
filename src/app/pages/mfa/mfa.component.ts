@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject, NgZone, AfterViewInit } from '@angular/core';
 import { UDSApiService } from '../../services/uds-api.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { UDSApiService } from '../../services/uds-api.service';
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
-export class MfaComponent implements OnInit, OnDestroy {
+export class MfaComponent implements OnInit, OnDestroy, AfterViewInit {
   api = inject(UDSApiService);
   private zone = inject(NgZone);
 
@@ -18,11 +18,15 @@ export class MfaComponent implements OnInit, OnDestroy {
   private startY = 0;
   private startSize = 180;
   private readonly BASE_SIZE = 180;
-  private readonly STEP = 24;
   private readonly MIN_SIZE = 120;
   private readonly MAX_SIZE = 480;
   private boundMove: ((e: MouseEvent | TouchEvent) => void) | null = null;
   private boundUp: (() => void) | null = null;
+  private handle: HTMLElement | null = null;
+  private anchor: HTMLElement | null = null;
+  private img: HTMLImageElement | null = null;
+  private parent: HTMLElement | null = null;
+  private repositionHandle = (): void => undefined;
 
   ngOnInit() {
     const form = document.getElementById('mfaform') as HTMLFormElement;
@@ -37,8 +41,49 @@ export class MfaComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngAfterViewInit() {
+    this.installHandle();
+    setTimeout(() => this.repositionHandle(), 100);
+    setTimeout(() => this.repositionHandle(), 500);
+  }
+
   ngOnDestroy() {
     this.detachListeners();
+    this.handle?.remove();
+  }
+
+  private installHandle(): void {
+    const img = document.querySelector('.mfa-html img') as HTMLImageElement | null;
+    if (!img) {
+      setTimeout(() => this.installHandle(), 100);
+      return;
+    }
+    this.img = img;
+    this.parent = img.parentElement;
+    if (!this.parent) return;
+
+    if (getComputedStyle(this.parent).position === 'static') {
+      this.parent.style.position = 'relative';
+    }
+
+    const handle = document.createElement('span');
+    handle.className = 'mfa-qr-resize';
+    handle.setAttribute('aria-hidden', 'true');
+    this.parent.appendChild(handle);
+    this.handle = handle;
+    this.anchor = handle;
+
+    this.repositionHandle = (): void => {
+      if (!this.img || !this.handle) return;
+      const r = this.img.getBoundingClientRect();
+      const pr = this.parent!.getBoundingClientRect();
+      this.handle.style.cssText += `; position: absolute !important; left: ${r.right - pr.left - 28}px !important; top: ${r.bottom - pr.top - 28}px !important; width: 22px !important; height: 22px !important;`;
+    };
+    this.repositionHandle();
+    window.addEventListener('resize', this.repositionHandle);
+
+    handle.addEventListener('mousedown', (e) => this.startResize(e));
+    handle.addEventListener('touchstart', (e) => this.startResize(e), { passive: false });
   }
 
   launch(): boolean {
@@ -52,24 +97,21 @@ export class MfaComponent implements OnInit, OnDestroy {
   }
 
   startResize(event: MouseEvent | TouchEvent): void {
-    const wrapper = (event.currentTarget as HTMLElement).closest('.mfa-html-wrapper') as HTMLElement | null;
-    if (!wrapper) return;
-    const img = wrapper.querySelector('.mfa-html img') as HTMLImageElement | null;
-    if (!img) return;
+    if (!this.img) return;
 
     event.preventDefault();
+    event.stopPropagation();
     this.resizing = true;
     this.startX = this.pointX(event);
     this.startY = this.pointY(event);
-    const rect = img.getBoundingClientRect();
-    this.startSize = rect.width;
-    img.style.transition = 'none';
-    wrapper.classList.add('resizing');
+    const rect = this.img.getBoundingClientRect();
+    this.startSize = Math.round(rect.width);
+    this.img.style.transition = 'none';
     document.body.style.userSelect = 'none';
     document.body.style.cursor = 'nwse-resize';
 
-    this.boundMove = (e: MouseEvent | TouchEvent) => this.onResizeMove(e, wrapper, img);
-    this.boundUp = () => this.onResizeEnd(wrapper, img);
+    this.boundMove = (e: MouseEvent | TouchEvent) => this.onResizeMove(e);
+    this.boundUp = () => this.onResizeEnd();
 
     this.zone.runOutsideAngular(() => {
       window.addEventListener('mousemove', this.boundMove!);
@@ -79,25 +121,27 @@ export class MfaComponent implements OnInit, OnDestroy {
     });
   }
 
-  private onResizeMove(event: MouseEvent | TouchEvent, wrapper: HTMLElement, img: HTMLImageElement): void {
-    if (!this.resizing) return;
+  private onResizeMove(event: MouseEvent | TouchEvent): void {
+    if (!this.resizing || !this.img) return;
     const dx = this.pointX(event) - this.startX;
     const dy = this.pointY(event) - this.startY;
     const delta = Math.max(dx, dy);
-    const stepped = Math.round(delta / this.STEP) * this.STEP;
-    const newSize = Math.max(this.MIN_SIZE, Math.min(this.MAX_SIZE, this.startSize + stepped));
-    img.style.width = newSize + 'px';
-    img.style.height = newSize + 'px';
-    wrapper.classList.toggle('expanded', newSize > this.BASE_SIZE);
+    const newSize = Math.max(this.MIN_SIZE, Math.min(this.MAX_SIZE, this.startSize + delta));
+    this.img.style.setProperty('width', newSize + 'px', 'important');
+    this.img.style.setProperty('height', newSize + 'px', 'important');
+    this.repositionHandle();
   }
 
-  private onResizeEnd(wrapper: HTMLElement, img: HTMLImageElement): void {
-    if (!this.resizing) return;
+  private onResizeEnd(): void {
+    if (!this.resizing || !this.img) return;
     this.resizing = false;
-    wrapper.classList.remove('resizing');
+    this.img.style.transition = '';
     document.body.style.userSelect = '';
     document.body.style.cursor = '';
-    img.style.transition = '';
+    const wrapper = document.querySelector('.mfa-html-wrapper') as HTMLElement | null;
+    if (wrapper) wrapper.classList.remove('expanded');
+    const finalSize = Math.round(this.img.getBoundingClientRect().width);
+    this.img.setAttribute('data-qr-size', finalSize.toString());
     this.detachListeners();
   }
 
