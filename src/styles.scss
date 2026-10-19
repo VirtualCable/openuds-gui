@@ -298,7 +298,11 @@ i.material-icons {
       padding-bottom: 10px !important;
       min-height: auto !important;
     }
-    
+
+    .mdc-text-field__input {
+      padding-top: 1rem !important;
+    }
+
     input {
       color: var(--text-primary) !important;
       background: transparent !important;
@@ -360,7 +364,10 @@ i.material-icons {
     display: inline-block !important;
     width: 180px !important;
     height: 180px !important;
+    min-width: 120px !important;
+    min-height: 120px !important;
     max-width: 100% !important;
+    max-height: 400px !important;
     object-fit: contain !important;
     padding: 10px !important;
     background: #ffffff !important;
@@ -368,6 +375,8 @@ i.material-icons {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
     margin: 0.5rem auto 0.75rem auto !important;
     box-sizing: border-box !important;
+    resize: both !important;
+    overflow: auto !important;
   }
 }
 
