@@ -10,6 +10,7 @@ import { UDSApiService } from '../../services/uds-api.service';
 })
 export class MfaComponent implements OnInit {
   api = inject(UDSApiService);
+  qrExpanded = false;
 
   ngOnInit() {
     // We want to keep compatibility right now with previous UDS templates, so we
@@ -31,5 +32,9 @@ export class MfaComponent implements OnInit {
     const form = document.getElementById('mfaform') as HTMLFormElement;
     form.submit();
     return true;
+  }
+
+  toggleQr(): void {
+    this.qrExpanded = !this.qrExpanded;
   }
 }
