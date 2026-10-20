@@ -103,4 +103,25 @@ describe('MfaComponent form contract', () => {
     expect(brand.getAttribute('aria-hidden')).toBe('true');
     expect((brand.querySelector('img') as HTMLImageElement).getAttribute('alt')).toBe('');
   });
+
+  it('renders mfa-field with required form field and input structure', async () => {
+    await render({ label: 'Authentication Code', remember_device: '', html: '' });
+
+    const field = el('.mfa-field');
+    expect(field).not.toBeNull();
+    expect(field?.querySelector('mat-form-field')).not.toBeNull();
+    const input = field?.querySelector('input#code') as HTMLInputElement;
+    expect(input).not.toBeNull();
+    expect(input.hasAttribute('required')).toBe(true);
+  });
+
+  it('renders qr code or image inside mfa-html without breaking the card', async () => {
+    const qrHtml = '<div><img src="data:image/png;base64,fake" alt="QR Code" /></div><p>Scan me</p>';
+    await render({ label: 'Authentication Code', remember_device: '', html: qrHtml });
+
+    const img = el('.mfa-html img') as HTMLImageElement;
+    expect(img).not.toBeNull();
+    expect(img.getAttribute('alt')).toBe('QR Code');
+    expect((el('.mfa-html') as HTMLElement).textContent).toContain('Scan me');
+  });
 });

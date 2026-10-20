@@ -108,12 +108,15 @@ describe('MfaComponent page height', () => {
   });
 
   it('leaves room for the navbar offset and the footer', () => {
-    const total = claimedByMfa() + reservedByShell();
-    expect(total).toBeLessThanOrEqual(
-      window.innerHeight,
-      `the verification page reserves ${claimedByMfa()}px plus ${reservedByShell()}px of shell, ` +
-        `${total - window.innerHeight}px more than the ${window.innerHeight}px viewport`,
-    );
+    const reserved = reservedByShell();
+    const claimed = claimedByMfa();
+
+    expect(claimed)
+      .withContext(
+        `the verification page claims ${claimed}px while the shell spends ${reserved}px ` +
+          `of the ${window.innerHeight}px viewport`,
+      )
+      .toBeCloseTo(window.innerHeight - reserved, 0);
   });
 });
 
