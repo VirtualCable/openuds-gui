@@ -24,6 +24,12 @@ export class AppComponent implements OnInit {
     // Switch theme if needed
     this.api.initTheme();
 
+    // If udsdata.tag is something, set class of body to that value
+    // TODO: Check this (udsData.tag is something, and is not a list, etc..)
+    if (udsData.tag) {
+      document.body.className = udsData.tag;
+    }
+
     const message =
       this.api.config.cookies_consent.text ||
       django.gettext('We use cookies to authenticate users and remember preferences.') +
