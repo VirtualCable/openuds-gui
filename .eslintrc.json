@@ -12,15 +12,19 @@
         "project": [
           "tsconfig.json",
           "e2e/tsconfig.json"
-        ],
-        "createDefaultProgram": true
+        ]
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "plugins": [
+        "@typescript-eslint"
+      ],
       "rules": {
+        "@angular-eslint/prefer-inject": "off",
+        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/no-empty-lifecycle-method": "off",
         "@angular-eslint/component-selector": [
           "error",
           {
