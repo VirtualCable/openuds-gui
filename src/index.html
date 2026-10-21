@@ -112,18 +112,20 @@
   <script type="text/javascript" src="/uds/utility/i18n/es.js"></script>
   <script type="text/javascript" src="/uds/utility/uds.js"></script>
   <!-- ENDDYNAMIC_DATA -->
-  <!-- <script type="text/javascript">
-    var head = document.getElementsByTagName('HEAD')[0];
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = '/uds/res/' + udsData.config.tag + '.css';
-    head.appendChild(link);
-  </script> -->
 
 </head>
 
 <body>
+  <!-- Runs before the loader below is painted, so per-tag custom CSS applies to it too -->
+  <script type="text/javascript">
+    (function () {
+      var tag = window.udsData && udsData.config ? udsData.config.tag : null;
+      // "disabled" is a reserved tag (hides custom authenticators), not an authenticator label
+      if (typeof tag === 'string' && tag !== 'disabled' && /^[A-Za-z0-9_.:-]{1,128}$/.test(tag)) {
+        document.body.classList.add(tag);
+      }
+    })();
+  </script>
   <uds-root>
     <!-- loading layout replaced by app after startupp -->
     <div class="app-loading">
