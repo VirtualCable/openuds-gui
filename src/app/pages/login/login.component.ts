@@ -4,6 +4,7 @@ import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
 
 const DECLINED_KEY = 'uds_biometric_declined';
+const PENDING_UNLOCK_KEY = 'uds_biometric_pending_unlock';
 
 @Component({
   selector: 'uds-login',
@@ -50,12 +51,13 @@ export class LoginComponent implements OnInit {
       this.changeAuth(this.auth.value);
     }
 
+    const failedUnlock = this.takePendingUnlock();
     if (this.api.errors.length > 0) {
-      // The last login attempt (biometric or hint-assisted) failed. There is no
-      // valid credential stored server side anymore (it is invalidated there too),
-      // so clean up the local hints and show the error.
-      this.biometric.clearAllHints();
-      this.biometricHints = [];
+      // Server side only the credential used on the failed attempt is invalidated
+      if (failedUnlock) {
+        this.biometric.removeHint(failedUnlock.username, failedUnlock.auth_id);
+        this.biometricHints = this.biometric.getHints().map((h) => ({ username: h.username, auth_id: h.auth_id }));
+      }
       this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>');
     } else {
       // If no errors, offer automatic biometric login when there is a single hint
@@ -63,6 +65,12 @@ export class LoginComponent implements OnInit {
         this.doBiometricLogin(this.biometricHints[0].username, this.biometricHints[0].auth_id);
       }
     }
+  }
+
+  private takePendingUnlock(): { username: string; auth_id: string } | null {
+    const pending = sessionStorage.getItem(PENDING_UNLOCK_KEY);
+    sessionStorage.removeItem(PENDING_UNLOCK_KEY);
+    return pending ? JSON.parse(pending) : null;
   }
 
   canUseBiometrics(): boolean {
@@ -95,6 +103,10 @@ export class LoginComponent implements OnInit {
         auth_id: unlocked.auth_id,
         credential_id: unlocked.credential_id,
       });
+      sessionStorage.setItem(
+        PENDING_UNLOCK_KEY,
+        JSON.stringify({ username: unlocked.username, auth_id: unlocked.auth_id }),
+      );
       this.launchSubmit();
     } catch (err) {
       // User cancelled, expired challenge, stale credentials... stay on login
