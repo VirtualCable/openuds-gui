@@ -7,7 +7,13 @@ import { BiometricService } from '../../services/biometric.service';
 import { SafeHtmlPipe } from '../../helpers/safe-html.pipe';
 
 describe('LoginComponent biometric hints after a login error', () => {
-  let api: { config: any; errors: string[]; csrfField: string; gui: jasmine.SpyObj<any>; staticURL: (p: string) => string };
+  let api: {
+    config: any;
+    errors: string[];
+    csrfField: string;
+    gui: jasmine.SpyObj<any>;
+    staticURL: (p: string) => string;
+  };
   let biometric: jasmine.SpyObj<BiometricService>;
 
   beforeEach(async () => {
