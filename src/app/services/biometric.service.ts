@@ -349,10 +349,14 @@ export class BiometricService {
      * @throws on WebAuthn or verification errors
      */
     async unlockVault(username: string, authId: string): Promise<UnlockedVault | null> {
+        // Without it, the server falls back to the latest credential of the
+        // user, which may live on another device
+        const hint = this.getHints().find((h) => h.username === username && h.auth_id === authId);
         const start = await firstValueFrom(
             this.http.post<BiometricStartResponse>(this.api.config.urls.webauthn.biometric_start, {
                 username,
                 auth_id: authId,
+                credential_id: hint?.credential_id,
             }),
         );
 
