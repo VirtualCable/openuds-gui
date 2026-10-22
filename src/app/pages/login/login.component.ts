@@ -68,9 +68,22 @@ export class LoginComponent implements OnInit {
   }
 
   private takePendingUnlock(): { username: string; auth_id: string } | null {
-    const pending = sessionStorage.getItem(PENDING_UNLOCK_KEY);
-    sessionStorage.removeItem(PENDING_UNLOCK_KEY);
-    return pending ? JSON.parse(pending) : null;
+    try {
+      const pending = sessionStorage.getItem(PENDING_UNLOCK_KEY);
+      sessionStorage.removeItem(PENDING_UNLOCK_KEY);
+      return pending ? JSON.parse(pending) : null;
+    } catch (err) {
+      console.warn('Pending biometric unlock unreadable:', err);
+      return null;
+    }
+  }
+
+  private storePendingUnlock(username: string, authId: string): void {
+    try {
+      sessionStorage.setItem(PENDING_UNLOCK_KEY, JSON.stringify({ username, auth_id: authId }));
+    } catch (err) {
+      console.warn('Pending biometric unlock not stored:', err);
+    }
   }
 
   canUseBiometrics(): boolean {
@@ -103,10 +116,7 @@ export class LoginComponent implements OnInit {
         auth_id: unlocked.auth_id,
         credential_id: unlocked.credential_id,
       });
-      sessionStorage.setItem(
-        PENDING_UNLOCK_KEY,
-        JSON.stringify({ username: unlocked.username, auth_id: unlocked.auth_id }),
-      );
+      this.storePendingUnlock(unlocked.username, unlocked.auth_id);
       this.launchSubmit();
     } catch (err) {
       // User cancelled, expired challenge, stale credentials... stay on login

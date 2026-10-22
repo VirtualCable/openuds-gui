@@ -60,7 +60,11 @@ describe('LoginComponent biometric hints after a login error', () => {
     return fixture.componentInstance;
   }
 
-  async function submitBiometricLogin(component: LoginComponent, username: string, authId: string): Promise<void> {
+  async function submitBiometricLogin(
+    component: LoginComponent,
+    username: string,
+    authId: string,
+  ): Promise<jasmine.Spy> {
     biometric.unlockVault.and.resolveTo({
       username,
       auth_id: authId,
@@ -68,8 +72,9 @@ describe('LoginComponent biometric hints after a login error', () => {
       rotated_vault: 'vault',
       credential_id: 'cred',
     });
-    spyOn(component as any, 'launchSubmit');
+    const launchSubmit = spyOn(component as any, 'launchSubmit');
     await component.doBiometricLogin(username, authId);
+    return launchSubmit;
   }
 
   it('keeps every hint when a manual login fails', () => {
@@ -94,6 +99,23 @@ describe('LoginComponent biometric hints after a login error', () => {
 
     loadLoginPage(['Invalid credentials']);
 
+    expect(biometric.removeHint).not.toHaveBeenCalled();
+    expect(biometric.clearAllHints).not.toHaveBeenCalled();
+  });
+
+  it('still shows the login error when the stored attempt is unreadable', () => {
+    sessionStorage.setItem('uds_biometric_pending_unlock', '{not json');
+
+    expect(() => loadLoginPage(['Invalid credentials'])).not.toThrow();
+    expect(api.gui.alert).toHaveBeenCalled();
+  });
+
+  it('submits the biometric login even when the attempt cannot be stored', async () => {
+    spyOn(Storage.prototype, 'setItem').and.throwError('QuotaExceededError');
+
+    const launchSubmit = await submitBiometricLogin(loadLoginPage([]), 'alice', 'auth-1');
+
+    expect(launchSubmit).toHaveBeenCalled();
     expect(biometric.removeHint).not.toHaveBeenCalled();
   });
 });
