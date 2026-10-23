@@ -1,11 +1,4 @@
-/**
- * The loading logo is embedded in styles.scss as a base64 data URI. A single
- * character lost from that string turns it into an invalid URL: the browser
- * logs ERR_INVALID_URL and the logo never shows while the app loads.
- *
- * Karma loads src/styles.scss as a global stylesheet, so the real rule is
- * resolved here and the image is decoded by the browser itself.
- */
+// Karma injects src/styles.scss globally, so the real .app-loading rule applies here.
 describe('Global styles: loading logo', () => {
   let host: HTMLElement;
 
