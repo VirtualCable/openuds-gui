@@ -8,6 +8,8 @@ describe('BiometricService registration device id', () => {
   const SAVE_START_URL = '/uds/webapi/webauthn/save-start';
   const DEVICE_ID_KEY = 'uds_biometric_device_id';
 
+  const DEVICE_ID_FORMAT = /^[A-Za-z0-9_-]{43}$/;
+
   let service: BiometricService;
   let httpMock: HttpTestingController;
 
@@ -45,13 +47,14 @@ describe('BiometricService registration device id', () => {
   it('sends a random device id when registering', async () => {
     const body = await saveStartBody();
 
-    expect(body.device_id).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    expect(body.device_id).toMatch(DEVICE_ID_FORMAT);
   });
 
   it('sends the same device id on every registration from this browser', async () => {
     const first = await saveStartBody();
     const second = await saveStartBody();
 
+    expect(first.device_id).toMatch(DEVICE_ID_FORMAT);
     expect(second.device_id).toBe(first.device_id);
   });
 
@@ -60,6 +63,7 @@ describe('BiometricService registration device id', () => {
     service.clearAllHints();
     const second = await saveStartBody();
 
+    expect(first.device_id).toMatch(DEVICE_ID_FORMAT);
     expect(second.device_id).toBe(first.device_id);
   });
 });
