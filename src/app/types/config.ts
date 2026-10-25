@@ -34,6 +34,7 @@ export interface UDSUrls {
     readonly enabler: string;
     readonly status: string;
     readonly action: string;
+    readonly favorite_transport: string;
     readonly gallery_image: string;
     readonly transport_icon: string;
     readonly launcher_download: string;

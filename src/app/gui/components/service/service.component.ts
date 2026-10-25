@@ -111,6 +111,23 @@ export class ServiceComponent implements OnInit, OnChanges {
     this.favoriteChanged.emit({ serviceId: this.service.id, isFavorite: this.isFavorite });
   }
 
+  async toggleFavoriteTransport(event: Event, transport: JSONTransport) {
+    // The star lives inside the menu item: without this the click would also launch the transport
+    event.stopPropagation();
+    event.preventDefault();
+    const makeFavorite = !transport.favorite;
+    try {
+      await this.api.setFavoriteTransport(this.service.id, makeFavorite ? transport.id : null);
+    } catch {
+      return;
+    }
+    // Same order the server sends: the favorite first, then the admin priority.
+    // The icon click launches transports[0], so it picks up the new favorite right away.
+    this.service.transports = this.service.transports
+      .map((t) => ({ ...t, favorite: makeFavorite && t.id === transport.id }))
+      .sort((a, b) => Number(b.favorite) - Number(a.favorite) || a.priority - b.priority);
+  }
+
   getTransportIcon(transId: string) {
     return this.api.transportIconURL(transId);
   }

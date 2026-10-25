@@ -129,6 +129,12 @@
   margin-right: 0.4em;
 }
 
+.favorite-transport {
+  margin-left: auto;
+  padding-left: 1em;
+  cursor: pointer;
+}
+
 .alert::before {
   position: absolute;
   top: 1rem;

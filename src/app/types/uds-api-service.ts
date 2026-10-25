@@ -22,6 +22,7 @@ export interface UDSApiServiceType {
 
   /* Services resetter */
   action(action: string, serviceId: string): Promise<JSONService>;
+  setFavoriteTransport(serviceId: string, transportId: string | null): Promise<void>;
 
   /* transport url */
   transportUrl(url: string): Promise<JSONTransportURLService>;
