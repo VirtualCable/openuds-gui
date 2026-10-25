@@ -6,7 +6,7 @@
           <div class="transport-item">
             <img [src]="getTransportIcon(trans.id)" />
             {{ trans.name }}
-            @if (favoriteEnabled) {
+            @if (favoriteTransportEnabled) {
               <i
                 class="material-icons favorite-transport"
                 role="button"

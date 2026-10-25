@@ -34,6 +34,10 @@ export class ServiceComponent implements OnInit, OnChanges {
     return (this.api.config as any).enable_favorite_services === true;
   }
 
+  get favoriteTransportEnabled(): boolean {
+    return this.api.config.enable_favorite_transports === true;
+  }
+
   get serviceImage() {
     return this.api.galleryImageURL(this.service.imageId);
   }
