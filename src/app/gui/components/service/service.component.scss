@@ -133,6 +133,13 @@
   margin-left: auto;
   padding-left: 1em;
   cursor: pointer;
+  // visibility, not display: the menu width must not jump when the star appears
+  visibility: hidden;
+}
+
+.mat-mdc-menu-item:hover .favorite-transport,
+.mat-mdc-menu-item:focus-within .favorite-transport {
+  visibility: visible;
 }
 
 .alert::before {
