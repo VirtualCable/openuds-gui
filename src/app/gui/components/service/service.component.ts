@@ -38,6 +38,12 @@ export class ServiceComponent implements OnInit, OnChanges {
     return this.api.config.enable_favorite_transports === true;
   }
 
+  favoriteTransportLabel(transport: JSONTransport): string {
+    return transport.favorite
+      ? django.gettext('Remove favorite connection')
+      : django.gettext('Set as favorite connection');
+  }
+
   get serviceImage() {
     return this.api.galleryImageURL(this.service.imageId);
   }

@@ -16,7 +16,7 @@
                 (keydown.enter)="toggleFavoriteTransport($event, trans)"
                 (keydown.space)="toggleFavoriteTransport($event, trans)"
                 [attr.aria-pressed]="!!trans.favorite"
-                [attr.aria-label]="trans.favorite ? 'Remove favorite connection' : 'Set as favorite connection'"
+                [attr.aria-label]="favoriteTransportLabel(trans)"
                 >{{ trans.favorite ? 'star' : 'star_border' }}</i
               >
             }
