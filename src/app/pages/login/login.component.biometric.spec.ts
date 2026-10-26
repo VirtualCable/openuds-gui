@@ -42,6 +42,8 @@ describe('LoginComponent biometric unlock failures', () => {
       'removeHint',
       'clearAllHints',
       'unlockVault',
+      'isSupported',
+      'registerVault',
     ]);
     biometric.getHints.and.returnValue([HINT]);
 
@@ -60,6 +62,13 @@ describe('LoginComponent biometric unlock failures', () => {
   function createLogin(): LoginComponent {
     const fixture = TestBed.createComponent(LoginComponent);
     return fixture.componentInstance;
+  }
+
+  function stubLoginForm(): jasmine.SpyObj<HTMLFormElement> {
+    const form = jasmine.createSpyObj<HTMLFormElement>('HTMLFormElement', ['submit']);
+    const getElementById = document.getElementById.bind(document);
+    spyOn(document, 'getElementById').and.callFake((id: string) => (id === 'loginform' ? form : getElementById(id)));
+    return form;
   }
 
   it('keeps the hint and pauses the automatic prompt when the user cancels it', async () => {
@@ -91,6 +100,45 @@ describe('LoginComponent biometric unlock failures', () => {
     expect(biometric.removeHint).toHaveBeenCalledOnceWith(HINT.username, HINT.auth_id);
     expect(localStorage.getItem(AUTO_PAUSED_KEY)).toBeNull();
     expect(api.gui.alert).toHaveBeenCalled();
+  });
+
+  it('resumes the automatic prompt after a biometric login from the manual button', async () => {
+    localStorage.setItem(AUTO_PAUSED_KEY, 'true');
+    biometric.unlockVault.and.resolveTo({
+      username: HINT.username,
+      password: 'secret',
+      auth_id: HINT.auth_id,
+      credential_id: HINT.credential_id,
+      rotated_vault: 'vault',
+    });
+    const fixture = TestBed.createComponent(LoginComponent);
+    // Load the page while paused, or a deferred ngOnInit would auto launch after the test
+    fixture.detectChanges();
+    const login = fixture.componentInstance;
+    const form = stubLoginForm();
+
+    await login.doBiometricLogin(HINT.username, HINT.auth_id);
+
+    expect(form.submit).toHaveBeenCalled();
+    expect(localStorage.getItem(AUTO_PAUSED_KEY)).toBeNull();
+  });
+
+  it('resumes the automatic prompt once a new credential is registered', async () => {
+    localStorage.setItem(AUTO_PAUSED_KEY, 'true');
+    biometric.getHints.and.returnValue([]);
+    biometric.isSupported.and.resolveTo(true);
+    biometric.registerVault.and.resolveTo('cred-2');
+    api.gui.yesno.and.resolveTo(true);
+    const login = createLogin();
+    (document.getElementById('id_user') as HTMLInputElement).value = 'bob';
+    (document.getElementById('id_password') as HTMLInputElement).value = 'secret';
+    const form = stubLoginForm();
+
+    await login.launch();
+
+    expect(form.submit).toHaveBeenCalled();
+    expect(biometric.addHint).toHaveBeenCalled();
+    expect(localStorage.getItem(AUTO_PAUSED_KEY)).toBeNull();
   });
 
   it('does not relaunch the automatic prompt after a cancellation', () => {

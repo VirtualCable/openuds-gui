@@ -4,13 +4,10 @@ import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
 
 const DECLINED_KEY = 'uds_biometric_declined';
-// Set when the user cancels (or the platform refuses) the automatic biometric
-// prompt, so the login page stops relaunching it on every load. The hint and
-// the manual button stay; a successful biometric login clears it.
+// Stops the automatic prompt after a cancel; the manual button stays
 const AUTO_PAUSED_KEY = 'uds_biometric_auto_paused';
 
-// WebAuthn rejections that do not mean the stored credential is wrong:
-// cancelled prompt, timeout, another authenticator (password manager) in the way.
+// Cancel, timeout or another authenticator in the way: the credential is still valid
 function isTransientWebAuthnError(err: unknown): boolean {
   return err instanceof DOMException && (err.name === 'NotAllowedError' || err.name === 'AbortError');
 }
