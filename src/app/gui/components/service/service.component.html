@@ -6,6 +6,20 @@
           <div class="transport-item">
             <img [src]="getTransportIcon(trans.id)" />
             {{ trans.name }}
+            @if (favoriteTransportEnabled) {
+              <i
+                class="material-icons favorite-transport"
+                role="button"
+                tabindex="0"
+                [ngClass]="{ favorite: trans.favorite }"
+                (click)="toggleFavoriteTransport($event, trans)"
+                (keydown.enter)="toggleFavoriteTransport($event, trans)"
+                (keydown.space)="toggleFavoriteTransport($event, trans)"
+                [attr.aria-pressed]="!!trans.favorite"
+                [attr.aria-label]="favoriteTransportLabel(trans)"
+                >{{ trans.favorite ? 'star' : 'star_border' }}</i
+              >
+            }
           </div>
         </button>
       }

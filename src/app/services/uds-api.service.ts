@@ -138,6 +138,14 @@ export class UDSApiService implements UDSApiServiceType {
     return toPromise(this.http.post<JSONService>(actionURL, null), TIMEOUT);
   }
 
+  async setFavoriteTransport(serviceId: string, transportId: string | null): Promise<void> {
+    const url =
+      transportId === null
+        ? this.config.urls.action.replace('param1', serviceId).replace('param2', 'unfavorite-transport')
+        : this.config.urls.favorite_transport.replace('param1', serviceId).replace('param2', transportId);
+    await toPromise(this.http.post(url, null), TIMEOUT);
+  }
+
   async transportUrl(url: string): Promise<JSONTransportURLService> {
     return toPromise(this.http.post<JSONTransportURLService>(url, null), TIMEOUT);
   }

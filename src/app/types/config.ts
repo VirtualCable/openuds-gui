@@ -34,6 +34,7 @@ export interface UDSUrls {
     readonly enabler: string;
     readonly status: string;
     readonly action: string;
+    readonly favorite_transport: string;
     readonly gallery_image: string;
     readonly transport_icon: string;
     readonly launcher_download: string;
@@ -87,6 +88,7 @@ export interface UDSConfig {
     readonly min_for_filter: number;
     readonly cookies_consent: CookiesConsent;
     readonly enable_favorite_services: boolean;
+    readonly enable_favorite_transports: boolean;
     readonly allow_animated_backgrounds: boolean;
     readonly allow_biometric_auth: boolean;
     readonly csrf_field: string;

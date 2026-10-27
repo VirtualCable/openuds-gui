@@ -13,6 +13,7 @@ export interface JSONTransport {
     link: string;
     name: string;
     priority: number;
+    favorite?: boolean;
 }
 
 export interface JSONService {
