@@ -4,6 +4,16 @@ import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
 
 const DECLINED_KEY = 'uds_biometric_declined';
+// Set when the user cancels (or the platform refuses) the automatic biometric
+// prompt, so the login page stops relaunching it on every load. The hint and
+// the manual button stay; a successful biometric login clears it.
+const AUTO_PAUSED_KEY = 'uds_biometric_auto_paused';
+
+// WebAuthn rejections that do not mean the stored credential is wrong:
+// cancelled prompt, timeout, another authenticator (password manager) in the way.
+function isTransientWebAuthnError(err: unknown): boolean {
+  return err instanceof DOMException && (err.name === 'NotAllowedError' || err.name === 'AbortError');
+}
 
 @Component({
   selector: 'uds-login',
@@ -55,11 +65,12 @@ export class LoginComponent implements OnInit {
       // valid credential stored server side anymore (it is invalidated there too),
       // so clean up the local hints and show the error.
       this.biometric.clearAllHints();
+      localStorage.removeItem(AUTO_PAUSED_KEY);
       this.biometricHints = [];
       this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>');
     } else {
       // If no errors, offer automatic biometric login when there is a single hint
-      if (this.biometricHints.length === 1 && this.canUseBiometrics()) {
+      if (this.biometricHints.length === 1 && this.canUseBiometrics() && !localStorage.getItem(AUTO_PAUSED_KEY)) {
         this.doBiometricLogin(this.biometricHints[0].username, this.biometricHints[0].auth_id);
       }
     }
@@ -95,12 +106,26 @@ export class LoginComponent implements OnInit {
         auth_id: unlocked.auth_id,
         credential_id: unlocked.credential_id,
       });
+      localStorage.removeItem(AUTO_PAUSED_KEY);
       this.launchSubmit();
     } catch (err) {
       // User cancelled, expired challenge, stale credentials... stay on login
       console.error('Biometric login failed:', err);
-      this.biometric.removeHint(username, authId);
-      this.biometricHints = this.biometric.getHints().map((h) => ({ username: h.username, auth_id: h.auth_id }));
+      if (isTransientWebAuthnError(err)) {
+        // Dropping the hint here would make the next password login register
+        // a second credential for this same browser.
+        localStorage.setItem(AUTO_PAUSED_KEY, 'true');
+        this.api.gui.alert(
+          django.gettext('Biometric Login'),
+          django.gettext(
+            'The biometric login was cancelled or could not be completed. Use the biometric login button to try again.',
+          ),
+        );
+      } else {
+        this.biometric.removeHint(username, authId);
+        this.biometricHints = this.biometric.getHints().map((h) => ({ username: h.username, auth_id: h.auth_id }));
+        this.api.gui.alert(django.gettext('Error'), django.gettext('Biometric login failed'));
+      }
     } finally {
       this.biometricBusy = false;
     }
@@ -185,6 +210,7 @@ export class LoginComponent implements OnInit {
           try {
             const credentialId = await this.biometric.registerVault(user, pass, auth);
             this.biometric.addHint({ username: user, auth_id: auth, credential_id: credentialId });
+            localStorage.removeItem(AUTO_PAUSED_KEY);
             this.biometricHints = this.biometric.getHints().map((h) => ({ username: h.username, auth_id: h.auth_id }));
           } catch (err) {
             // Cancelled or unsupported; login continues normally

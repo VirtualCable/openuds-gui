@@ -31,6 +31,10 @@ import { firstValueFrom } from 'rxjs';
 import { UDSApiService } from './uds-api.service';
 
 const HINTS_KEY = 'uds_biometric_hints';
+// Random id of this browser, sent when registering so the server replaces the
+// credential this browser registered before instead of adding another one.
+// Kept apart from the hints on purpose: clearing the hints must not reset it.
+const DEVICE_ID_KEY = 'uds_biometric_device_id';
 
 interface BiometricHint {
     username: string;
@@ -138,6 +142,15 @@ export class BiometricService {
         localStorage.setItem(HINTS_KEY, JSON.stringify(hints));
     }
 
+    private deviceId(): string {
+        let id = localStorage.getItem(DEVICE_ID_KEY);
+        if (!id) {
+            id = this.bufferToB64url(this.randomBuffer(32).buffer);
+            localStorage.setItem(DEVICE_ID_KEY, id);
+        }
+        return id;
+    }
+
     // ------------------------------------------------------------------
     // Encoding helpers (base64url <-> ArrayBuffer)
     // ------------------------------------------------------------------
@@ -236,6 +249,7 @@ export class BiometricService {
             this.http.post<SaveStartResponse>(this.api.config.urls.webauthn.save_start, {
                 username,
                 auth_id: authId,
+                device_id: this.deviceId(),
             }),
         );
 
