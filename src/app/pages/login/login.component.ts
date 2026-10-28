@@ -4,13 +4,12 @@ import { BiometricService } from '../../services/biometric.service';
 import { Authenticator } from '../../types/config';
 
 const DECLINED_KEY = 'uds_biometric_declined';
-// Set when the user cancels (or the platform refuses) the automatic biometric
-// prompt, so the login page stops relaunching it on every load. The hint and
-// the manual button stay; a successful biometric login clears it.
+// Only the automatic prompt on page load honours this flag; the manual button
+// keeps working. Cleared by a successful biometric login, by a new
+// registration or by the hint wipe that follows a failed login.
 const AUTO_PAUSED_KEY = 'uds_biometric_auto_paused';
 
-// WebAuthn rejections that do not mean the stored credential is wrong:
-// cancelled prompt, timeout, another authenticator (password manager) in the way.
+// Cancel, timeout or another authenticator in the way: the credential is still valid
 function isTransientWebAuthnError(err: unknown): boolean {
   return err instanceof DOMException && (err.name === 'NotAllowedError' || err.name === 'AbortError');
 }
@@ -35,6 +34,8 @@ export class LoginComponent implements OnInit {
   biometricDeclined = !!localStorage.getItem(DECLINED_KEY);
   // Mutually exclusive biometric flows guard
   biometricBusy = false;
+  // Platform authenticator present on this device (resolved asynchronously on init)
+  biometricsAvailable = false;
 
   constructor() {
     this.title = this.api.config.site_name;
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
     this.biometricHints = this.biometric.getHints();
   }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
     // We want to keep compatibility right now with previous UDS templates, so we
     // adapt form to post the correct values the correct way
     const input = document.getElementById('token') as HTMLInputElement;
@@ -68,16 +69,22 @@ export class LoginComponent implements OnInit {
       localStorage.removeItem(AUTO_PAUSED_KEY);
       this.biometricHints = [];
       this.api.gui.alert(django.gettext('Errors found'), '<div>' + this.api.errors.join('</div><div>') + '</div>');
-    } else {
-      // If no errors, offer automatic biometric login when there is a single hint
-      if (this.biometricHints.length === 1 && this.canUseBiometrics() && !localStorage.getItem(AUTO_PAUSED_KEY)) {
-        this.doBiometricLogin(this.biometricHints[0].username, this.biometricHints[0].auth_id);
-      }
+    }
+
+    if (this.api.config.allow_biometric_auth) {
+      this.biometricsAvailable = await this.biometric.isSupported();
+    }
+    if (this.api.errors.length === 0 && this.shouldAutoLaunchBiometrics()) {
+      this.doBiometricLogin(this.biometricHints[0].username, this.biometricHints[0].auth_id);
     }
   }
 
   canUseBiometrics(): boolean {
-    return this.api.config.allow_biometric_auth && this.biometricHints.length > 0;
+    return this.api.config.allow_biometric_auth && this.biometricsAvailable && this.biometricHints.length > 0;
+  }
+
+  private shouldAutoLaunchBiometrics(): boolean {
+    return this.canUseBiometrics() && this.biometricHints.length === 1 && !localStorage.getItem(AUTO_PAUSED_KEY);
   }
 
   /**
@@ -195,11 +202,8 @@ export class LoginComponent implements OnInit {
     // because the password is only available in plaintext right now. The
     // uploads are attached to this very login POST (pending server state), so
     // if the login fails, no biometric data is stored at all.
-    if (
-      this.api.config.allow_biometric_auth &&
-      !this.biometricDeclined &&
-      this.biometricHints.every((h) => !(h.username === user && h.auth_id === auth))
-    ) {
+    // One biometric credential per browser: never offered while a hint exists.
+    if (this.api.config.allow_biometric_auth && !this.biometricDeclined && this.biometricHints.length === 0) {
       const supported = await this.biometric.isSupported();
       if (user && pass && supported) {
         const save = await this.api.gui.yesno(

@@ -438,14 +438,21 @@ export class BiometricService {
         };
     }
 
-    /** Re-encrypts the vault with the fresh PRF salt, if enough data. */
+    /**
+     * Re-encrypts the vault with the fresh PRF salt, if enough data.
+     *
+     * Returns '' when rotation is not possible: the server only applies a
+     * rotation when it receives a vault, and it switches to the new salt when
+     * it does. Sending back the current blob would store the old ciphertext
+     * with the new salt and make the vault undecryptable on the next unlock.
+     */
     private async rotateVault(
         currentBlob: string,
         results: NonNullable<PrfExtensionResults['results']>,
         nextSalt?: string,
     ): Promise<string> {
         if (!nextSalt || !results.second) {
-            return currentBlob; // Rotation impossible here, vault stays valid
+            return '';
         }
         try {
             const key = await this.deriveKey(results.first!);
@@ -453,7 +460,7 @@ export class BiometricService {
             const newKey = await this.deriveKey(results.second);
             return await this.encrypt(newKey, payload);
         } catch {
-            return currentBlob; // Rotate failure does not block the login
+            return ''; // Rotate failure does not block the login
         }
     }
 }
