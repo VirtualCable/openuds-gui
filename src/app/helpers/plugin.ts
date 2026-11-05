@@ -165,16 +165,18 @@ export class Plugin {
           }
           this.openWindow(data.url);
           cancel = true;
+          continue;
         } else {
           if (data.error) {
             dialog.close();
             await this.notifyError(data.error);
             cancel = true;
+            continue;
           }
         }
+        // Wait a second before checking again
+        await this.api.sleep(1000);
       }
-      // Wait a second before checking again
-      await this.api.sleep(1000);
     } catch (error) {
       dialog.close();
       await this.notifyError(error);
