@@ -113,22 +113,29 @@ export class Plugin {
 
         if (data.status === 'ready') {
           if (readySinceTime === -1) {
-            // Service is ready, wait for client, update dialog text
-            readySinceTime = Date.now();
             if (pendingLaunch) {
               // The first enable did not succeed (service being created):
               // enable again to get the url now that the service is ready
               const reEnabled = await this.api.enabler(serviceId, transportId);
-              if (!reEnabled.error) {
-                if (reEnabled.url.startsWith('/')) {
-                  dialog.close();
-                  await this.launchURL(reEnabled.url);
-                  return;
+              if (reEnabled.error) {
+                if (!reEnabled.retryable) {
+                  throw reEnabled.error;
                 }
-                this.launchUDSUrl(reEnabled.url);
+                // Service went back to being prepared unexpectedly: keep
+                // polling, this ready tick is not the launch moment yet
+                await this.api.sleep(1000);
+                continue;
               }
+              if (reEnabled.url.startsWith('/')) {
+                dialog.close();
+                await this.launchURL(reEnabled.url);
+                return;
+              }
+              this.launchUDSUrl(reEnabled.url);
               pendingLaunch = false;
             }
+            // Service is ready, wait for client, update dialog text
+            readySinceTime = Date.now();
             dialog.componentInstance.data.title = django.gettext('Service ready');
             dialog.componentInstance.data.body = withLauncherName(
               django.gettext('Launching %(launcher)s...</br>Please wait.')

@@ -10,7 +10,14 @@
         </div>
         <img class="uds-progress-logo" [src]="progressLogoUrl" alt="UDS" />
         <span class="uds-progress-pct">{{ data.progress }}%</span>
-        <div class="uds-progress-track">
+        <div
+          class="uds-progress-track"
+          role="progressbar"
+          [attr.aria-valuemin]="0"
+          [attr.aria-valuemax]="100"
+          [attr.aria-valuenow]="data.progress"
+          [attr.aria-label]="data.title"
+        >
           <div class="uds-progress-fill" [style.width.%]="data.progress"></div>
         </div>
         <div class="uds-progress-body" [innerHtml]="data.body | safeHtml"></div>
