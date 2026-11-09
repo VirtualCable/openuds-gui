@@ -37,10 +37,13 @@
     width: 100%;
 }
 
-/* Reserve space on the tab header so tabs and the overflow pagination arrows
-   never slide under the filter overlay (which would make them unclickable). */
+/* Reserve space for the filter overlay NEXT TO the tab header, not inside it:
+   Material measures the header's offsetWidth to decide whether pagination
+   arrows are needed, and a padding-right there would hide that the strip is
+   actually narrower (last sections clipped under the filter with no arrows). */
 .services-groups ::ng-deep .modern-tabs.has-filter .mat-mdc-tab-header {
-    padding-right: calc(var(--filter-w) + 12px);
+    margin-right: calc(var(--filter-w) + 12px);
+    max-width: calc(100% - var(--filter-w) - 12px);
 }
 
 /* Push cards down: gap between filter/tabs and services */
@@ -66,9 +69,10 @@
         justify-content: flex-end;
     }
 
-    /* Filter flows above the tabs on mobile; no reserved space needed */
+    /* Filter flows above the tabs on mobile; the header takes the full width */
     .services-groups ::ng-deep .modern-tabs.has-filter .mat-mdc-tab-header {
-        padding-right: 0;
+        margin-right: 0;
+        max-width: 100%;
     }
 
     .filter-top ::ng-deep .nav-input-field,
