@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/cor
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval } from 'rxjs';
 import { Future } from '../../helpers/tools';
+import { UDSApiService } from '../../services/uds-api.service';
 
 export enum DialogType {
   alert = 0,
@@ -16,6 +17,8 @@ export interface ModalData {
   type: DialogType;
   username?: string;
   domain?: string;
+  /* 0-100 progress of a launch being prepared, undefined = no progress bar */
+  progress?: number;
 }
 
 @Component({
@@ -28,9 +31,14 @@ export interface ModalData {
 export class ModalComponent implements OnInit {
   dialogRef = inject<MatDialogRef<ModalComponent>>(MatDialogRef);
   data = inject<ModalData>(MAT_DIALOG_DATA);
+  private api = inject(UDSApiService);
 
   extra = '';
   yesno: Future<boolean> = new Future<boolean>();
+
+  get progressLogoUrl(): string {
+    return this.api.staticURL('modern/img/udsicon.png');
+  }
 
   resolveAndClose(value: boolean): void {
     this.yesno.resolve(value);

@@ -6,3 +6,176 @@
 .mat-mdc-dialog-actions {
     justify-content: flex-end;
 }
+
+/* Launch dialog: everything shares the same axis as the launcher card */
+.uds-centered-title {
+    text-align: center;
+}
+
+/* Less padding between the card and the dialog edges */
+.uds-launch-content {
+    padding-block: 0 6px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Launch progress: mini window in the style of the UDS Launcher client
+   (dark panel, floating logo, percent, bar, message and animated waves) */
+.uds-progress {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.uds-progress-card {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 420px;
+    padding: 12px 22px 34px;
+    background: #1e1e23;
+    border: 1px solid #3c3c4b;
+    border-radius: 14px;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+}
+
+.uds-progress-logo {
+    position: relative;
+    z-index: 2;
+    width: 54px;
+    height: 54px;
+    filter: drop-shadow(0 0 14px rgba(96, 192, 255, 0.45));
+    animation: uds-float 3.2s ease-in-out infinite;
+}
+
+.uds-progress-pct {
+    position: relative;
+    z-index: 2;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.uds-progress-track {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    background: #2c2c3f;
+    border: 1px solid #4c4c60;
+    overflow: hidden;
+}
+
+.uds-progress-fill {
+    height: 100%;
+    background: linear-gradient(to bottom, #60c0ff, #2080e0);
+    transition: width 0.9s ease-in-out;
+}
+
+/* Launch message lives inside the card, centered on the same axis */
+.uds-progress-body {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    font-size: 0.92rem;
+    line-height: 1.35;
+    color: #c7cbe0;
+
+    p {
+        margin: 0;
+    }
+
+    /* Keep the launcher download link readable inside the dark card */
+    a {
+        color: #7ec2ff;
+        margin-left: 0;
+    }
+}
+
+/* Waves at the bottom of the card, three overlapping layers moving at
+   different speeds, like the launcher client window. Keyframe distance
+   matches each layer background-size so the loop stays seamless. */
+.uds-progress-waves {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 52px;
+    z-index: 1;
+
+    .wave {
+        position: absolute;
+        inset: 0;
+        background-repeat: repeat-x;
+        width: 100%;
+    }
+
+    .wave-1 {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 56' preserveAspectRatio='none'><path d='M0 28 C70 8, 140 48, 210 28 S 350 8, 420 28 L420 56 L0 56 Z' fill='%234ea3ff' fill-opacity='0.22'/></svg>");
+        background-size: 420px 100%;
+        animation: uds-wave-1 11s linear infinite;
+    }
+
+    .wave-2 {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 56' preserveAspectRatio='none'><path d='M0 34 C70 14, 140 54, 210 34 S 350 14, 420 34 L420 56 L0 56 Z' fill='%233b7ded' fill-opacity='0.45'/></svg>");
+        background-size: 340px 100%;
+        background-position: -60px 0;
+        animation: uds-wave-2 7s linear infinite;
+    }
+
+    .wave-3 {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 56' preserveAspectRatio='none'><path d='M0 40 C70 22, 140 58, 210 40 S 350 22, 420 40 L420 56 L0 56 Z' fill='%232f5fd0' fill-opacity='0.85'/></svg>");
+        background-size: 280px 100%;
+        background-position: -120px 0;
+        animation: uds-wave-3 5s linear infinite;
+    }
+}
+
+@keyframes uds-wave-1 {
+    from {
+        background-position-x: 0;
+    }
+    to {
+        background-position-x: -420px;
+    }
+}
+
+@keyframes uds-wave-2 {
+    from {
+        background-position-x: -60px;
+    }
+    to {
+        background-position-x: -400px;
+    }
+}
+
+@keyframes uds-wave-3 {
+    from {
+        background-position-x: -120px;
+    }
+    to {
+        background-position-x: -400px;
+    }
+}
+
+@keyframes uds-float {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-6px) scale(1.04);
+    }
+}
+
+/* Respect users who have reduced motion enabled */
+@media (prefers-reduced-motion: reduce) {
+    .uds-progress-logo,
+    .uds-progress-waves .wave {
+        animation: none;
+    }
+}

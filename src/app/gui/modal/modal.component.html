@@ -1,5 +1,25 @@
-<h4 mat-dialog-title [innerHtml]="data.title | safeHtml"></h4>
-<mat-dialog-content [innerHTML]="data.body | safeHtml"></mat-dialog-content>
+<h4 mat-dialog-title [innerHtml]="data.title | safeHtml" [class.uds-centered-title]="data.progress !== undefined"></h4>
+<mat-dialog-content [ngClass]="{'uds-launch-content': data.progress !== undefined}">
+  @if (data.progress !== undefined) {
+    <div class="uds-progress">
+      <div class="uds-progress-card">
+        <div class="uds-progress-waves" aria-hidden="true">
+          <div class="wave wave-1"></div>
+          <div class="wave wave-2"></div>
+          <div class="wave wave-3"></div>
+        </div>
+        <img class="uds-progress-logo" [src]="progressLogoUrl" alt="UDS" />
+        <span class="uds-progress-pct">{{ data.progress }}%</span>
+        <div class="uds-progress-track">
+          <div class="uds-progress-fill" [style.width.%]="data.progress"></div>
+        </div>
+        <div class="uds-progress-body" [innerHtml]="data.body | safeHtml"></div>
+      </div>
+    </div>
+  } @else {
+    <div [innerHTML]="data.body | safeHtml"></div>
+  }
+</mat-dialog-content>
 <mat-dialog-actions>
   @if (data.type===0) {
     <button mat-raised-button mat-dialog-close (click)="resolveAndClose(false)"> <uds-translate>Close</uds-translate>{{ extra }}</button>

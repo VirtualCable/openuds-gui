@@ -55,7 +55,7 @@ describe('Plugin.processExternalUrl polling', () => {
   };
 
   it('waits between consecutive polls while the service is still launching', async () => {
-    const api = await launch([{ running: 'yes' }, { running: 'yes' }, { url: 'http://service/launch' }]);
+    const api = await launch([{ running: 0 }, { running: 50 }, { url: 'http://service/launch' }]);
 
     expect(api.calls).toEqual(['transportUrl', 'sleep', 'transportUrl', 'sleep', 'transportUrl']);
     expect(openedWindows).toEqual(['http://service/launch']);
