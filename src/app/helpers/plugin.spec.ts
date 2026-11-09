@@ -9,9 +9,11 @@ class FakeApi {
   readonly calls: CallName[] = [];
   readonly closed = new Subject<void>();
   lastDialog: { afterClosed: () => Subject<void>; close: () => void; componentInstance: { data: Record<string, unknown> } } | null = null;
+  lastAlert: { title: string; message: string } | null = null;
   readonly config = { launcher_wait_time: 5, urls: { launcher_download: 'http://launcher/download' } };
   readonly gui = {
-    alert: () => {
+    alert: (title: string, message: string) => {
+      this.lastAlert = { title, message };
       this.lastDialog = {
         afterClosed: () => this.closed,
         close: () => {
@@ -173,6 +175,7 @@ describe('Plugin.processUDSUrl launch retry', () => {
     );
 
     expect(api.calls).toEqual(['enabler', 'status', 'sleep', 'status', 'enabler', 'close']);
-    expect(api.lastDialog?.componentInstance.data['title']).not.toBe('Service ready');
+    // notifyError must surface the failure text in the error alert
+    expect(api.lastAlert?.message).toContain('Invalid service');
   });
 });
