@@ -101,6 +101,13 @@ describe('Plugin.processExternalUrl polling', () => {
     expect(api.calls).toEqual(['transportUrl', 'close']);
   });
 
+  it('shows the broker progress and stage message while the service is being prepared', async () => {
+    const api = await launch([{ running: 50, message: 'Waiting for network' }, { url: 'http://service/launch' }]);
+
+    expect(api.lastDialog?.componentInstance.data['progress']).toBe(50);
+    expect(api.lastDialog?.componentInstance.data['body']).toBe('Waiting for network');
+  });
+
   it('does not wait once the broker reports an error', async () => {
     const api = await launch([{ error: 'Service unavailable' }]);
 
