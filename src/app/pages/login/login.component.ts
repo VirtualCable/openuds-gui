@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
 
   private shouldAutoLaunchBiometrics(): boolean {
     return (
-      this.api.config.biometric_auto_launch &&
+      this.api.config.biometric_auto_launch !== false &&
       this.canUseBiometrics() &&
       this.biometricHints.length === 1 &&
       !localStorage.getItem(AUTO_PAUSED_KEY)

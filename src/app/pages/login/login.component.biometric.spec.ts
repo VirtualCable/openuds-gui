@@ -174,6 +174,16 @@ describe('LoginComponent biometric unlock failures', () => {
     expect(login.canUseBiometrics()).toBeTrue();
   });
 
+  it('launches the automatic prompt when the server does not send the setting', async () => {
+    delete api.config.biometric_auto_launch;
+    const login = createLogin();
+    spyOn(login, 'doBiometricLogin');
+
+    await login.ngOnInit();
+
+    expect(login.doBiometricLogin).toHaveBeenCalledOnceWith(HINT.username, HINT.auth_id);
+  });
+
   it('clears the pause when the login page comes back with errors', async () => {
     localStorage.setItem(AUTO_PAUSED_KEY, 'true');
     api.errors = ['Invalid credentials'];
