@@ -91,6 +91,7 @@ export interface UDSConfig {
     readonly enable_favorite_transports: boolean;
     readonly allow_animated_backgrounds: boolean;
     readonly allow_biometric_auth: boolean;
+    readonly biometric_auto_launch: boolean;
     readonly csrf_field: string;
     readonly csrf_token: string;
 }

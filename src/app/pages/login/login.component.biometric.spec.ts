@@ -29,6 +29,7 @@ describe('LoginComponent biometric unlock failures', () => {
         site_information: '',
         authenticators: [],
         allow_biometric_auth: true,
+        biometric_auto_launch: true,
         urls: { login: '/uds/page/login' },
       },
       errors: [],
@@ -162,6 +163,17 @@ describe('LoginComponent biometric unlock failures', () => {
     expect(login.doBiometricLogin).toHaveBeenCalledOnceWith(HINT.username, HINT.auth_id);
   });
 
+  it('does not launch the automatic prompt when the server disables it', async () => {
+    api.config.biometric_auto_launch = false;
+    const login = createLogin();
+    spyOn(login, 'doBiometricLogin');
+
+    await login.ngOnInit();
+
+    expect(login.doBiometricLogin).not.toHaveBeenCalled();
+    expect(login.canUseBiometrics()).toBeTrue();
+  });
+
   it('clears the pause when the login page comes back with errors', async () => {
     localStorage.setItem(AUTO_PAUSED_KEY, 'true');
     api.errors = ['Invalid credentials'];
@@ -190,6 +202,7 @@ describe('LoginComponent biometric availability', () => {
         site_information: '',
         authenticators: [],
         allow_biometric_auth: true,
+        biometric_auto_launch: true,
         urls: { login: '/uds/page/login' },
       },
       errors: [],
