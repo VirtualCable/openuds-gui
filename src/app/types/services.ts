@@ -52,14 +52,24 @@ export interface JSONErrorInformation {
 export interface JSONEnabledService {
     url: string;
     error: string;
+    /* true when the error means the service is still being created, poll again */
+    retryable?: boolean;
+    percent?: number;
 }
 
 export interface JSONStatusService {
     status: string;
+    /* 0-100 progress while the service is being prepared */
+    percent?: number;
+    /* user-facing stage message, blackbox from uds */
+    message?: string;
 }
 
 export interface JSONTransportURLService {
     url?: string;
-    running?: string;
+    /** percent (0-100) while the service is being prepared, undefined when ready */
+    running?: number;
     error?: string;
+    /* user-facing stage message */
+    message?: string;
 }

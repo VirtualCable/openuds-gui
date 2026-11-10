@@ -5,9 +5,11 @@ import {
   OnDestroy,
   ElementRef,
   NgZone,
+  ViewChild,
   ChangeDetectionStrategy,
   inject,
 } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 import { UDSApiService } from '../../services/uds-api.service';
 import { JSONServicesInformation, JSONGroup, JSONService } from '../../types/services';
 
@@ -41,6 +43,7 @@ export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
   api = inject(UDSApiService);
   private host = inject<ElementRef<HTMLElement>>(ElementRef);
   private zone = inject(NgZone);
+  @ViewChild('tabGroup') tabGroup?: MatTabGroup;
 
   servicesInformation: JSONServicesInformation = {
     autorun: false,
@@ -55,6 +58,40 @@ export class ServicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.zone.runOutsideAngular(() => {
       this.host.nativeElement.addEventListener('wheel', this.onTabsWheel, { passive: false });
     });
+    this.relaxPaginationThreshold();
+  }
+
+  /*
+   * Material hides the pagination arrows while the tab strip overflow is below
+   * ~5px, which leaves narrow overflows scrollable but without any affordance.
+   * Show the arrows for any overflow; they still hide when every tab fits.
+   * Accesses private MatTabHeader internals, so re-check on Material upgrades.
+   */
+  private relaxPaginationThreshold() {
+    interface TabHeader {
+      _checkPaginationEnabled: () => void;
+      _tabListInner: { nativeElement: HTMLElement };
+      _elementRef: { nativeElement: HTMLElement };
+      _showPaginationControls: boolean;
+      disablePagination: boolean;
+      updatePagination: () => void;
+      _changeDetectorRef: { markForCheck: () => void };
+    }
+    const header = (this.tabGroup as unknown as { _tabHeader?: TabHeader })._tabHeader;
+    if (!header) {
+      return;
+    }
+    const original = header._checkPaginationEnabled.bind(header);
+    header._checkPaginationEnabled = () => {
+      original();
+      const innerScrollable = header._tabListInner.nativeElement.scrollWidth;
+      const visible = header._elementRef.nativeElement.offsetWidth;
+      if (!header._showPaginationControls && !header.disablePagination && innerScrollable > visible) {
+        header._showPaginationControls = true;
+        header._changeDetectorRef.markForCheck();
+      }
+    };
+    header.updatePagination();
   }
 
   ngOnDestroy() {

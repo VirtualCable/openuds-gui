@@ -63,30 +63,38 @@ export class Plugin {
       ),
       0,
     );
+    dialog.componentInstance.data.progress = 0;
     let cancel = false;
 
     // Connect close dialog to "cancel" variable
     toPromise(dialog.afterClosed()).then(() => (cancel = true));
 
     let readySinceTime = -1;
+    // true when the service was still being created at first click and the
+    // launcher has yet to be launched (as soon as the service is ready)
+    let pendingLaunch = false;
     try {
       // Enable service
       const enabledData = await this.api.enabler(serviceId, transportId);
       if (enabledData.error) {
-        throw enabledData.error;
-      }
-      // Is HTTP access the service returned, or for UDS launcher?
-      if (enabledData.url.startsWith('/')) {
+        if (!enabledData.retryable) {
+          throw enabledData.error;
+        }
+        // Service is still being created: keep the dialog open, poll and
+        // launch as soon as it gets ready
+        pendingLaunch = true;
+      } else if (enabledData.url.startsWith('/')) {
         dialog.close();
         await this.launchURL(enabledData.url);
         return;
+      } else {
+        // Launches UDS Launcher, using an iframe
+        this.launchUDSUrl(enabledData.url);
       }
-      // Launches UDS Launcher, using an iframe
-      this.launchUDSUrl(enabledData.url);
 
       while (!cancel) {
         const data = await this.api.status(serviceId, transportId);
-        
+
         if (readySinceTime > 0 && Date.now() - readySinceTime > this.delay * 5) {
           dialog.componentInstance.data.title = django.gettext('Service ready') +
             ' - ' +
@@ -102,15 +110,37 @@ export class Plugin {
             </div>
           `;
         }
-        
+
         if (data.status === 'ready') {
           if (readySinceTime === -1) {
+            if (pendingLaunch) {
+              // The first enable did not succeed (service being created):
+              // enable again to get the url now that the service is ready
+              const reEnabled = await this.api.enabler(serviceId, transportId);
+              if (reEnabled.error) {
+                if (!reEnabled.retryable) {
+                  throw reEnabled.error;
+                }
+                // Service went back to being prepared unexpectedly: keep
+                // polling, this ready tick is not the launch moment yet
+                await this.api.sleep(1000);
+                continue;
+              }
+              if (reEnabled.url.startsWith('/')) {
+                dialog.close();
+                await this.launchURL(reEnabled.url);
+                return;
+              }
+              this.launchUDSUrl(reEnabled.url);
+              pendingLaunch = false;
+            }
             // Service is ready, wait for client, update dialog text
             readySinceTime = Date.now();
             dialog.componentInstance.data.title = django.gettext('Service ready');
             dialog.componentInstance.data.body = withLauncherName(
               django.gettext('Launching %(launcher)s...</br>Please wait.')
             );
+            dialog.componentInstance.data.progress = 100;
           }
         } else if (data.status === 'accessed') {
           // stop checking
@@ -123,6 +153,10 @@ export class Plugin {
           await this.notifyError(data.status);
           cancel = true;
           continue;
+        } else {
+          // Service is being prepared: update the progress bar. Keep the
+          // launcher reminder on the body until the service gets ready
+          dialog.componentInstance.data.progress = data.percent ?? 0;
         }
         // Wait a second before checking again
         await this.api.sleep(1000);
@@ -141,6 +175,7 @@ export class Plugin {
       ),
       0,
     );
+    dialog.componentInstance.data.progress = 0;
     let cancel = false;
 
     // Connect close dialog to "cancel" variable
@@ -172,6 +207,13 @@ export class Plugin {
             await this.notifyError(data.error);
             cancel = true;
             continue;
+          }
+          // Service is being prepared: update the progress bar
+          if (typeof data.running === 'number') {
+            dialog.componentInstance.data.progress = data.running;
+            if (data.message) {
+              dialog.componentInstance.data.body = data.message;
+            }
           }
         }
         // Wait a second before checking again
